@@ -23,6 +23,7 @@ class Util {
     'database' => 'my_database',
     'encryption_red_cod' => true,
     'maximum_session_time' => 86400, // (24*60*60)
+    's_private_key_only_server' => 'dasf1s5GSG52',
     's_private_key' => 'a5vbFgFFG4Fd2',
     'i_private_key' => 15628
   ];
@@ -66,7 +67,7 @@ class Util {
   */
   public static function getRandomCode(){
     $oConnection = (object)static::$aConnection;
-    $sPrivateKey = (!empty($oConnection->s_private_key)) ? $oConnection->s_private_key : '';
+    $sPrivateKey = (!empty($oConnection->s_private_key_only_server)) ? $oConnection->s_private_key_only_server : '';
     $sCode = (string)rand(100000, 999999);
     $sCode .= $sPrivateKey;
     $sCode = md5($sCode);
@@ -78,7 +79,7 @@ class Util {
   */
   public function getJWT($oObject){
     $oConnection = (object)static::$aConnection;
-    $sPrivateKey = (!empty($oConnection->s_private_key)) ? $oConnection->s_private_key : '';
+    $sPrivateKey = (!empty($oConnection->s_private_key_only_server)) ? $oConnection->s_private_key_only_server : '';
     $iMaximumSessionTime = (!empty($oConnection->maximum_session_time)) ? $oConnection->maximum_session_time : 0;
     $iTime = time(); // Seg.
     $aToken = [
