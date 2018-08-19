@@ -22,6 +22,10 @@ function checkInAction(){
         let sEmail = $("#r_email").val();
         let sUser = $("#r_user").val();
         let sPassword = $("#r_password").val();
+        let sResponse = '';
+        if(g_bReCaptcha){
+            sResponse = $("#g-recaptcha-response").val();
+        }
 
         let oDatos = {};
         let sUrl = 'administration/publicData/appRegistration';
@@ -55,6 +59,7 @@ function checkInAction(){
                     let oDatos2 = {
                         'id': iId2,
                         'registration_code': sRegCod2,
+                        'response': sResponse,
                         'name': sName,
                         'last_name': sLastName,
                         'email': sEmail,
@@ -111,6 +116,7 @@ function checkInAction(){
 */
 function validateCheckInAction(){
     let sFieldName = '';
+    let sFieldName2 = '';
     let sText = '';
 
     sFieldName = 'r_name';
@@ -138,6 +144,14 @@ function validateCheckInAction(){
     sFieldName = 'r_rpassword';
     sText = 'Debes repetir el password.';
     if(!validateTexto(sFieldName, sText)){return false;}
+
+    sFieldName = 'r_password';
+    sFieldName2 = 'r_rpassword';
+    sText = 'Las contraseñas no coinciden.';
+    if(!validatePasswords(sFieldName, sFieldName2, sText)){ return false; }
+
+    sText = "Debes completar el Captcha por seguridad.";
+    if(!validateReCaptcha(sText)){return false;}
 
     return true;
 }

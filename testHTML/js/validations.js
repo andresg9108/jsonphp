@@ -77,6 +77,20 @@ function validateReCaptcha(sText){
     return true;
 }
 
+function validatePasswords(sNameP1, sNameP2, sText){
+    let oPassword1 = document.getElementById(sNameP1);
+    let oPassword2 = document.getElementById(sNameP2);
+
+    if(oPassword1.value != oPassword2.value){
+        oPassword2.focus();
+        $("#err"+sNameP2).text(sText);
+
+        return false;
+    }
+
+    return true;
+}
+
 /*
 */
 function validateFiles(aFile, sText){
