@@ -25,21 +25,20 @@ class personProxy extends proxy {
 	      $oPerson->aUsers = $aUsersSet;
 	      $oPerson->save();
 
+	      // SEND EMAIL
 	      $aEmail = [];
 	      foreach ($aUsersSet as $i => $v) {
 	      	$sEmail = (!empty($v->email)) ? $v->email : '';
-	      	$sUser = (!empty($v->user)) ? $v->user : '';
-	      	$sPassword = (!empty($v->password)) ? $v->password : '';
-	      	$sRegistrationCode = (!empty($v->registration_code)) ? $v->registration_code : '';
 	      	$sCode = Util::getRandomCode();
 
 	      	$oSendEmail = sendEmail::getInstance($oConnection);
 	      	$oSendEmail->iId = null;
 	      	$oSendEmail->sEmail = $sEmail;
 	      	$oSendEmail->sCode = $sCode;
-	      	$oSendEmail->sSubject = 'Asunto de prueba.';
-	      	$oSendEmail->sMessage = 'Mensaje de prueba.';
 	      	$oSendEmail->iIdEmail = 1;
+
+	      	$oSendEmail->sSubject = constantGlobal::getConstant('EMAIL_CHECKIN_SUBJECT');
+	      	$oSendEmail->sMessage = constantGlobal::getConstant('EMAIL_CHECKIN_MESSAGE');
 	      	$oSendEmail->save();
 
 	      	$aRow = [];
