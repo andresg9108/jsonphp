@@ -29,6 +29,13 @@ const UPDATE = "UPDATE `user`
 			id_profile=<8?>
 			WHERE id=<1?>;";
 
+const SELECT_BY_ID_PERSON = "SELECT `id`, `registration_date`, 
+							`email`, `user`, `password`, 
+							`status`, `registration_code`, `id_person`, 
+							`id_profile` 
+							FROM `user` 
+							WHERE `id_person`=<1?>;";
+
 }
 
 ?>

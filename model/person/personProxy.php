@@ -6,6 +6,7 @@ use \Exception;
 use lib\MVC\proxy;
 use lib\Util\{Util, constantGlobal};
 use model\{connection, systemException};
+use model\user\user;
 use model\sendEmail\sendEmail;
 
 class personProxy extends proxy {
@@ -26,30 +27,39 @@ class personProxy extends proxy {
 	      $oPerson->save();
 
 	      // SEND EMAIL
-	      /*$aEmail = [];
-	      foreach ($aUsersSet as $i => $v) {
-	      	$sEmail = (!empty($v->email)) ? $v->email : '';
-	      	$sRegistrationCode = (!empty($v->registration_code)) ? $v->registration_code : '';
-	      	$sCode = Util::getRandomCode();
+	      $oSendEmail = sendEmail::getInstance($oConnection);
+	      $oUser = user::getInstance($oConnection);
+	      $oUser->iIdPerson = $oPerson->iId;
+	      $aUser = $oUser->getUsersByIdPerson();
 
-	      	$oSendEmail = sendEmail::getInstance($oConnection);
+	      $aEmail = [];
+	      foreach ($aUser as $i => $v){
+			$iIdUser = (!empty($v->id)) ? $v->id : null;
+			$sEmail = (!empty($v->email)) ? $v->email : '';
+			$sRegistrationCode = (!empty($v->registration_code)) ? $v->registration_code : '';
+			$iIdEmail = 1;
+			$sCode = Util::getRandomCode();
+
+			$aParameters = [$iIdUser, $sRegistrationCode];
+	      	$sUrl = constantGlobal::getConstant('EMAIL_CHECKIN_URL', $aParameters);
+	      	$sSubject = constantGlobal::getConstant('EMAIL_CHECKIN_SUBJECT');
+	      	$aParameters = [$sUrl];
+	      	$sMessage = constantGlobal::getConstant('EMAIL_CHECKIN_MESSAGE', $aParameters);
+
 	      	$oSendEmail->iId = null;
 	      	$oSendEmail->sEmail = $sEmail;
 	      	$oSendEmail->sCode = $sCode;
-	      	$oSendEmail->iIdEmail = 1;
-
-	      	$aParameters = [];
-	      	constantGlobal::getConstant('EMAIL_CHECKIN_URL');
-	      	$oSendEmail->sSubject = constantGlobal::getConstant('EMAIL_CHECKIN_SUBJECT');
-	      	$oSendEmail->sMessage = constantGlobal::getConstant('EMAIL_CHECKIN_MESSAGE');
+	      	$oSendEmail->iIdEmail = $iIdEmail;
+	      	$oSendEmail->sSubject = $sSubject;
+	      	$oSendEmail->sMessage = $sMessage;
 	      	$oSendEmail->save();
 
-	      	$aRow = [];
-	      	$aRow['id'] = $oSendEmail->iId;
-	      	$aRow['cod'] = $oSendEmail->sCode;
-	      	$oRow = (object)$aRow;
-	      	$aEmail[] = $oRow;
-	      }*/
+	      	$aEmailRow = [];
+	      	$aEmailRow['id'] = $oSendEmail->iId;
+	      	$aEmailRow['cod'] = $oSendEmail->sCode;
+	      	$oEmailRow = (object)$aEmailRow;
+	      	$aEmail[] = $oEmailRow;
+		  }
 	      // END EMAIL
 
 	      $oResponse = [];

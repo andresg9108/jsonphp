@@ -125,6 +125,16 @@ class user extends model {
     $this->sEmail = (!empty($this->sEmail)) ? str_replace(' ', '', $this->sEmail) : '';
   }
 
+  public function getUsersByIdPerson(){
+    $aParameters = [$this->iIdPerson];
+    $sQuery = queryUser::getQuery('SELECT_BY_ID_PERSON', $aParameters);
+    $aParameters = ['id', 'registration_date', 'email', 'user', 'password', 'status', 'registration_code', 'id_person', 'id_profile'];
+    $this->oConnection->queryArray($sQuery, $aParameters);
+    $aUser = $this->oConnection->getQuery();
+
+    return $aUser;
+  }
+
   /*
   */
   public static function getInstance($oConnection){

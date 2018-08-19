@@ -6,52 +6,40 @@ ini_set('display_errors', '1');
 const __DIRMAIN__ = "./";
 require_once __DIRMAIN__.'autoload.php';
 
-use model\user\userProxy;
+use lib\Util\{Util, constantGlobal};
+use model\{connection, systemException};
+use model\user\user;
+use model\person\personProxy;
 
-$sUser = 'root';
-$sPassword = 'e10adc3949ba59abbe56e057f20f883e';
+$sName = 'Andres';
+$sLastName = 'Gonzalez';
+$sEmail = 'info@vedapues.net';
+$sUser = 'andresg1234567890';
+$sPassword = '123456';
 
+$sName = Util::getFilterCharacters($sName);
+$sLastName = Util::getFilterCharacters($sLastName);
+$sEmail = Util::getFilterCharacters($sEmail);
+$sUser = Util::getFilterCharacters($sUser);
+$sPassword = md5($sPassword);
+
+$sRegistrationCode = Util::getRandomCode();
 $aUser = [];
+$aUser['email'] = $sEmail;
 $aUser['user'] = $sUser;
 $aUser['password'] = $sPassword;
+$aUser['registration_code'] = $sRegistrationCode;
+$aUser['status'] = 0;
+$aUser['id_profile'] = 2;
 $oUser = (object)$aUser;
 
-$oResponse = userProxy::validatelogIn($oUser);
-echo json_encode($oResponse);
+$aPerson = [];
+$aPerson['name'] = $sName;
+$aPerson['last_name'] = $sLastName;
+$aPerson['users'] = [$oUser];
+$oPerson = (object)$aPerson;
 
-
-
-
-
-
-
-/*use model\user\userProxy;
-
-$aUser = [];
-$aUser['user'] = 'felipeffff';
-$aUser['password'] = '123456';
-$oUser = (object)$aUser;
-$oResponse = userProxy::validatelogIn($oUser);
-echo json_encode($oResponse);*/
-
-
-
-
-
-
-
-
-
-
-/*use model\user\userProxy;
-
-$aUser = [];
-$aUser['id'] = 66;
-$aUser['registration_code'] = '50b3bc0b074b5593d6eae93fb9610864';
-$oUser = (object)$aUser;
-$oResponse = userProxy::validateEmail($oUser);
-
-echo json_encode($oResponse);*/
+$oPerson = personProxy::save($oPerson);
 
 
 

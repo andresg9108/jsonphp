@@ -141,7 +141,9 @@ class connection{
       	if(is_array($aRow)){
       		foreach ($aRow as $i => $v) {
       			$sPosition = (!empty($aParameters[$i])) ? $aParameters[$i] : '';
-	        	$oResponse[$sPosition] = $v;
+      			if(!empty($sPosition)){
+      				$oResponse[$sPosition] = $v;
+      			}
 	      	}
       	}
 
@@ -164,7 +166,9 @@ class connection{
 	      if(is_array($aRow)){
 	      	foreach ($aRow as $i1 => $v2) {
 	      		$sPosition = (!empty($aParameters[$i1])) ? $aParameters[$i1] : '';
-	        	$aRow2[$sPosition] = $v2;
+	      		if(!empty($sPosition)){
+	      			$aRow2[$sPosition] = $v2;
+	      		}
 	      	}
 	      }
 	      $aResponse[] = (object)$aRow2;
