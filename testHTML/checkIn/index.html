@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<meta charset="utf-8">
+    	<meta name="viewport" content="width=device-width, initial-scale=1.0 ,user-scalable=no">
+    	
+    	<title>Test HTML</title>
+
+    	<script src="../lib/jquery/jquery.min.js"></script>
+    	<script src="../lib/md5/md5.min.js"></script>
+    	<script src="../js/validations.js"></script>
+    	<script src="../js/main.js"></script>
+    	<script src="../js/checkIn.js"></script>
+	</head>
+	<body>
+		<br />
+		<a href="../">Atras</a>
+		<br />
+		<h1>Registro</h1><br />
+		<form method="post" onsubmit="return checkInAction()">
+			<input type="text" id="r_name" name="r_name" placeholder="Nombre" /><br />
+			<span id="errr_name"></span><br />
+
+			<input type="text" id="r_last_name" name="r_last_name" placeholder="Apellido" /><br />
+			<span id="errr_last_name"></span><br />
+
+			<input type="text" id="r_email" name="r_email" placeholder="E-mail" /><br />
+			<span id="errr_email"></span><br />
+
+			<input type="text" id="r_user" name="r_user" placeholder="Usuario" /><br />
+			<span id="errr_user"></span><br />
+
+			<input type="password" id="r_password" name="r_password" placeholder="Contrase&ntilde;" /><br />
+			<span id="errr_password"></span><br />
+
+			<input type="password" id="r_rpassword" name="r_rpassword" placeholder="Repetir Contrase&ntilde;" /><br />
+			<span id="errr_rpassword"></span><br />
+
+			<input type="submit" />
+		</form>
+	</body>
+</html>

@@ -9,9 +9,32 @@ var g_bReCaptcha = false;
 $(function(){
 });
 
+/*
+*/
 function getParameterBysName(sName){
     sName = sName.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
     var regex = new RegExp("[\\?&]" + sName + "=([^&#]*)"),
     results = regex.exec(location.search);
     return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
+/*
+*/
+function getDecodeRegCod(sRegCod){
+	if(g_bEncryptionRedCod){
+		let aRegCod = sRegCod.split('.');
+		let iRegCod = 0;
+
+    	$.each(aRegCod, function(i, v){
+    		let iDato = parseInt(v);
+    		let iDato2 = iDato+g_iPrivateKey;
+    		iRegCod += iDato2;
+    	});
+
+    	sRegCod = String(iRegCod);
+        sRegCod += g_sPrivateKey;
+        sRegCod = md5(sRegCod);
+	}
+
+	return sRegCod;
 }
