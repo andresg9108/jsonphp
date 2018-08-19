@@ -1,6 +1,6 @@
 "use strict";
 
-var g_sBackEnd = 'http://localhost/backend-inicio/';
+var g_sBackEnd = 'http://localhost/jsonphp/';
 var g_bEncryptionRedCod = true;
 var g_iPrivateKey = 15628;
 var g_sPrivateKey = "a5vbFgFFG4Fd2";

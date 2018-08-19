@@ -111,6 +111,7 @@ class connection{
 	*/
 	public function connectMySQL(){
 		$this->oConnection = @new mysqli($this->sServer, $this->sUser, $this->sPassword, $this->sDatabase);
+		$this->oConnection->set_charset('utf8');
 	    if($this->oConnection->connect_error)
 	    	throw new Exception("Error de conexion: ".$this->oConnection->connect_error);
 
@@ -122,7 +123,7 @@ class connection{
 	public function runMySQL($sQuery){
 		if($this->oConnection->connect_error)
 			throw new Exception("Error de conexion: ".$this->oConnection->connect_error);
-	    if(!@$this->oConnection->query($sQuery))
+	    if(!@$this->oConnection->query(utf8_encode($sQuery)))
 	    	throw new Exception("Error en la query: ".$sQuery);
 	}
 
@@ -140,7 +141,7 @@ class connection{
       	if(is_array($aRow)){
       		foreach ($aRow as $i => $v) {
       			$sPosition = (!empty($aParameters[$i])) ? $aParameters[$i] : '';
-	        	$oResponse[$sPosition] = utf8_encode($v);
+	        	$oResponse[$sPosition] = $v;
 	      	}
       	}
 
@@ -163,7 +164,7 @@ class connection{
 	      if(is_array($aRow)){
 	      	foreach ($aRow as $i1 => $v2) {
 	      		$sPosition = (!empty($aParameters[$i1])) ? $aParameters[$i1] : '';
-	        	$aRow2[$sPosition] = utf8_encode($v2);
+	        	$aRow2[$sPosition] = $v2;
 	      	}
 	      }
 	      $aResponse[] = (object)$aRow2;
