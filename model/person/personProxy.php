@@ -26,9 +26,10 @@ class personProxy extends proxy {
 	      $oPerson->save();
 
 	      // SEND EMAIL
-	      $aEmail = [];
+	      /*$aEmail = [];
 	      foreach ($aUsersSet as $i => $v) {
 	      	$sEmail = (!empty($v->email)) ? $v->email : '';
+	      	$sRegistrationCode = (!empty($v->registration_code)) ? $v->registration_code : '';
 	      	$sCode = Util::getRandomCode();
 
 	      	$oSendEmail = sendEmail::getInstance($oConnection);
@@ -37,6 +38,8 @@ class personProxy extends proxy {
 	      	$oSendEmail->sCode = $sCode;
 	      	$oSendEmail->iIdEmail = 1;
 
+	      	$aParameters = [];
+	      	constantGlobal::getConstant('EMAIL_CHECKIN_URL');
 	      	$oSendEmail->sSubject = constantGlobal::getConstant('EMAIL_CHECKIN_SUBJECT');
 	      	$oSendEmail->sMessage = constantGlobal::getConstant('EMAIL_CHECKIN_MESSAGE');
 	      	$oSendEmail->save();
@@ -46,7 +49,7 @@ class personProxy extends proxy {
 	      	$aRow['cod'] = $oSendEmail->sCode;
 	      	$oRow = (object)$aRow;
 	      	$aEmail[] = $oRow;
-	      }
+	      }*/
 	      // END EMAIL
 
 	      $oResponse = [];
