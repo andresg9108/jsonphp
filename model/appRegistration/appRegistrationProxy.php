@@ -1,0 +1,108 @@
+<?php
+
+namespace model\appRegistration;
+
+use \Exception;
+use lib\MVC\proxy;
+use lib\Util\{Util, constantGlobal};
+use model\{connection, systemException};
+
+class appRegistrationProxy extends proxy {
+
+	/*
+	*/
+	public static function validateRegCod($oAppRegistrationSet){
+		try {
+	      $oConnection = connection::getInstance();
+	      $oConnection->connect();
+
+	      $iId = (!empty($oAppRegistrationSet->id)) ? $oAppRegistrationSet->id : null;
+	      $sRegistrationCode = (!empty($oAppRegistrationSet->registration_code)) ? $oAppRegistrationSet->registration_code : '';
+
+	      $oAppRegistration = appRegistration::getInstance($oConnection);
+	      $oAppRegistration->iId = $iId;
+	      $oAppRegistration->load();
+	      $sRegistrationCodeBD =  $oAppRegistration->sRegistrationCode;
+	      $sRegistrationCodeBD = Util::getDecodeRegCod($sRegistrationCodeBD);
+
+	      $oResponse = [];
+	      if($sRegistrationCode == $sRegistrationCodeBD){
+	      	$oResponse['validate'] = true;
+
+	      	$oAppRegistration->delete();
+	      }else{
+	      	$oResponse['validate'] = false;
+	      }
+
+	      $oConnection->commit();
+	      $oConnection->close();
+	      
+	      return Util::getResponseArray(true, (object)$oResponse,
+	      	"OK", "OK");
+	    } catch (systemException $e) {
+	    	$oConnection->rollback();
+	    	$oConnection->close();
+
+	    	return Util::getResponseArray(false, (object)[],
+	    		$oAppRegistration->sMessageErr,
+	    		constantGlobal::CONTROLLED_EXCEPTION);
+	    } catch (Exception $e) {
+	    	$oConnection->rollback();
+	    	$oConnection->close();
+
+	    	return Util::getResponseArray(false, (object)[],
+		      	constantGlobal::CONTACT_SUPPORT,
+		        $e->getMessage());
+	    }
+	}
+
+	/*
+	*/
+	public static function save($oAppRegistrationSet){
+		try {
+	      $oConnection = connection::getInstance();
+	      $oConnection->connect();
+
+	      $iNumberItems = 5;
+	      $sRegistrationCode = '';
+	      for ($i=0; $i < $iNumberItems; $i++) {
+	      	$sCodeItem = (string)rand(10000, 99999);
+	      	if($i == 0)
+	      		$sRegistrationCode .= $sCodeItem;
+	      	else
+	      		$sRegistrationCode .= '.'.$sCodeItem;
+	      }
+
+	      $oAppRegistration = appRegistration::getInstance($oConnection);
+	      $oAppRegistration->sRegistrationCode = $sRegistrationCode;
+	      $oAppRegistration->save();
+
+	      $oResponse = [];
+	      $oResponse['id'] = $oAppRegistration->iId;
+	      $oResponse['registration_code'] = $oAppRegistration->sRegistrationCode;
+
+	      $oConnection->commit();
+	      $oConnection->close();
+	      
+	      return Util::getResponseArray(true, (object)$oResponse,
+	      	"OK", "OK");
+	    } catch (systemException $e) {
+	    	$oConnection->rollback();
+	    	$oConnection->close();
+
+	    	return Util::getResponseArray(false, (object)[],
+	    		$oAppRegistration->sMessageErr,
+	    		constantGlobal::CONTROLLED_EXCEPTION);
+	    } catch (Exception $e) {
+	    	$oConnection->rollback();
+	    	$oConnection->close();
+
+	    	return Util::getResponseArray(false, (object)[],
+		      	constantGlobal::CONTACT_SUPPORT,
+		        $e->getMessage());
+	    }
+	}
+}
+
+?>
+

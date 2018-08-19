@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+    	<title>Test HTML</title>
+
+    	<script src="lib/jquery/jquery.min.js"></script>
+    	<script src="lib/md5/md5.min.js"></script>
+    	<script src="js/main.js"></script>
+	</head>
+	<body>
+		<h1>Iniciar Sesi&oacute;n</h1><br />
+		<form method="post" onsubmit="return logInAction()">
+			<input type="text" id="l_user" name="l_user" placeholder="Usuario" /><br />
+			<input type="password" id="l_password" name="l_password" placeholder="Contrase&ntilde;" /><br />
+			
+			<input type="submit" />
+		</form>
+
+		<br />
+		<h2>________________________________________</h2>
+		<br />
+
+		<h1>Recuperar contrase&ntilde;a</h1><br />
+		<form method="post" onsubmit="return recoverPasswordAction()">
+			<input type="text" id="rc_email" name="rc_email" placeholder="Email" /><br />
+			
+			<input type="submit" />
+		</form>
+
+		<br />
+		<h2>________________________________________</h2>
+		<br />
+
+		<h1>Registro</h1><br />
+		<form method="post" onsubmit="return checkInAction()">
+			<input type="text" id="r_name" name="r_name" placeholder="Nombre" /><br />
+			<input type="text" id="r_last_name" name="r_last_name" placeholder="Apellido" /><br />
+			<input type="text" id="r_email" name="r_email" placeholder="E-mail" /><br />
+			<input type="text" id="r_user" name="r_user" placeholder="Usuario" /><br />
+			<input type="password" id="r_password" name="r_password" placeholder="Contrase&ntilde;" /><br />
+			<input type="password" id="r_rpassword" name="r_rpassword" placeholder="Repetir Contrase&ntilde;" /><br />
+
+			<input type="submit" />
+		</form>
+	</body>
+</html>
