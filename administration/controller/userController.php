@@ -2,6 +2,8 @@
 
 namespace administration\controller;
 
+use \Exception;
+use \Firebase\JWT\{JWT, ExpiredException};
 use lib\MVC\controller;
 use lib\Util\{Util, constantGlobal};
 use model\appRegistration\appRegistrationProxy;
@@ -15,29 +17,40 @@ class userController extends controller {
   /*
   */
   public function logInAction($get, $post){
-    $iId = (!empty($post->id)) ? $post->id : null;
-    $sRegistrationCode = (!empty($post->registration_code)) ? $post->registration_code : '';
+    try {
+      $iId = (!empty($post->id)) ? $post->id : null;
+      $sRegistrationCode = (!empty($post->registration_code)) ? $post->registration_code : '';
 
-    $aAppRegistration = [];
-    $aAppRegistration['id'] = $iId;
-    $aAppRegistration['registration_code'] = $sRegistrationCode;
-    $oAppRegistration = (object)$aAppRegistration;
+      $aAppRegistration = [];
+      $aAppRegistration['id'] = $iId;
+      $aAppRegistration['registration_code'] = $sRegistrationCode;
+      $oAppRegistration = (object)$aAppRegistration;
 
-    $oResponse = appRegistrationProxy::validateRegCod($oAppRegistration);
-    $oResponse = $oResponse->response;
-    $bValidate = (!empty($oResponse->validate)) ? $oResponse->validate : false;
+      $oResponse = appRegistrationProxy::validateRegCod($oAppRegistration);
+      $oResponse = $oResponse->response;
+      $bValidate = (!empty($oResponse->validate)) ? $oResponse->validate : false;
 
-    if($bValidate){
-      $sUser = (!empty($post->user)) ? $post->user : '';
-      $sPassword = (!empty($post->password)) ? $post->password : '';
+      if($bValidate){
+        $sUser = (!empty($post->user)) ? $post->user : '';
+        $sPassword = (!empty($post->password)) ? $post->password : '';
 
-      $aUser = [];
-      $aUser['user'] = $sUser;
-      $aUser['password'] = $sPassword;
-      $oUser = (object)$aUser;
+        $aUser = [];
+        $aUser['user'] = $sUser;
+        $aUser['password'] = $sPassword;
+        $oUser = (object)$aUser;
 
-      return userProxy::validatelogIn($oUser);
-    }else{
+        return userProxy::validatelogIn($oUser);
+      }else{
+        return $oResponse = Util::getResponseArray(false, (object)[]
+          ,'', constantGlobal::ERROR_404);
+      }
+    } catch (ExpiredException $e) {
+      $aResponse = [];
+      $aResponse['session'] = false;
+
+      return $oResponse = Util::getResponseArray(true, (object)$aResponse
+        ,'', constantGlobal::ERROR_SESSION);
+    } catch (Exception $e){
       return $oResponse = Util::getResponseArray(false, (object)[]
         ,'', constantGlobal::ERROR_404);
     }
@@ -46,49 +59,60 @@ class userController extends controller {
   /*
   */
   public function checkInAction($get, $post){
-    $iId = (!empty($post->id)) ? $post->id : null;
-    $sRegistrationCode = (!empty($post->registration_code)) ? $post->registration_code : '';
+    try {
+      $iId = (!empty($post->id)) ? $post->id : null;
+      $sRegistrationCode = (!empty($post->registration_code)) ? $post->registration_code : '';
 
-    $aAppRegistration = [];
-    $aAppRegistration['id'] = $iId;
-    $aAppRegistration['registration_code'] = $sRegistrationCode;
-    $oAppRegistration = (object)$aAppRegistration;
+      $aAppRegistration = [];
+      $aAppRegistration['id'] = $iId;
+      $aAppRegistration['registration_code'] = $sRegistrationCode;
+      $oAppRegistration = (object)$aAppRegistration;
 
-    $oResponse = appRegistrationProxy::validateRegCod($oAppRegistration);
-    $oResponse = $oResponse->response;
-    $bValidate = (!empty($oResponse->validate)) ? $oResponse->validate : false;
+      $oResponse = appRegistrationProxy::validateRegCod($oAppRegistration);
+      $oResponse = $oResponse->response;
+      $bValidate = (!empty($oResponse->validate)) ? $oResponse->validate : false;
 
-    if($bValidate){
-      $sName = (!empty($post->name)) ? $post->name : '';
-      $sLastName = (!empty($post->last_name)) ? $post->last_name : '';
-      $sEmail = (!empty($post->email)) ? $post->email : '';
-      $sUser = (!empty($post->user)) ? $post->user : '';
-      $sPassword = (!empty($post->password)) ? $post->password : '';
+      if($bValidate){
+        $sName = (!empty($post->name)) ? $post->name : '';
+        $sLastName = (!empty($post->last_name)) ? $post->last_name : '';
+        $sEmail = (!empty($post->email)) ? $post->email : '';
+        $sUser = (!empty($post->user)) ? $post->user : '';
+        $sPassword = (!empty($post->password)) ? $post->password : '';
 
-      $sName = Util::getFilterCharacters($sName);
-      $sLastName = Util::getFilterCharacters($sLastName);
-      $sEmail = Util::getFilterCharacters($sEmail);
-      $sUser = Util::getFilterCharacters($sUser);
-      $sPassword = md5($sPassword);
+        $sName = Util::getFilterCharacters($sName);
+        $sLastName = Util::getFilterCharacters($sLastName);
+        $sEmail = Util::getFilterCharacters($sEmail);
+        $sUser = Util::getFilterCharacters($sUser);
+        $sPassword = md5($sPassword);
 
-      $sRegistrationCode = Util::getRandomCode();
-      $aUser = [];
-      $aUser['email'] = $sEmail;
-      $aUser['user'] = $sUser;
-      $aUser['password'] = $sPassword;
-      $aUser['registration_code'] = $sRegistrationCode;
-      $aUser['status'] = 0;
-      $aUser['id_profile'] = 2;
-      $oUser = (object)$aUser;
+        $sRegistrationCode = Util::getRandomCode();
+        $aUser = [];
+        $aUser['email'] = $sEmail;
+        $aUser['user'] = $sUser;
+        $aUser['password'] = $sPassword;
+        $aUser['registration_code'] = $sRegistrationCode;
+        $aUser['status'] = 0;
+        $aUser['id_profile'] = 2;
+        $oUser = (object)$aUser;
 
-      $aPerson = [];
-      $aPerson['name'] = $sName;
-      $aPerson['last_name'] = $sLastName;
-      $aPerson['users'] = [$oUser];
-      $oPerson = (object)$aPerson;
+        $aPerson = [];
+        $aPerson['name'] = $sName;
+        $aPerson['last_name'] = $sLastName;
+        $aPerson['users'] = [$oUser];
+        $oPerson = (object)$aPerson;
 
-      return personProxy::save($oPerson);
-    }else{
+        return personProxy::save($oPerson);
+      }else{
+        return $oResponse = Util::getResponseArray(false, (object)[]
+          ,'', constantGlobal::ERROR_404);
+      }
+    } catch (ExpiredException $e) {
+      $aResponse = [];
+      $aResponse['session'] = false;
+
+      return $oResponse = Util::getResponseArray(true, (object)$aResponse
+        ,'', constantGlobal::ERROR_SESSION);
+    } catch (Exception $e){
       return $oResponse = Util::getResponseArray(false, (object)[]
         ,'', constantGlobal::ERROR_404);
     }

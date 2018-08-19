@@ -2,7 +2,10 @@
 
 namespace administration\controller;
 
+use \Exception;
+use \Firebase\JWT\{JWT, ExpiredException};
 use lib\MVC\controller;
+use lib\Util\{Util, constantGlobal};
 use model\appRegistration\appRegistrationProxy;
 
 class publicDataController extends controller {
@@ -12,10 +15,21 @@ class publicDataController extends controller {
   /*
   */
   public function getRegCodeAction($get, $post){
-    $oAppRegistration = [];
-    $oAppRegistration = (object)$oAppRegistration;
-    $aResponse = appRegistrationProxy::save($oAppRegistration);
-    return $aResponse;
+    try {
+      $oAppRegistration = [];
+      $oAppRegistration = (object)$oAppRegistration;
+      $aResponse = appRegistrationProxy::save($oAppRegistration);
+      return $aResponse;
+    } catch (ExpiredException $e) {
+      $aResponse = [];
+      $aResponse['session'] = false;
+
+      return $oResponse = Util::getResponseArray(true, (object)$aResponse
+        ,'', constantGlobal::ERROR_SESSION);
+    } catch (Exception $e){
+      return $oResponse = Util::getResponseArray(false, (object)[]
+        ,'', constantGlobal::ERROR_404);
+    }
   }
 
   /*
