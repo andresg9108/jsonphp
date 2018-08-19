@@ -6,6 +6,7 @@
     	
     	<title>Test HTML</title>
 
+    	<script src='https://www.google.com/recaptcha/api.js'></script>
     	<script src="lib/jquery/jquery.min.js"></script>
     	<script src="lib/md5/md5.min.js"></script>
     	<script src="js/validations.js"></script>
@@ -19,9 +20,17 @@
 		<h1>Iniciar Sesi&oacute;n</h1><br />
 		<form method="post" onsubmit="return logInAction()">
 			<input type="text" id="l_user" name="l_user" placeholder="Usuario" /><br />
-			<input type="password" id="l_password" name="l_password" placeholder="Contrase&ntilde;" /><br />
-			
+			<input type="password" id="l_password" name="l_password" placeholder="Contrase&ntilde;" />
+
+			<br /><br />
 			<input type="submit" />
+			<!--<button 
+				type="submit"
+				class="g-recaptcha"
+				data-sitekey="6LdovWoUAAAAAAnw98Or83hBGVYK60yuMOBp73nz"
+				data-callback="YourOnSubmitFn">
+				Submit
+			</button>-->
 		</form>
 	</body>
 </html>

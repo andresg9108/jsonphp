@@ -24,6 +24,7 @@ class Util {
     'encryption_red_cod' => true,
     'recaptcha' => false,
     'recaptcha_secret_key' => '6Ld7vmoUAAAAABzrOUsTB0wEbcUzROrtzJlmxnPc',
+    'recaptcha_secret_key_hidden' => '6LdovWoUAAAAAFBeUJWnr82_shRlMcnEciKwUI5B',
     'maximum_session_time' => 86400, // (24*60*60)
     's_private_key_only_server' => 'dasf1s5GSG52',
     's_private_key' => 'a5vbFgFFG4Fd2',
@@ -125,6 +126,26 @@ class Util {
     $oConnection = (object)static::$aConnection;
     if($oConnection->recaptcha){
       $sSecret = (!empty($oConnection->recaptcha_secret_key)) ? $oConnection->recaptcha_secret_key : '';
+      $sURL = "https://www.google.com/recaptcha/api/siteverify";
+      $sRemoteip = $_SERVER['REMOTE_ADDR'];
+
+      $sResponse = file_get_contents($sURL."?secret=".$sSecret."&response=".$sResponse."&remoteip=".$sRemoteip);
+      $oResponse = json_decode($sResponse);
+
+      if(!$oResponse->success){
+          return false;
+      }
+    }
+
+    return true;
+  }
+
+  /*
+  */
+  public static function getStatusReCaptchaHidden($sResponse = ""){
+    $oConnection = (object)static::$aConnection;
+    if($oConnection->recaptcha){
+      $sSecret = (!empty($oConnection->recaptcha_secret_key_hidden)) ? $oConnection->recaptcha_secret_key_hidden : '';
       $sURL = "https://www.google.com/recaptcha/api/siteverify";
       $sRemoteip = $_SERVER['REMOTE_ADDR'];
 
