@@ -11,6 +11,52 @@ class userProxy extends proxy {
 
 	/*
 	*/
+	public static function validateEmailAndUser($sEmail, $sUser){
+		try {
+	      $oConnection = connection::getInstance();
+	      $oConnection->connect();
+
+	      $oUser = user::getInstance($oConnection);
+	      $bUser = false;
+	      $oUser->iId = null;
+	      $oUser->sUser = $sUser;
+	      $oUser->loadXUser();
+	      if(!is_null($oUser->iId)){ $bUser = true; }
+
+	      $bEmail = false;
+	      $oUser->iId = null;
+	      $oUser->sEmail = $sEmail;
+	      $oUser->loadXEmail();
+	      if(!is_null($oUser->iId)){ $bEmail = true; }
+
+	      $aResponse = [];
+	      $aResponse['user'] = $bUser;
+	      $aResponse['email'] = $bEmail;
+
+	      $oConnection->commit();
+	      $oConnection->close();
+	      
+	      return Util::getResponseArray(true, (object)$aResponse,
+	      	"OK", "OK");
+	    } catch (systemException $e) {
+	    	$oConnection->rollback();
+	    	$oConnection->close();
+
+	    	return Util::getResponseArray(false, (object)[],
+	    		$oUser->sMessageErr,
+	    		constantGlobal::CONTROLLED_EXCEPTION);
+	    } catch (Exception $e) {
+	    	$oConnection->rollback();
+	    	$oConnection->close();
+
+	    	return Util::getResponseArray(false, (object)[],
+		      	constantGlobal::CONTACT_SUPPORT,
+		        $e->getMessage());
+	    }
+	}
+
+	/*
+	*/
 	public static function validatelogIn($oUserSet){
 		try {
 	      $oConnection = connection::getInstance();

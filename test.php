@@ -8,6 +8,24 @@ require_once __DIRMAIN__.'autoload.php';
 
 use lib\Util\{Util, constantGlobal};
 use model\{connection, systemException};
+use model\user\userProxy;
+
+$sEmail = 'info@andresgonzalez.me';
+$sUser = 'root';
+$oResponse = userProxy::validateEmailAndUser($sEmail, $sUser);
+echo json_encode($oResponse);
+
+
+
+
+
+
+
+
+
+
+/*use lib\Util\{Util, constantGlobal};
+use model\{connection, systemException};
 use model\user\user;
 use model\person\personProxy;
 
@@ -40,6 +58,7 @@ $aPerson['users'] = [$oUser];
 $oPerson = (object)$aPerson;
 
 $oPerson = personProxy::save($oPerson);
+echo json_encode($oPerson);*/
 
 
 

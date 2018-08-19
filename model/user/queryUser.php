@@ -19,6 +19,12 @@ const LOADXUSER = "SELECT id, registration_date,
 					registration_code, id_person, id_profile 
 					FROM `user` 
 					WHERE `user`='<1?>'";
+const LOADXEMAIL = "SELECT id, registration_date,
+					email, user,
+					password, status,
+					registration_code, id_person, id_profile 
+					FROM `user` 
+					WHERE `email`='<1?>'";
 const UPDATE = "UPDATE `user` 
 			SET email='<2?>', 
 			user='<3?>',

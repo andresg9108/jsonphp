@@ -120,6 +120,35 @@ class user extends model {
 
   /*
   */
+  public function loadXEmail(){
+    $aParameters = [$this->sEmail];
+    $sQuery = queryUser::getQuery('LOADXEMAIL', $aParameters);
+    $aParameters = ['id', 'registration_date', 'email', 'user',
+        'password', 'status', 'registration_code', 'id_person', 'id_profile'];
+    $this->oConnection->queryRow($sQuery, $aParameters);
+    $oUser = $this->oConnection->getQuery();
+
+    $iId = (!empty($oUser->id)) ? $oUser->id : null;
+    $sEmail = (!empty($oUser->email)) ? $oUser->email : '';
+    $sUser = (!empty($oUser->user)) ? $oUser->user : '';
+    $sPassword = (!empty($oUser->password)) ? $oUser->password : '';
+    $iStatus = (!empty($oUser->status)) ? $oUser->status : '0';
+    $sRegistrationCode = (!empty($oUser->registration_code)) ? $oUser->registration_code : '';
+    $iIdPerson = (!empty($oUser->id_person)) ? $oUser->id_person : null;
+    $iIdProfile = (!empty($oUser->id_profile)) ? $oUser->id_profile : null;
+
+    $this->iId = $iId;
+    $this->sEmail = $sEmail;
+    $this->sUser = $sUser;
+    $this->sPassword = $sPassword;
+    $this->iStatus = $iStatus;
+    $this->sRegistrationCode = $sRegistrationCode;
+    $this->iIdPerson = $iIdPerson;
+    $this->iIdProfile = $iIdProfile;
+  }
+
+  /*
+  */
   public function validateData(){
     $this->sUser = (!empty($this->sUser)) ? str_replace(' ', '', $this->sUser) : '';
     $this->sEmail = (!empty($this->sEmail)) ? str_replace(' ', '', $this->sEmail) : '';

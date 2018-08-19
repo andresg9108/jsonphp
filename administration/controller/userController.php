@@ -16,6 +16,43 @@ class userController extends controller {
 
   /*
   */
+  public function validateEmailAndUserAction($get, $post){
+    try {
+      $iId = (!empty($post->id)) ? $post->id : null;
+      $sRegistrationCode = (!empty($post->registration_code)) ? $post->registration_code : '';
+
+      $aAppRegistration = [];
+      $aAppRegistration['id'] = $iId;
+      $aAppRegistration['registration_code'] = $sRegistrationCode;
+      $oAppRegistration = (object)$aAppRegistration;
+
+      $oResponse = appRegistrationProxy::validateRegCod($oAppRegistration);
+      $oResponse = $oResponse->response;
+      $bValidate = (!empty($oResponse->validate)) ? $oResponse->validate : false;
+
+      if($bValidate){
+        $sEmail = (!empty($post->email)) ? $post->email : '';
+        $sUser = (!empty($post->user)) ? $post->user : '';
+
+        return userProxy::validateEmailAndUser($sEmail, $sUser);
+      }else{
+        return $oResponse = Util::getResponseArray(false, (object)[]
+          ,'', constantGlobal::ERROR_404);
+      }
+    } catch (ExpiredException $e) {
+      $aResponse = [];
+      $aResponse['session'] = false;
+
+      return $oResponse = Util::getResponseArray(true, (object)$aResponse
+        ,'', constantGlobal::ERROR_SESSION);
+    } catch (Exception $e){
+      return $oResponse = Util::getResponseArray(false, (object)[]
+        ,'', constantGlobal::ERROR_404);
+    }
+  }
+
+  /*
+  */
   public function logInAction($get, $post){
     try {
       $iId = (!empty($post->id)) ? $post->id : null;

@@ -9,6 +9,9 @@ $aResponse = Util::getResponseArray(false, (object)[]
 	,'', constantGlobal::ERROR_404);
 
 switch ($sAction) {
+	case 'validateEmailAndUser':
+		$aResponse = $oUserController->validateEmailAndUserAction((object)$_GET, (object)$_POST);
+		break;
 	case 'checkIn':
 		$aResponse = $oUserController->checkInAction((object)$_GET, (object)$_POST);
 		break;
