@@ -18,6 +18,7 @@ function validateTexto(sName, sText){
 function validateEmail(sName, sText){
     let oObject = document.getElementById(sName);
     $("#err"+sName).html('');
+
     if (!validateValidMail(oObject.value)) {
         oObject.focus();
         $("#err"+sName).text(sText);

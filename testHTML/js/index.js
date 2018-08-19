@@ -57,57 +57,59 @@ function logInAction(){
 /*
 */
 function checkInAction(){
-    let sName = $("#r_name").val();
-    let sLastName = $("#r_last_name").val();
-    let sEmail = $("#r_email").val();
-    let sUser = $("#r_user").val();
-    let sPassword = $("#r_password").val();
+    if(validateCheckInAction()){
+        let sName = $("#r_name").val();
+        let sLastName = $("#r_last_name").val();
+        let sEmail = $("#r_email").val();
+        let sUser = $("#r_user").val();
+        let sPassword = $("#r_password").val();
 
-    let oDatos = {};
-    let sUrl = 'administration/publicData/appRegistration';
-    $.when($.post(g_sBackEnd+sUrl, oDatos))
-    .then(function(oResponse){
-        let aResponse = oResponse.response;
-        let iId = aResponse.id;
-        let sRegCod = aResponse.registration_code;
-        sRegCod = getDecodeRegCod(sRegCod);
-
-        let oDatos2 = {
-            'id': iId,
-            'registration_code': sRegCod,
-            'name': sName,
-            'last_name': sLastName,
-            'email': sEmail,
-            'user': sUser,
-            'password': sPassword
-        };
-        let sUrl2 = 'administration/user/checkIn';
-        $.when($.post(g_sBackEnd+sUrl2, oDatos2))
+        let oDatos = {};
+        let sUrl = 'administration/publicData/appRegistration';
+        $.when($.post(g_sBackEnd+sUrl, oDatos))
         .then(function(oResponse){
-            if(oResponse.status){
-                oResponse = oResponse.response;
-                let aEmail = oResponse.email;
+            let aResponse = oResponse.response;
+            let iId = aResponse.id;
+            let sRegCod = aResponse.registration_code;
+            sRegCod = getDecodeRegCod(sRegCod);
 
-                $.each(aEmail, function(i, v){
-                    let iId = v.id;
-                    let sCod = v.cod;
+            let oDatos2 = {
+                'id': iId,
+                'registration_code': sRegCod,
+                'name': sName,
+                'last_name': sLastName,
+                'email': sEmail,
+                'user': sUser,
+                'password': sPassword
+            };
+            let sUrl2 = 'administration/user/checkIn';
+            $.when($.post(g_sBackEnd+sUrl2, oDatos2))
+            .then(function(oResponse){
+                if(oResponse.status){
+                    oResponse = oResponse.response;
+                    let aEmail = oResponse.email;
 
-                    let sUrl3 = 'administration/email/send';
-                    let oDatos3 = {
-                        'id': iId,
-                        'cod': sCod
-                    };
-                    $.post(g_sBackEnd+sUrl3,oDatos3);
-                });
+                    $.each(aEmail, function(i, v){
+                        let iId = v.id;
+                        let sCod = v.cod;
 
-                console.log('Registro OK.');
-            }else{
-                console.log(oResponse.text.client);
-            }
+                        let sUrl3 = 'administration/email/send';
+                        let oDatos3 = {
+                            'id': iId,
+                            'cod': sCod
+                        };
+                        $.post(g_sBackEnd+sUrl3,oDatos3);
+                    });
+
+                    console.log('Registro OK.');
+                }else{
+                    console.log(oResponse.text.client);
+                }
+            })
+            .fail(function(){});
         })
         .fail(function(){});
-    })
-    .fail(function(){});
+    }
 
     return false;
 }
@@ -131,4 +133,39 @@ function getDecodeRegCod(sRegCod){
 	}
 
 	return sRegCod;
+}
+
+/*
+*/
+function validateCheckInAction(){
+    let sFieldName = '';
+    let sText = '';
+
+    sFieldName = 'r_name';
+    sText = 'Debes agregar un nombre.';
+    if(!validateTexto(sFieldName, sText)){return false;}
+
+    sFieldName = 'r_last_name';
+    sText = 'Debes agregar un apellido.';
+    if(!validateTexto(sFieldName, sText)){return false;}
+
+    sFieldName = 'r_email';
+    sText = 'Debes agregar un email.';
+    if(!validateTexto(sFieldName, sText)){return false;}
+    sText = 'Agrega un email válido.';
+    if(!validateEmail(sFieldName, sText)){return false;}
+
+    sFieldName = 'r_user';
+    sText = 'Debes agregar un usuario.';
+    if(!validateTexto(sFieldName, sText)){return false;}
+
+    sFieldName = 'r_password';
+    sText = 'Debes agregar un password.';
+    if(!validateTexto(sFieldName, sText)){return false;}
+
+    sFieldName = 'r_rpassword';
+    sText = 'Debes repetir el password.';
+    if(!validateTexto(sFieldName, sText)){return false;}
+
+    return true;
 }
