@@ -67,7 +67,7 @@ class userController extends controller {
       $oResponse = appRegistrationProxy::validateRegCod($oAppRegistration);
       $oResponse = $oResponse->response;
       $bValidate = (!empty($oResponse->validate)) ? $oResponse->validate : false;
-      $bReCaptcha = Util::getStatusReCaptchaHidden($sResponse);
+      $bReCaptcha = Util::getStatusReCaptcha($sResponse);
 
       if($bValidate && $bReCaptcha){
         $sUser = (!empty($post->user)) ? $post->user : '';

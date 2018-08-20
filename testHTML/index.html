@@ -19,10 +19,17 @@
 		<a href="recoverPassword/">Recover Password</a><br />
 		<h1>Iniciar Sesi&oacute;n</h1><br />
 		<form method="post" onsubmit="return logInAction()">
-			<input type="text" id="l_user" name="l_user" placeholder="Usuario" /><br />
-			<input type="password" id="l_password" name="l_password" placeholder="Contrase&ntilde;" />
+			<input type="text" id="user" name="user" placeholder="Usuario" /><br />
+			<span id="erruser"></span><br />
 
+			<input type="password" id="password" name="password" placeholder="Contrase&ntilde;" /><br />
+			<span id="errpassword"></span><br />
+			<br />
+
+			<div class="g-recaptcha" data-sitekey="6Ld7vmoUAAAAAAGfEZ_EFvqz-rgCVjhHJXa_MOn2"></div><br />
+			<span id="errrobot" class="error"></span>
 			<br /><br />
+
 			<input type="submit" />
 			<!--<button 
 				type="submit"

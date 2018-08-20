@@ -13,8 +13,8 @@ function setView(){
 */
 function logInAction(){
     if(validateLogIn()){
-        let sUser = $("#l_user").val();
-        let sPassword = $("#l_password").val();
+        let sUser = $("#user").val();
+        let sPassword = $("#password").val();
         let sResponse = '';
         if(g_bReCaptcha){
             sResponse = $("#g-recaptcha-response").val();
@@ -50,6 +50,20 @@ function logInAction(){
 }
 
 function validateLogIn(){
+    let sFieldName = '';
+    let sFieldName2 = '';
+    let sText = '';
+
+    sFieldName = 'user';
+    sText = 'El campo usuario no puede estar vacío.';
+    if(!validateTexto(sFieldName, sText)){return false;}
+
+    sFieldName = 'password';
+    sText = 'El campo contraseña no puede estar vacío.';
+    if(!validateTexto(sFieldName, sText)){return false;}
+
+    sText = "Debes completar el Captcha por seguridad.";
+    if(!validateReCaptcha(sText)){return false;}
 
     return true;
 }
