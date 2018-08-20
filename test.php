@@ -10,9 +10,8 @@ use lib\Util\{Util, constantGlobal};
 use model\{connection, systemException};
 use model\user\userProxy;
 
-$iIdUser = 45;
-$sCodeUser = 'e7501a36214e5a68bf61993de79bd728';
-$oResponse = userProxy::validateEmailByCode($iIdUser, $sCodeUser);
+$sEmail = 'info@andresgonzalez.me';
+$oResponse = userProxy::recoverPassword($sEmail);
 echo json_encode($oResponse);
 
 

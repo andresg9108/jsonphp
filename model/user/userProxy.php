@@ -6,8 +6,82 @@ use lib\MVC\proxy;
 use lib\Util\{Util, constantGlobal};
 use model\{connection, systemException};
 use model\user\user;
+use model\sendEmail\sendEmail;
 
 class userProxy extends proxy {
+
+	/*
+	*/
+	public static function recoverPassword($sEmail){
+		try {
+	      $oConnection = connection::getInstance();
+	      $oConnection->connect();
+
+	      $oUser = user::getInstance($oConnection);
+	      $oSendEmail = sendEmail::getInstance($oConnection);
+
+	      $oUser->iId = null;
+	      $oUser->sEmail = $sEmail;
+	      $oUser->loadXEmail();
+
+	      $aResponse = [];
+	      $aResponse['send_email'] = false;
+	      if(!is_null($oUser->iId)){
+	      	$aResponse['send_email'] = true;
+
+	      	// SEND EMAIL
+	      	$iIdUser = (!empty($oUser->iId)) ? $oUser->iId : null;
+	      	$sEmail = (!empty($oUser->sEmail)) ? $oUser->sEmail : '';
+	      	$sRegistrationCode = (!empty($oUser->sRegistrationCode)) ? $oUser->sRegistrationCode : '';
+	      	$iIdEmail = 2;
+	      	$sCode = Util::getRandomCode();
+
+	      	$aParameters = [$iIdUser, $sRegistrationCode];
+	      	$sUrl = constantGlobal::getConstant('EMAIL_CHECKIN_URL', $aParameters);
+	      	$sSubject = constantGlobal::getConstant('EMAIL_CHECKIN_SUBJECT');
+	      	$sSubject = str_replace("'", '"', $sSubject);
+	      	$aParameters = [$sUrl];
+	      	$sMessage = constantGlobal::getConstant('EMAIL_CHECKIN_MESSAGE', $aParameters);
+	      	$sMessage = str_replace("'", '"', $sMessage);
+
+	      	$oSendEmail->iId = null;
+	      	$oSendEmail->sEmail = $sEmail;
+	      	$oSendEmail->sCode = $sCode;
+	      	$oSendEmail->iIdEmail = $iIdEmail;
+	      	$oSendEmail->sSubject = $sSubject;
+	      	$oSendEmail->sMessage = $sMessage;
+	      	$oSendEmail->save();
+
+	      	$aEmailRow = [];
+	      	$aEmailRow['id'] = $oSendEmail->iId;
+	      	$aEmailRow['cod'] = $oSendEmail->sCode;
+	      	$oEmailRow = (object)$aEmailRow;
+
+	      	$aResponse['email'] = [$oEmailRow];
+	      	// END EMAIL
+	      }
+
+	      $oConnection->commit();
+	      $oConnection->close();
+	      
+	      return Util::getResponseArray(true, (object)$aResponse,
+	      	"OK", "OK");
+	    } catch (systemException $e) {
+	    	$oConnection->rollback();
+	    	$oConnection->close();
+
+	    	return Util::getResponseArray(false, (object)[],
+	    		$oUser->sMessageErr,
+	    		constantGlobal::CONTROLLED_EXCEPTION);
+	    } catch (Exception $e) {
+	    	$oConnection->rollback();
+	    	$oConnection->close();
+
+	    	return Util::getResponseArray(false, (object)[],
+		      	constantGlobal::CONTACT_SUPPORT,
+		        $e->getMessage());
+	    }
+	}
 
 	/*
 	*/
