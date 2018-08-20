@@ -29,10 +29,26 @@ class person extends model {
   /*
   */
   public function save(){
+    $this->validateData();
+
     if(is_null($this->iId)){
       $this->insert();
     }else{
       $this->update();
+    }
+  }
+
+  /*
+  */
+  public function validateData(){
+    if(empty($this->sName)){
+      $this->sMessageErr = 'Debes agregar un nombre para la persona.';
+      throw new systemException('', 1);
+    }
+
+    if(empty($this->sLastName)){
+      $this->sMessageErr = 'Debes agregar un apellido para la persona.';
+      throw new systemException('', 1);
     }
   }
 

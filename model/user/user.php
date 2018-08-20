@@ -152,6 +152,21 @@ class user extends model {
   public function validateData(){
     $this->sUser = (!empty($this->sUser)) ? str_replace(' ', '', $this->sUser) : '';
     $this->sEmail = (!empty($this->sEmail)) ? str_replace(' ', '', $this->sEmail) : '';
+
+    if(empty($this->sEmail)){
+      $this->sMessageErr = 'Debes agregar un email para el usuario.';
+      throw new systemException('', 1);
+    }
+
+    if(empty($this->sUser)){
+      $this->sMessageErr = 'Debes agregar una cuenta para el usuario.';
+      throw new systemException('', 1);
+    }
+
+    if(empty($this->sPassword)){
+      $this->sMessageErr = 'Debes agregar un password para el usuario.';
+      throw new systemException('', 1);
+    }
   }
 
   public function getUsersByIdPerson(){
