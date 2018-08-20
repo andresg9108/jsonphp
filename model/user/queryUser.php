@@ -31,7 +31,7 @@ const UPDATE = "UPDATE `user`
 			password='<4?>', 
 			status=<5?>, 
 			registration_code='<6?>', 
-			id_person=<7?> 
+			id_person=<7?>, 
 			id_profile=<8?>
 			WHERE id=<1?>;";
 

@@ -11,6 +11,52 @@ class userProxy extends proxy {
 
 	/*
 	*/
+	public static function validateEmailByCode($iIdUser, $sCodeUser){
+		try {
+	      $oConnection = connection::getInstance();
+	      $oConnection->connect();
+
+	      $oUser = user::getInstance($oConnection);
+	      $oUser->iId = $iIdUser;
+	      $oUser->load();
+	      $iId = (!empty($oUser->iId)) ? $oUser->iId : null;
+	      $sRegistrationCode = (!empty($oUser->sRegistrationCode)) ? $oUser->sRegistrationCode : '';
+
+	      $aResponse = [];
+	      $aResponse['valid'] = false;
+	      if(!is_null($iId) && !empty($sRegistrationCode && $sRegistrationCode == $sCodeUser)){
+	      	$aResponse['valid'] = true;
+	      	$sCode = Util::getRandomCode();
+	      	$oUser->iStatus = 1;
+	      	$oUser->sRegistrationCode = $sCode;
+	      	$oUser->update();
+	      }
+
+
+	      $oConnection->commit();
+	      $oConnection->close();
+	      
+	      return Util::getResponseArray(true, (object)$aResponse,
+	      	"OK", "OK");
+	    } catch (systemException $e) {
+	    	$oConnection->rollback();
+	    	$oConnection->close();
+
+	    	return Util::getResponseArray(false, (object)[],
+	    		$oUser->sMessageErr,
+	    		constantGlobal::CONTROLLED_EXCEPTION);
+	    } catch (Exception $e) {
+	    	$oConnection->rollback();
+	    	$oConnection->close();
+
+	    	return Util::getResponseArray(false, (object)[],
+		      	constantGlobal::CONTACT_SUPPORT,
+		        $e->getMessage());
+	    }
+	}
+
+	/*
+	*/
 	public static function validateEmailAndUser($sEmail, $sUser){
 		try {
 	      $oConnection = connection::getInstance();
