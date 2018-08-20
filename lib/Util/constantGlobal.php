@@ -14,7 +14,15 @@ class constantGlobal extends constant{
     // EMAIL
     const EMAIL_CHECKIN_URL = "http://localhost/jsonphp/testHTML/validateUser/?id=<1?>&code=<2?>";
     const EMAIL_CHECKIN_SUBJECT = "Thank you for registering";
-    const EMAIL_CHECKIN_MESSAGE = "<1?>";
+    
+    const EMAIL_CHECKIN_MESSAGE = "<a href='<1?>' 
+								    style='padding: 10px 20px; 
+								    text-decoration: none; 
+								    background-color: black; 
+								    color: white;' 
+								    target='_blank'>
+								    Validar correo electr&oacute;nico
+								    </a>";
 
 }
 

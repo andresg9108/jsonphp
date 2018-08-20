@@ -87,7 +87,7 @@ function checkInAction(){
 
                             console.log('Registro OK.');
                         }else{
-                            console.log(oResponse.text.client);
+                            console.log(oResponse);
                         }
                     })
                     .fail(function(){});
