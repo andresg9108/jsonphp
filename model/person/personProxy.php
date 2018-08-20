@@ -64,13 +64,14 @@ class personProxy extends proxy {
 		  }
 	      // END EMAIL
 
-	      $oResponse = [];
-	      $oResponse['email'] = $aEmail;
+	      $aResponse = [];
+	      $aResponse['registered'] = true;
+	      $aResponse['email'] = $aEmail;
 
 	      $oConnection->commit();
 	      $oConnection->close();
 	      
-	      return Util::getResponseArray(true, (object)$oResponse,
+	      return Util::getResponseArray(true, (object)$aResponse,
 	      	"OK", "OK");
 	    } catch (systemException $e) {
 	    	$oConnection->rollback();

@@ -14,10 +14,30 @@ $(function(){
     sDirmain = $("#dirmain").val();
 });
 
+/*
+*/
+function sendEmail(aEmail){
+    $.each(aEmail, function(i, v){
+        let iId = v.id;
+        let sCod = v.cod;
+
+        let sUrl3 = 'administration/email/send';
+        let oDatos3 = {
+            'id': iId,
+            'cod': sCod
+        };
+        $.post(g_sBackEnd+sUrl3,oDatos3);
+    });
+}
+
+/*
+*/
 function irA(sUrl, sParametersGet){
     location.href = sDirmain+sUrl+'?'+sParametersGet;
 }
 
+/*
+*/
 function irAw(sUrl){
     window.open(sUrl);
 }

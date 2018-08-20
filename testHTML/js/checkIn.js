@@ -7,15 +7,22 @@ $(function(){
 /*
 */
 function setView(){
+    sessionStorage.setItem(g_sSession+'session', '');
+    let sMessageErr = sessionStorage.getItem(g_sSession+'sessionMessage');
+    $("#messageerr").html(sMessageErr);
 }
 
 /*
 */
 function checkInAction(){
+    let sMessageErr = '';
+    sessionStorage.setItem(g_sSession+'sessionMessage', sMessageErr);
+
     let sFieldNameEmail = 'r_email';
     let sTextEmail = 'Ya hay un usuario registrado con este email.';
     let sFieldNameUser = 'r_user';
     let sTextUser = 'Elige otro nombre de usuario.';
+    
     if(validateCheckInAction()){
         let sName = $("#r_name").val();
         let sLastName = $("#r_last_name").val();
@@ -71,23 +78,24 @@ function checkInAction(){
                     .then(function(oResponse){
                         if(oResponse.status){
                             oResponse = oResponse.response;
+                            let bRegistered = oResponse.registered;
                             let aEmail = oResponse.email;
 
-                            $.each(aEmail, function(i, v){
-                                let iId = v.id;
-                                let sCod = v.cod;
-
-                                let sUrl3 = 'administration/email/send';
-                                let oDatos3 = {
-                                    'id': iId,
-                                    'cod': sCod
-                                };
-                                $.post(g_sBackEnd+sUrl3,oDatos3);
-                            });
-
-                            console.log('Registro OK.');
+                            if(bRegistered){
+                                $.when(sendEmail(aEmail))
+                                .then(function(oResponse){
+                                    irA('checkIn/confirm.html', '');
+                                })
+                                .fail(function(){});
+                            }else{
+                                sMessageErr = 'Ocurrió un error al intentar hacer el registro. Intentalo más tarde.';
+                                sessionStorage.setItem(g_sSession+'sessionMessage', sMessageErr);
+                                window.location.reload(true);
+                            }
                         }else{
-                            console.log(oResponse);
+                            sMessageErr = 'Ocurrió un error al intentar hacer el registro. Intentalo más tarde.';
+                            sessionStorage.setItem(g_sSession+'sessionMessage', sMessageErr);
+                            window.location.reload(true);
                         }
                     })
                     .fail(function(){});
