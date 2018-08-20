@@ -21,14 +21,41 @@ class personProxy extends proxy {
 	      $aUsersSet = (!empty($oPersonSet->users)) ? $oPersonSet->users : (object)[];
 
 	      $oPerson = person::getInstance($oConnection);
+	      $oSendEmail = sendEmail::getInstance($oConnection);
+	      $oUser = user::getInstance($oConnection);
+
+	      // INIT VALIDATE EMAIL AND USER
+	      foreach ($aUsersSet as $i => $v) {
+	      	$sEmail = (!empty($v->email)) ? $v->email : '';
+	      	$sUser = (!empty($v->user)) ? $v->user : '';
+
+	      	$bUser = false;
+	      	$oUser->iId = null;
+	      	$oUser->sUser = $sUser;
+	      	$oUser->loadXUser();
+	      	if(!is_null($oUser->iId)){ $bUser = true; }
+
+	      	$bEmail = false;
+	      	$oUser->iId = null;
+	      	$oUser->sEmail = $sEmail;
+	      	$oUser->loadXEmail();
+	      	if(!is_null($oUser->iId)){ $bEmail = true; }
+
+	      	if($bEmail){
+		      throw new systemException('', 1);
+		    }
+		    if($bUser){
+		      throw new systemException('', 1);
+		    }
+	      }
+	      // END VALIDATE EMAIL AND USER
+
 	      $oPerson->sName = $sName;
 	      $oPerson->sLastName = $sLastName;
 	      $oPerson->aUsers = $aUsersSet;
 	      $oPerson->save();
 
 	      // SEND EMAIL
-	      $oSendEmail = sendEmail::getInstance($oConnection);
-	      $oUser = user::getInstance($oConnection);
 	      $oUser->iIdPerson = $oPerson->iId;
 	      $aUser = $oUser->getUsersByIdPerson();
 
