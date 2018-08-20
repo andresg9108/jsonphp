@@ -44,10 +44,7 @@ class emailController extends controller {
           ,'', constantGlobal::ERROR_404);
       }
     } catch (ExpiredException $e) {
-      $aResponse = [];
-      $aResponse['session'] = false;
-
-      return $oResponse = Util::getResponseArray(true, (object)$aResponse
+      return $oResponse = Util::getResponseArray(false, (object)[]
         ,'', constantGlobal::ERROR_SESSION);
     } catch (Exception $e){
       return $oResponse = Util::getResponseArray(false, (object)[]
@@ -93,10 +90,7 @@ class emailController extends controller {
           echo "OK";
       }
     } catch (ExpiredException $e) {
-      $aResponse = [];
-      $aResponse['session'] = false;
-
-      return $oResponse = Util::getResponseArray(true, (object)$aResponse
+      return $oResponse = Util::getResponseArray(false, (object)[]
         ,'', constantGlobal::ERROR_SESSION);
     } catch (Exception $e){
       return $oResponse = Util::getResponseArray(false, (object)[]

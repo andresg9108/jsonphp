@@ -21,10 +21,7 @@ class publicDataController extends controller {
       $aResponse = appRegistrationProxy::save($oAppRegistration);
       return $aResponse;
     } catch (ExpiredException $e) {
-      $aResponse = [];
-      $aResponse['session'] = false;
-
-      return $oResponse = Util::getResponseArray(true, (object)$aResponse
+      return $oResponse = Util::getResponseArray(false, (object)[]
         ,'', constantGlobal::ERROR_SESSION);
     } catch (Exception $e){
       return $oResponse = Util::getResponseArray(false, (object)[]
