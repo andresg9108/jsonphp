@@ -57,6 +57,7 @@ class userController extends controller {
     try {
       $iId = (!empty($post->id)) ? $post->id : null;
       $sRegistrationCode = (!empty($post->registration_code)) ? $post->registration_code : '';
+      $sResponse = (!empty($post->response)) ? $post->response : '';
 
       $aAppRegistration = [];
       $aAppRegistration['id'] = $iId;
@@ -66,8 +67,9 @@ class userController extends controller {
       $oResponse = appRegistrationProxy::validateRegCod($oAppRegistration);
       $oResponse = $oResponse->response;
       $bValidate = (!empty($oResponse->validate)) ? $oResponse->validate : false;
+      $bReCaptcha = Util::getStatusReCaptchaHidden($sResponse);
 
-      if($bValidate){
+      if($bValidate && $bReCaptcha){
         $sUser = (!empty($post->user)) ? $post->user : '';
         $sPassword = (!empty($post->password)) ? $post->password : '';
 
