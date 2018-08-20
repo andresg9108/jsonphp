@@ -31,7 +31,9 @@ class userController extends controller {
       $bValidate = (!empty($oResponse->validate)) ? $oResponse->validate : false;
 
       if($bValidate){
-        return ['Hola Mundo'];
+        $sEmail = (!empty($post->email)) ? $post->email : '';
+
+        return userProxy::recoverPassword($sEmail);
       }else{
         return $oResponse = Util::getResponseArray(false, (object)[]
           ,'', constantGlobal::ERROR_404);

@@ -26,7 +26,7 @@ class constantGlobal extends constant{
 								    Validar correo electr&oacute;nico
 								    </a>";
 
-	const EMAIL_RECOVERPASSWORD_URL = "http://localhost/jsonphp/testHTML/recoverPassword/changePassword.html?id=<1?>&code=<2?>";
+	const EMAIL_RECOVERPASSWORD_URL = "http://localhost/jsonphp/testHTML/recoverPassword/changePassword/?id=<1?>&code=<2?>";
 
 	const EMAIL_RECOVERPASSWORD_SUBJECT = "Recuperar contrase&ntilde;a";
 

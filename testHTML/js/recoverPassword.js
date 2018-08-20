@@ -26,7 +26,8 @@ function recoverPasswordAction(){
 
 	        let oDatos2 = {
 	            'id': iId,
-	            'registration_code': sRegCod
+	            'registration_code': sRegCod,
+	            'email': sEmail
 	        };
 	        let sUrl2 = 'administration/user/recoverPassword';
 	        $.when($.post(g_sBackEnd+sUrl2, oDatos2))
