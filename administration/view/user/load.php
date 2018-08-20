@@ -9,6 +9,9 @@ $aResponse = Util::getResponseArray(false, (object)[]
 	,'', constantGlobal::ERROR_404);
 
 switch ($sAction) {
+	case 'recoverPassword':
+		$aResponse = $oUserController->recoverPasswordAction((object)$_GET, (object)$_POST);
+		break;
 	case 'validateEmailByCode':
 		$aResponse = $oUserController->validateEmailByCodeAction((object)$_GET, (object)$_POST);
 		break;

@@ -16,6 +16,37 @@ class userController extends controller {
 
   /*
   */
+  public function recoverPasswordAction($get, $post){
+    try {
+      $iId = (!empty($post->id)) ? $post->id : null;
+      $sRegistrationCode = (!empty($post->registration_code)) ? $post->registration_code : '';
+
+      $aAppRegistration = [];
+      $aAppRegistration['id'] = $iId;
+      $aAppRegistration['registration_code'] = $sRegistrationCode;
+      $oAppRegistration = (object)$aAppRegistration;
+
+      $oResponse = appRegistrationProxy::validateRegCod($oAppRegistration);
+      $oResponse = $oResponse->response;
+      $bValidate = (!empty($oResponse->validate)) ? $oResponse->validate : false;
+
+      if($bValidate){
+        return ['Hola Mundo'];
+      }else{
+        return $oResponse = Util::getResponseArray(false, (object)[]
+          ,'', constantGlobal::ERROR_404);
+      }
+    } catch (ExpiredException $e) {
+      return $oResponse = Util::getResponseArray(false, (object)[]
+        ,'', constantGlobal::ERROR_SESSION);
+    } catch (Exception $e){
+      return $oResponse = Util::getResponseArray(false, (object)[]
+        ,'', constantGlobal::ERROR_404);
+    }
+  }
+
+  /*
+  */
   public function validateEmailByCodeAction($get, $post){
     try {
       $iId = (!empty($post->id)) ? $post->id : null;
