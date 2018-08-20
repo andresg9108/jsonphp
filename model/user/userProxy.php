@@ -72,12 +72,13 @@ class userProxy extends proxy {
 	      $oUser->loadXUser();
 	      $sPasswordBD = $oUser->sPassword;
 	      $iStatus = $oUser->iStatus;
+	      $bStatus = ($iStatus == 1) ? true : false;
 
 	      $aResponse = [];
 	      if(!empty($sPasswordBD) && $sPassword === $sPasswordBD){
 	      	$aResponse['valid'] = true;
-	      	$aResponse['status'] = $iStatus;
-	      	if($iStatus == 1){
+	      	$aResponse['status'] = $bStatus;
+	      	if($bStatus){
 	      		$aObject = [];
 	      		$aObject['id'] = $oUser->iId;
 	      		$aObject['profile'] = $oUser->iIdProfile;
@@ -88,7 +89,7 @@ class userProxy extends proxy {
 	      	}
 	      }else{
 	      	$aResponse['valid'] = false;
-	      	$aResponse['status'] = 0;
+	      	$aResponse['status'] = false;
 	      }
 
 	      $oConnection->commit();
