@@ -24,7 +24,19 @@ function setView(){
         let sUrl2 = 'administration/user/validateEmailByCode';
         $.when($.post(g_sBackEnd+sUrl2, oDatos2))
         .then(function(oResponse){
-        	console.log(oResponse);
+        	if(oResponse.status){
+                oResponse = oResponse.response;
+                let bValid = oResponse.valid;
+
+                if(bValid){
+                    let sMessage = 'Has validado tu correo electrónico.';
+                    $("#validationMessage").html(sMessage);
+                }else{
+                    irA('', '');
+                }
+            }else{
+                irA('', '');
+            }
         })
         .fail(function(){});
     })
