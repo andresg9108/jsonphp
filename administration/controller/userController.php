@@ -16,6 +16,43 @@ class userController extends controller {
 
   /*
   */
+  public function validateSessionAction($get, $post){
+    try {
+      $iId = (!empty($post->id)) ? $post->id : null;
+      $sRegistrationCode = (!empty($post->registration_code)) ? $post->registration_code : '';
+
+      $aAppRegistration = [];
+      $aAppRegistration['id'] = $iId;
+      $aAppRegistration['registration_code'] = $sRegistrationCode;
+      $oAppRegistration = (object)$aAppRegistration;
+
+      $oResponse = appRegistrationProxy::validateRegCod($oAppRegistration);
+      $oResponse = $oResponse->response;
+      $bValidate = (!empty($oResponse->validate)) ? $oResponse->validate : false;
+
+      if($bValidate){
+        $sCode = (!empty($post->code)) ? $post->code : '';
+        $oObject = Util::getDecodeJWT($sCode);
+        $iId = (!empty($oObject->id)) ? $oObject->id : null;
+        $iProfile = (!empty($oObject->profile)) ? $oObject->profile : null;
+        
+        return $oResponse = Util::getResponseArray(true, (object)[]
+          ,'', '');
+      }else{
+        return $oResponse = Util::getResponseArray(false, (object)[]
+          ,'', constantGlobal::ERROR_404);
+      }
+    } catch (ExpiredException $e) {
+      return $oResponse = Util::getResponseArray(false, (object)[]
+        ,'', constantGlobal::ERROR_SESSION);
+    } catch (Exception $e){
+      return $oResponse = Util::getResponseArray(false, (object)[]
+        ,'', constantGlobal::ERROR_404);
+    }
+  }
+
+  /*
+  */
   public function validateEmailAndUserAction($get, $post){
     try {
       $iId = (!empty($post->id)) ? $post->id : null;

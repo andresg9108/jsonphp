@@ -9,6 +9,9 @@ $aResponse = Util::getResponseArray(false, (object)[]
 	,'', constantGlobal::ERROR_404);
 
 switch ($sAction) {
+	case 'validateSession':
+		$aResponse = $oUserController->validateSessionAction((object)$_GET, (object)$_POST);
+		break;
 	case 'validateEmailAndUser':
 		$aResponse = $oUserController->validateEmailAndUserAction((object)$_GET, (object)$_POST);
 		break;

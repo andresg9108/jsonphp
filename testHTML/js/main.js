@@ -31,7 +31,30 @@ function validateSession(){
         if(sSessionCode == ''){
             irA('', '');
         }else{
-            console.log(sSessionCode);
+            let oDatos = {};
+            let sUrl = 'administration/publicData/appRegistration';
+            $.when($.post(g_sBackEnd+sUrl, oDatos))
+            .then(function(oResponse){
+                let aResponse = oResponse.response;
+                let iId = aResponse.id;
+                let sRegCod = aResponse.registration_code;
+                sRegCod = getDecodeRegCod(sRegCod);
+
+                let oDatos2 = {
+                    'id': iId,
+                    'registration_code': sRegCod,
+                    'code': sSessionCode
+                };
+                let sUrl2 = 'administration/user/validateSession';
+                $.when($.post(g_sBackEnd+sUrl2, oDatos2))
+                .then(function(oResponse){
+                    if(!oResponse.status){
+                        irA('', '');
+                    }
+                })
+                .fail(function(){});
+            })
+            .fail(function(){});
         }
     }
 }
