@@ -6,12 +6,12 @@ use Firebase\JWT\JWT;
 
 class Util {
   public static $aMail = [
-    "name"=>"Name Email",
+    "name"=>"Test",
     "host"=>"smtp.example.net",
     "port"=>"80",
     //"port"=>"465",
     "username"=>"info@example.net",
-    "password"=>"InFod6"
+    "password"=>""
   ];
 
   public static $aConnection = [
