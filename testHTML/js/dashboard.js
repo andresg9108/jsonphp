@@ -7,4 +7,6 @@ $(function(){
 /*
 */
 function setView(){
+	sSessionCode = sessionStorage.getItem(g_sSession+'session');
+	validateSession();
 }

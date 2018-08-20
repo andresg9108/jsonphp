@@ -59,7 +59,7 @@ function logInAction(){
                             location.href = 'dashboardAdmin';
                         }else if(iProfile == 2){
                             sessionStorage.setItem(g_sSession+'session', sCode);
-                            location.href = 'dashboard';
+                            irA('dashboard', '');
                         }else{
                             sMessageErr = 'No tienes definido un perfil de usuario (Contacta con soporte).';
                             sessionStorage.setItem(g_sSession+'sessionMessage', sMessageErr);

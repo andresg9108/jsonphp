@@ -7,8 +7,34 @@ var g_sSession = 'sfavevf5fA';
 var g_iPrivateKey = 15628;
 var g_sPrivateKey = "a5vbFgFFG4Fd2";
 
+var sSessionCode;
+var sDirmain;
+
 $(function(){
+    sDirmain = $("#dirmain").val();
 });
+
+function irA(sUrl, sParametersGet){
+    location.href = sDirmain+sUrl+'?'+sParametersGet;
+}
+
+function irAw(sUrl){
+    window.open(sUrl);
+}
+
+/*
+*/
+function validateSession(){
+    if(sSessionCode == null){
+        irA('', '');
+    }else{
+        if(sSessionCode == ''){
+            irA('', '');
+        }else{
+            console.log(sSessionCode);
+        }
+    }
+}
 
 /*
 */
