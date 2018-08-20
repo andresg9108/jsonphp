@@ -5,8 +5,8 @@ $(function(){
 });
 
 function setView(){
-	let iId = getParameterBysName('id');
-	let sCode = getParameterBysName('code');
+	let iIdUser = getParameterBysName('id');
+	let sCodeUser = getParameterBysName('code');
 
 	let oDatos = {};
     let sUrl = 'administration/publicData/appRegistration';
@@ -19,7 +19,9 @@ function setView(){
 
         let oDatos2 = {
             'id': iId,
-            'registration_code': sRegCod
+            'registration_code': sRegCod,
+            'id_user': iIdUser,
+            'code_user': sCodeUser
         };
         let sUrl2 = 'administration/user/validateEmailByCode';
         $.when($.post(g_sBackEnd+sUrl2, oDatos2))
