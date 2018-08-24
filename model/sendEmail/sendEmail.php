@@ -16,14 +16,12 @@ class sendEmail extends model {
   public $sSubject;
   public $sMessage;
   public $iIdEmail;
-  public $sMessageErr;
 
   // Construct
   function __construct($oConnection){
     $this->oConnection = $oConnection;
 
     $this->iId = null;
-    $this->sMessageErr = '';
   }
   
   /*

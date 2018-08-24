@@ -16,14 +16,12 @@ class person extends model {
   public $sName;
   public $sLastName;
   public $aUsers;
-  public $sMessageErr;
 
   // Construct
   function __construct($oConnection){
     $this->oConnection = $oConnection;
 
     $this->iId = null;
-    $this->sMessageErr = '';
   }
 
   /*
@@ -42,12 +40,10 @@ class person extends model {
   */
   public function validateData(){
     if(empty($this->sName)){
-      $this->sMessageErr = 'Debes agregar un nombre para la persona.';
       throw new systemException('', 1);
     }
 
     if(empty($this->sLastName)){
-      $this->sMessageErr = 'Debes agregar un apellido para la persona.';
       throw new systemException('', 1);
     }
   }

@@ -13,14 +13,12 @@ class appRegistration extends model {
   private $oConnection;
   public $iId;
   public $sRegistrationCode;
-  public $sMessageErr;
 
   // Construct
   function __construct($oConnection){
     $this->oConnection = $oConnection;
 
     $this->iId = null;
-    $this->sMessageErr = '';
   }
 
   /*
