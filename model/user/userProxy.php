@@ -66,69 +66,22 @@ class userProxy extends proxy {
 	      $oConnection->commit();
 	      $oConnection->close();
 	      
-	      return Util::getResponseArray(true, (object)$aResponse,
-	      	"OK", "OK");
+	      return Util::getResponseArray(1, (object)$aResponse,
+	      	"Se ha enviado un email con los datos que corresponden a la recuperación de la contraseña.", 
+	      	constantGlobal::SUCCESSFUL_REQUEST);
 	    } catch (systemException $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();
-
-	    	return Util::getResponseArray(false, (object)[],
-	    		$oUser->sMessageErr,
-	    		constantGlobal::CONTROLLED_EXCEPTION);
+	    	return Util::getResponseArray(2, (object)[], $e->getMessage(), constantGlobal::CONTROLLED_EXCEPTION . '(Code: '.$e->getCode().')');
 	    } catch (Exception $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();
-
-	    	return Util::getResponseArray(false, (object)[],
-		      	constantGlobal::CONTACT_SUPPORT,
-		        $e->getMessage());
-	    }
-	}
-
-	/*
-	*/
-	public static function validateEmailByCode($iIdUser, $sCodeUser){
-		try {
-	      $oConnection = connection::getInstance();
-	      $oConnection->connect();
-
-	      $oUser = user::getInstance($oConnection);
-	      $oUser->iId = $iIdUser;
-	      $oUser->load();
-	      $iId = (!empty($oUser->iId)) ? $oUser->iId : null;
-	      $sRegistrationCode = (!empty($oUser->sRegistrationCode)) ? $oUser->sRegistrationCode : '';
-
-	      $aResponse = [];
-	      $aResponse['valid'] = false;
-	      if(!is_null($iId) && !empty($sRegistrationCode && $sRegistrationCode == $sCodeUser)){
-	      	$aResponse['valid'] = true;
-	      	$sCode = Util::getRandomCode();
-	      	$oUser->iStatus = 1;
-	      	$oUser->sRegistrationCode = $sCode;
-	      	$oUser->update();
-	      }
-
-
-	      $oConnection->commit();
-	      $oConnection->close();
-	      
-	      return Util::getResponseArray(true, (object)$aResponse,
-	      	"OK", "OK");
-	    } catch (systemException $e) {
+	    	return Util::getResponseArray(3, (object)[], constantGlobal::CONTACT_SUPPORT, '(Code: '.$e->getCode().')' . $e->getMessage());
+	    } catch (ExpiredException $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();
-
-	    	return Util::getResponseArray(false, (object)[],
-	    		$oUser->sMessageErr,
-	    		constantGlobal::CONTROLLED_EXCEPTION);
-	    } catch (Exception $e) {
-	    	$oConnection->rollback();
-	    	$oConnection->close();
-
-	    	return Util::getResponseArray(false, (object)[],
-		      	constantGlobal::CONTACT_SUPPORT,
-		        $e->getMessage());
-	    }
+	    	return Util::getResponseArray(4, (object)[], constantGlobal::ERROR_SESSION, constantGlobal::ERROR_SESSION);
+		}
 	}
 
 	/*
@@ -158,23 +111,22 @@ class userProxy extends proxy {
 	      $oConnection->commit();
 	      $oConnection->close();
 	      
-	      return Util::getResponseArray(true, (object)$aResponse,
-	      	"OK", "OK");
+	      return Util::getResponseArray(1, (object)$aResponse,
+	      	"", 
+	      	constantGlobal::SUCCESSFUL_REQUEST);
 	    } catch (systemException $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();
-
-	    	return Util::getResponseArray(false, (object)[],
-	    		$oUser->sMessageErr,
-	    		constantGlobal::CONTROLLED_EXCEPTION);
+	    	return Util::getResponseArray(2, (object)[], $e->getMessage(), constantGlobal::CONTROLLED_EXCEPTION . '(Code: '.$e->getCode().')');
 	    } catch (Exception $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();
-
-	    	return Util::getResponseArray(false, (object)[],
-		      	constantGlobal::CONTACT_SUPPORT,
-		        $e->getMessage());
-	    }
+	    	return Util::getResponseArray(3, (object)[], constantGlobal::CONTACT_SUPPORT, '(Code: '.$e->getCode().')' . $e->getMessage());
+	    } catch (ExpiredException $e) {
+	    	$oConnection->rollback();
+	    	$oConnection->close();
+	    	return Util::getResponseArray(4, (object)[], constantGlobal::ERROR_SESSION, constantGlobal::ERROR_SESSION);
+		}
 	}
 
 	/*
@@ -217,70 +169,21 @@ class userProxy extends proxy {
 	      $oConnection->commit();
 	      $oConnection->close();
 	      
-	      return Util::getResponseArray(true, (object)$aResponse,
-	      	"OK", "OK");
+	      return Util::getResponseArray(1, (object)$aResponse,
+	      	"", 
+	      	constantGlobal::SUCCESSFUL_REQUEST);
 	    } catch (systemException $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();
-
-	    	return Util::getResponseArray(false, (object)[],
-	    		$oUser->sMessageErr,
-	    		constantGlobal::CONTROLLED_EXCEPTION);
+	    	return Util::getResponseArray(2, (object)[], $e->getMessage(), constantGlobal::CONTROLLED_EXCEPTION . '(Code: '.$e->getCode().')');
 	    } catch (Exception $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();
-
-	    	return Util::getResponseArray(false, (object)[],
-		      	constantGlobal::CONTACT_SUPPORT,
-		        $e->getMessage());
-	    }
-	}
-
-	/*
-	*/
-	public static function validateEmail($oUserSet){
-		try {
-	      $oConnection = connection::getInstance();
-	      $oConnection->connect();
-
-	      $iId = (!empty($oUserSet->id)) ? $oUserSet->id : null;
-	      $sRegistrationCode = (!empty($oUserSet->registration_code)) ? $oUserSet->registration_code : '';
-
-	      $oUser = user::getInstance($oConnection);
-	      $oUser->iId = $iId;
-	      $oUser->load();
-	      $sRegistrationCodeBD = $oUser->sRegistrationCode;
-
-	      $aResponse = [];
-	      if(!empty($sRegistrationCodeBD) && $sRegistrationCode == $sRegistrationCodeBD){
-	      	$sRegistrationCode = Util::getRandomCode();
-	      	$oUser->sRegistrationCode = $sRegistrationCode;
-	      	$oUser->iStatus = 1;
-	      	$oUser->update();
-	      	$aResponse['valid'] = true;
-	      }else{
-	      	$aResponse['valid'] = false;
-	      }
-
-	      $oConnection->commit();
-	      $oConnection->close();
-	      
-	      return Util::getResponseArray(true, (object)$aResponse,
-	      	"OK", "OK");
-	    } catch (systemException $e) {
+	    	return Util::getResponseArray(3, (object)[], constantGlobal::CONTACT_SUPPORT, '(Code: '.$e->getCode().')' . $e->getMessage());
+	    } catch (ExpiredException $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();
-
-	    	return Util::getResponseArray(false, (object)[],
-	    		$oUser->sMessageErr,
-	    		constantGlobal::CONTROLLED_EXCEPTION);
-	    } catch (Exception $e) {
-	    	$oConnection->rollback();
-	    	$oConnection->close();
-
-	    	return Util::getResponseArray(false, (object)[],
-		      	constantGlobal::CONTACT_SUPPORT,
-		        $e->getMessage());
-	    }
+	    	return Util::getResponseArray(4, (object)[], constantGlobal::ERROR_SESSION, constantGlobal::ERROR_SESSION);
+		}
 	}
 }

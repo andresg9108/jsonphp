@@ -97,22 +97,21 @@ class personProxy extends proxy {
 	      $oConnection->commit();
 	      $oConnection->close();
 	      
-	      return Util::getResponseArray(true, (object)$aResponse,
-	      	"OK", "OK");
+	      return Util::getResponseArray(1, (object)$aResponse,
+	      	"El registro fue exitoso.", 
+	      	constantGlobal::SUCCESSFUL_REQUEST);
 	    } catch (systemException $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();
-
-	    	return Util::getResponseArray(false, (object)[],
-	    		$oPerson->sMessageErr,
-	    		constantGlobal::CONTROLLED_EXCEPTION);
+	    	return Util::getResponseArray(2, (object)[], $e->getMessage(), constantGlobal::CONTROLLED_EXCEPTION . '(Code: '.$e->getCode().')');
 	    } catch (Exception $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();
-
-	    	return Util::getResponseArray(false, (object)[],
-		      	constantGlobal::CONTACT_SUPPORT,
-		        $e->getMessage());
-	    }
+	    	return Util::getResponseArray(3, (object)[], constantGlobal::CONTACT_SUPPORT, '(Code: '.$e->getCode().')' . $e->getMessage());
+	    } catch (ExpiredException $e) {
+	    	$oConnection->rollback();
+	    	$oConnection->close();
+	    	return Util::getResponseArray(4, (object)[], constantGlobal::ERROR_SESSION, constantGlobal::ERROR_SESSION);
+		}
 	}
 }

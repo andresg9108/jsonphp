@@ -67,7 +67,7 @@ class userController extends controller {
         $iIdUser = (!empty($post->id_user)) ? $post->id_user : null;
         $sCodeUser = (!empty($post->code_user)) ? $post->code_user : '';
 
-        return userProxy::validateEmailByCode($iIdUser, $sCodeUser);
+        return [$iIdUser, $sCodeUser];
       }else{
         return $oResponse = Util::getResponseArray(false, (object)[]
           ,'', constantGlobal::ERROR_404);
