@@ -43,5 +43,3 @@ class constantGlobal extends constant{
 
 
 }
-
-?>

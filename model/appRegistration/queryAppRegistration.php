@@ -15,5 +15,3 @@ const LOAD = "SELECT `id`,
 const DELETE = "DELETE FROM `app_registration` WHERE `id`=<1?>;";
 
 }
-
-?>

@@ -37,5 +37,3 @@ class query {
 	    return $sQuery;
 	}
 }
-
-?>

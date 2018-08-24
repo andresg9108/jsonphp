@@ -168,5 +168,3 @@ class Util {
     return true;
   }
 }
-
-?>

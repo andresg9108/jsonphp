@@ -23,5 +23,3 @@ if(is_dir($sView)){
     ];
   	echo json_encode((object)$aResponse);
 }
-
-?>

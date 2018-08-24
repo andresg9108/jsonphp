@@ -189,5 +189,3 @@ class user extends model {
   }
 
 }
-
-?>

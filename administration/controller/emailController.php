@@ -40,7 +40,7 @@ class emailController extends controller {
 
         $this->sendEmail($oDatos);
       }else{
-        return $oResponse = Util::getResponseArray(false, (object)[]
+        return $oResponse = Util::getResponseArray(2, (object)[]
           ,'', constantGlobal::ERROR_404);
       }
     } catch (ExpiredException $e) {
@@ -108,5 +108,3 @@ class emailController extends controller {
   }
 
 }
-
-?>

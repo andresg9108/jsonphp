@@ -97,5 +97,3 @@ class person extends model {
   }
 
 }
-
-?>

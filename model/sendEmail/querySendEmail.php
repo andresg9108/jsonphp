@@ -15,5 +15,3 @@ const LOAD = "SELECT `id`, `registration_date`,
 const DELETE = "DELETE FROM `send_email` WHERE `id`=<1?>;";
 
 }
-
-?>

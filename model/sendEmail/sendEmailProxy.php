@@ -58,6 +58,3 @@ class sendEmailProxy extends proxy {
 	    }
 	}
 }
-
-?>
-

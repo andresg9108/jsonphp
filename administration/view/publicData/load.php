@@ -15,5 +15,3 @@ switch ($sAction) {
 }
 
 echo json_encode($aResponse);
-
-?>

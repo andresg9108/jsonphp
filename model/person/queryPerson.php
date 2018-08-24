@@ -9,5 +9,3 @@ class queryPerson extends query{
 const INSERT = "INSERT INTO `person`(`name`, `last_name`) VALUES ('<1?>', '<2?>');";
 
 }
-
-?>

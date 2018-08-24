@@ -43,5 +43,3 @@ const SELECT_BY_ID_PERSON = "SELECT `id`, `registration_date`,
 							WHERE `id_person`=<1?>;";
 
 }
-
-?>

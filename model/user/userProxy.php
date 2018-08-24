@@ -282,6 +282,3 @@ class userProxy extends proxy {
 	    }
 	}
 }
-
-?>
-

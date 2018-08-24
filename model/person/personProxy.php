@@ -115,6 +115,3 @@ class personProxy extends proxy {
 	    }
 	}
 }
-
-?>
-

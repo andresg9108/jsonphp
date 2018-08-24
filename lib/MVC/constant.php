@@ -22,5 +22,3 @@ class constant{
 	    return $sConstant;
 	}
 }
-
-?>

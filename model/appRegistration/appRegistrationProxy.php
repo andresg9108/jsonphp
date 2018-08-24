@@ -103,6 +103,3 @@ class appRegistrationProxy extends proxy {
 	    }
 	}
 }
-
-?>
-

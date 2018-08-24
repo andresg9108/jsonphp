@@ -39,5 +39,3 @@ class publicDataController extends controller {
   }
 
 }
-
-?>
