@@ -6,6 +6,7 @@ use \Exception;
 use \Firebase\JWT\{JWT, ExpiredException};
 use lib\MVC\controller;
 use lib\Util\{Util, constantGlobal};
+use model\systemException;
 use model\sendEmail\sendEmailProxy;
 
 class emailController extends controller {
@@ -43,12 +44,12 @@ class emailController extends controller {
         return $oResponse = Util::getResponseArray(2, (object)[]
           ,'', constantGlobal::ERROR_404);
       }
-    } catch (ExpiredException $e) {
-      return $oResponse = Util::getResponseArray(false, (object)[]
-        ,'', constantGlobal::ERROR_SESSION);
+    } catch (systemException $e) {
+      return $oResponse = Util::getResponseArray(2, (object)[], $e->getMessage(), constantGlobal::CONTROLLED_EXCEPTION . '(Code: '.$e->getCode().')');
     } catch (Exception $e){
-      return $oResponse = Util::getResponseArray(false, (object)[]
-        ,'', constantGlobal::ERROR_404);
+      return $oResponse = Util::getResponseArray(3, (object)[], constantGlobal::CONTACT_SUPPORT, '(Code: '.$e->getCode().')' . $e->getMessage());
+    } catch (ExpiredException $e) {
+      return $oResponse = Util::getResponseArray(4, (object)[], constantGlobal::ERROR_SESSION, constantGlobal::ERROR_SESSION);
     }
   }
 
@@ -89,12 +90,12 @@ class emailController extends controller {
       } else {
           echo "OK";
       }
-    } catch (ExpiredException $e) {
-      return $oResponse = Util::getResponseArray(false, (object)[]
-        ,'', constantGlobal::ERROR_SESSION);
+    } catch (systemException $e) {
+      return $oResponse = Util::getResponseArray(2, (object)[], $e->getMessage(), constantGlobal::CONTROLLED_EXCEPTION . '(Code: '.$e->getCode().')');
     } catch (Exception $e){
-      return $oResponse = Util::getResponseArray(false, (object)[]
-        ,'', constantGlobal::ERROR_404);
+      return $oResponse = Util::getResponseArray(3, (object)[], constantGlobal::CONTACT_SUPPORT, '(Code: '.$e->getCode().')' . $e->getMessage());
+    } catch (ExpiredException $e) {
+      return $oResponse = Util::getResponseArray(4, (object)[], constantGlobal::ERROR_SESSION, constantGlobal::ERROR_SESSION);
     }
   }
 

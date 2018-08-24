@@ -6,6 +6,7 @@ use \Exception;
 use \Firebase\JWT\{JWT, ExpiredException};
 use lib\MVC\controller;
 use lib\Util\{Util, constantGlobal};
+use model\systemException;
 use model\appRegistration\appRegistrationProxy;
 use model\person\personProxy;
 use model\user\userProxy;
@@ -35,15 +36,15 @@ class userController extends controller {
 
         return userProxy::recoverPassword($sEmail);
       }else{
-        return $oResponse = Util::getResponseArray(false, (object)[]
+        return $oResponse = Util::getResponseArray(2, (object)[]
           ,'', constantGlobal::ERROR_404);
       }
-    } catch (ExpiredException $e) {
-      return $oResponse = Util::getResponseArray(false, (object)[]
-        ,'', constantGlobal::ERROR_SESSION);
+    } catch (systemException $e) {
+      return $oResponse = Util::getResponseArray(2, (object)[], $e->getMessage(), constantGlobal::CONTROLLED_EXCEPTION . '(Code: '.$e->getCode().')');
     } catch (Exception $e){
-      return $oResponse = Util::getResponseArray(false, (object)[]
-        ,'', constantGlobal::ERROR_404);
+      return $oResponse = Util::getResponseArray(3, (object)[], constantGlobal::CONTACT_SUPPORT, '(Code: '.$e->getCode().')' . $e->getMessage());
+    } catch (ExpiredException $e) {
+      return $oResponse = Util::getResponseArray(4, (object)[], constantGlobal::ERROR_SESSION, constantGlobal::ERROR_SESSION);
     }
   }
 
@@ -69,15 +70,15 @@ class userController extends controller {
 
         return [$iIdUser, $sCodeUser];
       }else{
-        return $oResponse = Util::getResponseArray(false, (object)[]
+        return $oResponse = Util::getResponseArray(2, (object)[]
           ,'', constantGlobal::ERROR_404);
       }
-    } catch (ExpiredException $e) {
-      return $oResponse = Util::getResponseArray(false, (object)[]
-        ,'', constantGlobal::ERROR_SESSION);
+    } catch (systemException $e) {
+      return $oResponse = Util::getResponseArray(2, (object)[], $e->getMessage(), constantGlobal::CONTROLLED_EXCEPTION . '(Code: '.$e->getCode().')');
     } catch (Exception $e){
-      return $oResponse = Util::getResponseArray(false, (object)[]
-        ,'', constantGlobal::ERROR_404);
+      return $oResponse = Util::getResponseArray(3, (object)[], constantGlobal::CONTACT_SUPPORT, '(Code: '.$e->getCode().')' . $e->getMessage());
+    } catch (ExpiredException $e) {
+      return $oResponse = Util::getResponseArray(4, (object)[], constantGlobal::ERROR_SESSION, constantGlobal::ERROR_SESSION);
     }
   }
 
@@ -103,18 +104,19 @@ class userController extends controller {
         $iId = (!empty($oObject->id)) ? $oObject->id : null;
         $iProfile = (!empty($oObject->profile)) ? $oObject->profile : null;
         
-        return $oResponse = Util::getResponseArray(true, (object)[]
-          ,'', '');
+        return $oResponse = Util::getResponseArray(1, (object)[], 
+          'Datos de sesion correctos.', 
+          'Datos de sesion correctos.');
       }else{
-        return $oResponse = Util::getResponseArray(false, (object)[]
+        return $oResponse = Util::getResponseArray(2, (object)[]
           ,'', constantGlobal::ERROR_404);
       }
-    } catch (ExpiredException $e) {
-      return $oResponse = Util::getResponseArray(false, (object)[]
-        ,'', constantGlobal::ERROR_SESSION);
+    } catch (systemException $e) {
+      return $oResponse = Util::getResponseArray(2, (object)[], $e->getMessage(), constantGlobal::CONTROLLED_EXCEPTION . '(Code: '.$e->getCode().')');
     } catch (Exception $e){
-      return $oResponse = Util::getResponseArray(false, (object)[]
-        ,'', constantGlobal::ERROR_404);
+      return $oResponse = Util::getResponseArray(3, (object)[], constantGlobal::CONTACT_SUPPORT, '(Code: '.$e->getCode().')' . $e->getMessage());
+    } catch (ExpiredException $e) {
+      return $oResponse = Util::getResponseArray(4, (object)[], constantGlobal::ERROR_SESSION, constantGlobal::ERROR_SESSION);
     }
   }
 
@@ -140,15 +142,15 @@ class userController extends controller {
 
         return userProxy::validateEmailAndUser($sEmail, $sUser);
       }else{
-        return $oResponse = Util::getResponseArray(false, (object)[]
+        return $oResponse = Util::getResponseArray(2, (object)[]
           ,'', constantGlobal::ERROR_404);
       }
-    } catch (ExpiredException $e) {
-      return $oResponse = Util::getResponseArray(false, (object)[]
-        ,'', constantGlobal::ERROR_SESSION);
+    } catch (systemException $e) {
+      return $oResponse = Util::getResponseArray(2, (object)[], $e->getMessage(), constantGlobal::CONTROLLED_EXCEPTION . '(Code: '.$e->getCode().')');
     } catch (Exception $e){
-      return $oResponse = Util::getResponseArray(false, (object)[]
-        ,'', constantGlobal::ERROR_404);
+      return $oResponse = Util::getResponseArray(3, (object)[], constantGlobal::CONTACT_SUPPORT, '(Code: '.$e->getCode().')' . $e->getMessage());
+    } catch (ExpiredException $e) {
+      return $oResponse = Util::getResponseArray(4, (object)[], constantGlobal::ERROR_SESSION, constantGlobal::ERROR_SESSION);
     }
   }
 
@@ -181,15 +183,15 @@ class userController extends controller {
 
         return userProxy::validatelogIn($oUser);
       }else{
-        return $oResponse = Util::getResponseArray(false, (object)[]
+        return $oResponse = Util::getResponseArray(2, (object)[]
           ,'', constantGlobal::ERROR_404);
       }
-    } catch (ExpiredException $e) {
-      return $oResponse = Util::getResponseArray(false, (object)[]
-        ,'', constantGlobal::ERROR_SESSION);
+    } catch (systemException $e) {
+      return $oResponse = Util::getResponseArray(2, (object)[], $e->getMessage(), constantGlobal::CONTROLLED_EXCEPTION . '(Code: '.$e->getCode().')');
     } catch (Exception $e){
-      return $oResponse = Util::getResponseArray(false, (object)[]
-        ,'', constantGlobal::ERROR_404);
+      return $oResponse = Util::getResponseArray(3, (object)[], constantGlobal::CONTACT_SUPPORT, '(Code: '.$e->getCode().')' . $e->getMessage());
+    } catch (ExpiredException $e) {
+      return $oResponse = Util::getResponseArray(4, (object)[], constantGlobal::ERROR_SESSION, constantGlobal::ERROR_SESSION);
     }
   }
 
@@ -242,15 +244,15 @@ class userController extends controller {
 
         return personProxy::save($oPerson);
       }else{
-        return $oResponse = Util::getResponseArray(false, (object)[]
+        return $oResponse = Util::getResponseArray(2, (object)[]
           ,'', constantGlobal::ERROR_404);
       }
-    } catch (ExpiredException $e) {
-      return $oResponse = Util::getResponseArray(false, (object)[]
-        ,'', constantGlobal::ERROR_SESSION);
+    } catch (systemException $e) {
+      return $oResponse = Util::getResponseArray(2, (object)[], $e->getMessage(), constantGlobal::CONTROLLED_EXCEPTION . '(Code: '.$e->getCode().')');
     } catch (Exception $e){
-      return $oResponse = Util::getResponseArray(false, (object)[]
-        ,'', constantGlobal::ERROR_404);
+      return $oResponse = Util::getResponseArray(3, (object)[], constantGlobal::CONTACT_SUPPORT, '(Code: '.$e->getCode().')' . $e->getMessage());
+    } catch (ExpiredException $e) {
+      return $oResponse = Util::getResponseArray(4, (object)[], constantGlobal::ERROR_SESSION, constantGlobal::ERROR_SESSION);
     }
   }
 
