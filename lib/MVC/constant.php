@@ -18,6 +18,7 @@ class constant{
 			$sConstant = str_replace("<".($i+1)."?>", $v, $sConstant);
 	    }
 
+	    $sConstant = str_replace("'", '"', $sConstant);
 	    return $sConstant;
 	}
 }

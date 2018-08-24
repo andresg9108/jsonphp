@@ -70,10 +70,8 @@ class personProxy extends proxy {
 			$aParameters = [$iIdUser, $sRegistrationCode];
 	      	$sUrl = constantGlobal::getConstant('EMAIL_CHECKIN_URL', $aParameters);
 	      	$sSubject = constantGlobal::getConstant('EMAIL_CHECKIN_SUBJECT');
-	      	$sSubject = str_replace("'", '"', $sSubject);
 	      	$aParameters = [$sUrl];
 	      	$sMessage = constantGlobal::getConstant('EMAIL_CHECKIN_MESSAGE', $aParameters);
-	      	$sMessage = str_replace("'", '"', $sMessage);
 
 	      	$oSendEmail->iId = null;
 	      	$oSendEmail->sEmail = $sEmail;

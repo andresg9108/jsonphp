@@ -8,7 +8,7 @@ class Util {
   public static $aMail = [
     "name"=>"Test",
     "host"=>"smtp.example.net",
-    "port"=>"80",
+    "port"=>"25",
     //"port"=>"465",
     "username"=>"info@example.net",
     "password"=>""

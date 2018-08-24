@@ -33,7 +33,7 @@ class query {
 	      else
 	        $sQuery = str_replace("<".($i+1)."?>", $v, $sQuery);
 	    }
-
+	    
 	    return $sQuery;
 	}
 }
