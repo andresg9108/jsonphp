@@ -17,21 +17,12 @@ function validateTexto(sName, sText){
 */
 function validateEmail(sName, sText){
     let oObject = document.getElementById(sName);
+    let expr = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     $("#err"+sName).html('');
 
-    if (!validateValidMail(oObject.value)) {
+    if (!expr.test(oObject.value)){
         oObject.focus();
         $("#err"+sName).text(sText);
-        return false;
-    }
-    return true;
-}
-
-/*
-*/
-function validateValidMail(sEmail){
-    let sExpr = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-    if (!sExpr.test(sEmail)){
         return false;
     }
     return true;
