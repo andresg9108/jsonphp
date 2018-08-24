@@ -3,8 +3,9 @@
 namespace model\appRegistration;
 
 use \Exception;
-use lib\MVC\proxy;
+use \Firebase\JWT\{JWT, ExpiredException};
 use lib\Util\{Util, constantGlobal};
+use lib\MVC\proxy;
 use model\{connection, systemException};
 
 class appRegistrationProxy extends proxy {
@@ -37,23 +38,22 @@ class appRegistrationProxy extends proxy {
 	      $oConnection->commit();
 	      $oConnection->close();
 	      
-	      return Util::getResponseArray(true, (object)$oResponse,
-	      	"OK", "OK");
+	      return Util::getResponseArray(1, (object)$oResponse,
+	      	"", 
+	      	constantGlobal::SUCCESSFUL_REQUEST);
 	    } catch (systemException $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();
-
-	    	return Util::getResponseArray(false, (object)[],
-	    		$oAppRegistration->sMessageErr,
-	    		constantGlobal::CONTROLLED_EXCEPTION);
+	    	return Util::getResponseArray(2, (object)[], $e->getMessage(), constantGlobal::CONTROLLED_EXCEPTION);
 	    } catch (Exception $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();
-
-	    	return Util::getResponseArray(false, (object)[],
-		      	constantGlobal::CONTACT_SUPPORT,
-		        $e->getMessage());
-	    }
+	    	return Util::getResponseArray(3, (object)[], constantGlobal::CONTACT_SUPPORT, $e->getMessage());
+	    } catch (ExpiredException $e) {
+	    	$oConnection->rollback();
+	    	$oConnection->close();
+	    	return Util::getResponseArray(4, (object)[], constantGlobal::ERROR_SESSION, constantGlobal::ERROR_SESSION);
+		}
 	}
 
 	/*
@@ -84,22 +84,21 @@ class appRegistrationProxy extends proxy {
 	      $oConnection->commit();
 	      $oConnection->close();
 	      
-	      return Util::getResponseArray(true, (object)$oResponse,
-	      	"OK", "OK");
+	      return Util::getResponseArray(1, (object)$oResponse,
+	      	"", 
+	      	constantGlobal::SUCCESSFUL_REQUEST);
 	    } catch (systemException $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();
-
-	    	return Util::getResponseArray(false, (object)[],
-	    		$oAppRegistration->sMessageErr,
-	    		constantGlobal::CONTROLLED_EXCEPTION);
+	    	return Util::getResponseArray(2, (object)[], $e->getMessage(), constantGlobal::CONTROLLED_EXCEPTION);
 	    } catch (Exception $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();
-
-	    	return Util::getResponseArray(false, (object)[],
-		      	constantGlobal::CONTACT_SUPPORT,
-		        $e->getMessage());
-	    }
+	    	return Util::getResponseArray(3, (object)[], constantGlobal::CONTACT_SUPPORT, $e->getMessage());
+	    } catch (ExpiredException $e) {
+	    	$oConnection->rollback();
+	    	$oConnection->close();
+	    	return Util::getResponseArray(4, (object)[], constantGlobal::ERROR_SESSION, constantGlobal::ERROR_SESSION);
+		}
 	}
 }

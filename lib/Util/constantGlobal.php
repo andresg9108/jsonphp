@@ -8,8 +8,9 @@ class constantGlobal extends constant{
 
 	const CONTACT_SUPPORT = "Estamos teniendo problemas, contacta con soporte técnico.";
     const CONTROLLED_EXCEPTION = "Excepción contralada.";
+    const SUCCESSFUL_REQUEST = "Solicitud exitosa.";
     const ERROR_404 = "Error 404";
-    const ERROR_SESSION = "Session error";
+    const ERROR_SESSION = "No se pudo establecer la sesión.";
 
     // EMAIL
     const EMAIL_CHECKIN_URL = "http://localhost/jsonphp/testHTML/validateUser/?id=<1?>&code=<2?>";

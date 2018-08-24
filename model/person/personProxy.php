@@ -3,8 +3,9 @@
 namespace model\person;
 
 use \Exception;
-use lib\MVC\proxy;
+use \Firebase\JWT\{JWT, ExpiredException};
 use lib\Util\{Util, constantGlobal};
+use lib\MVC\proxy;
 use model\{connection, systemException};
 use model\user\user;
 use model\sendEmail\sendEmail;

@@ -2,8 +2,10 @@
 
 namespace model\sendEmail;
 
-use lib\MVC\proxy;
+use \Exception;
+use \Firebase\JWT\{JWT, ExpiredException};
 use lib\Util\{Util, constantGlobal};
+use lib\MVC\proxy;
 use model\{connection, systemException};
 use model\sendEmail\sendEmail;
 
