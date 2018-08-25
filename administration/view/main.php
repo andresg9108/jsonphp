@@ -14,7 +14,7 @@ if(is_dir($sView)){
   	require_once $sView."/load.php";
 }else{
 	$aResponse = (object)[
-      'status'=>false,
+      'status'=>2,
       'response'=>[],
       'text'=>[
       	'client'=>'Error', 

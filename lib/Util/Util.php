@@ -23,6 +23,7 @@ class Util {
     'database' => 'my_database',
     'encryption_red_cod' => true,
     'recaptcha' => false,
+    'php_errors' => true,
     'recaptcha_secret_key' => '6Ld7vmoUAAArJlmxnPc',
     'recaptcha_secret_key_hidden' => '6LdoshRlMcnEciKwUI5B',
     'maximum_session_time' => 86400, // (24*60*60 = 86400)
