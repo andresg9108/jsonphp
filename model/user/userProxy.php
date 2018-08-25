@@ -91,18 +91,22 @@ class userProxy extends proxy {
 	      $oConnection = connection::getInstance();
 	      $oConnection->connect();
 
+	      $sEmail = str_replace(' ', '', $sEmail);
+	      $sUser = str_replace(' ', '', $sUser);
+
 	      $oUser = user::getInstance($oConnection);
-	      $bUser = false;
-	      $oUser->iId = null;
-	      $oUser->sUser = $sUser;
-	      $oUser->loadXUser();
-	      if(!is_null($oUser->iId)){ $bUser = true; }
 
 	      $bEmail = false;
 	      $oUser->iId = null;
 	      $oUser->sEmail = $sEmail;
 	      $oUser->loadXEmail();
 	      if(!is_null($oUser->iId)){ $bEmail = true; }
+
+	      $bUser = false;
+	      $oUser->iId = null;
+	      $oUser->sUser = md5($sUser);
+	      $oUser->loadXUser();
+	      if(!is_null($oUser->iId)){ $bUser = true; }
 
 	      $aResponse = [];
 	      $aResponse['user'] = $bUser;

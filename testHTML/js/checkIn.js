@@ -39,7 +39,7 @@ function checkInAction(){
             oResponse1 = oResponse1[0].response;
             oResponse2 = oResponse2[0].response;
 
-            /*let iId1 = oResponse1.id;
+            let iId1 = oResponse1.id;
             let sRegCod1 = oResponse1.registration_code;
             sRegCod1 = getDecodeRegCod(sRegCod1);
 
@@ -56,7 +56,7 @@ function checkInAction(){
                 let bEmail = oResponse.email;
                 let bUser = oResponse.user;
 
-                if(!bEmail && !bUser){*/
+                if(!bEmail && !bUser){
                     let iId2 = oResponse2.id;
                     let sRegCod2 = oResponse2.registration_code;
                     sRegCod2 = getDecodeRegCod(sRegCod2);
@@ -93,7 +93,7 @@ function checkInAction(){
                         }
                     })
                     .fail(function(){});
-                /*}else{
+                }else{
                     if(bEmail){
                         $("#err"+sFieldNameEmail).html(sTextEmail);
                         let oObjectE = document.getElementById(sFieldNameEmail);
@@ -106,7 +106,7 @@ function checkInAction(){
                     }
                 }
             })
-            .fail(function(){});*/
+            .fail(function(){});
         })
         .fail(function(){});
     }
@@ -121,7 +121,7 @@ function validateCheckInAction(){
     let sFieldName2 = '';
     let sText = '';
 
-    /*sFieldName = 'name';
+    sFieldName = 'name';
     sText = 'Debes agregar un nombre.';
     if(!validateTexto(sFieldName, sText)){return false;}
 
@@ -153,7 +153,7 @@ function validateCheckInAction(){
     if(!validatePasswords(sFieldName, sFieldName2, sText)){ return false; }
 
     sText = "Debes completar el Captcha por seguridad.";
-    if(!validateReCaptcha(sText)){return false;}*/
+    if(!validateReCaptcha(sText)){return false;}
 
     return true;
 }
