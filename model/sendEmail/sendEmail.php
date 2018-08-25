@@ -2,7 +2,10 @@
 
 namespace model\sendEmail;
 
+use \Exception;
+use \Firebase\JWT\{JWT, ExpiredException};
 use lib\MVC\model;
+use model\{connection, systemException};
 use model\sendEmail\querySendEmail;
 
 class sendEmail extends model {
@@ -36,7 +39,26 @@ class sendEmail extends model {
 
   /*
   */
+  public function validateInsert(){
+    $this->validateData();
+  }
+
+  /*
+  */
+  public function validateUpdate(){
+    $this->validateData();
+  }
+
+  /*
+  */
+  public function validateData(){
+  }
+
+  /*
+  */
   public function insert(){
+    $this->validateInsert();
+
     $aParameters = [$this->sEmail, $this->sCode, $this->sSubject, $this->sMessage, $this->iIdEmail];
     $sQuery = querySendEmail::getQuery('INSERT', $aParameters);
 
@@ -47,6 +69,7 @@ class sendEmail extends model {
   /*
   */
   public function update(){
+    $this->validateUpdate();
   }
 
   /*

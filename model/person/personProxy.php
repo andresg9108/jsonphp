@@ -26,7 +26,7 @@ class personProxy extends proxy {
 	      $oUser = user::getInstance($oConnection);
 
 	      // INIT VALIDATE EMAIL AND USER
-	      foreach ($aUsersSet as $i => $v) {
+	      /*foreach ($aUsersSet as $i => $v) {
 	      	$sEmail = (!empty($v->email)) ? $v->email : '';
 	      	$sUser = (!empty($v->user)) ? $v->user : '';
 
@@ -43,12 +43,12 @@ class personProxy extends proxy {
 	      	if(!is_null($oUser->iId)){ $bEmail = true; }
 
 	      	if($bEmail){
-		      throw new systemException('', 1);
+		      throw new systemException('Ya se han registrado con esta cuenta de correo electrónico ('. $sEmail .').', 1);
 		    }
 		    if($bUser){
-		      throw new systemException('', 1);
+		      throw new systemException('Debes agregar un nombre de usuario diferente ('.$sUser .').', 1);
 		    }
-	      }
+	      }*/
 	      // END VALIDATE EMAIL AND USER
 
 	      $oPerson->sName = $sName;
@@ -61,7 +61,7 @@ class personProxy extends proxy {
 	      $aUser = $oUser->getUsersByIdPerson();
 
 	      $aEmail = [];
-	      foreach ($aUser as $i => $v){
+	      /*foreach ($aUser as $i => $v){
 			$iIdUser = (!empty($v->id)) ? $v->id : null;
 			$sEmail = (!empty($v->email)) ? $v->email : '';
 			$sRegistrationCode = (!empty($v->registration_code)) ? $v->registration_code : '';
@@ -87,7 +87,7 @@ class personProxy extends proxy {
 	      	$aEmailRow['cod'] = $oSendEmail->sCode;
 	      	$oEmailRow = (object)$aEmailRow;
 	      	$aEmail[] = $oEmailRow;
-		  }
+		  }*/
 	      // END EMAIL
 
 	      $aResponse = [];
@@ -103,11 +103,11 @@ class personProxy extends proxy {
 	    } catch (systemException $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();
-	    	return Util::getResponseArray(2, (object)[], $e->getMessage(), constantGlobal::CONTROLLED_EXCEPTION . '(Code: '.$e->getCode().')');
+	    	return $oResponse = Util::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessageWithCode());
 	    } catch (Exception $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();
-	    	return Util::getResponseArray(3, (object)[], constantGlobal::CONTACT_SUPPORT, '(Code: '.$e->getCode().')' . $e->getMessage());
+	    	return Util::getResponseArray(3, (object)[], constantGlobal::CONTACT_SUPPORT, '(Code: '.$e->getCode().') ' . $e->getMessage());
 	    } catch (ExpiredException $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();

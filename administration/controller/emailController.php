@@ -45,9 +45,9 @@ class emailController extends controller {
           ,'', constantGlobal::ERROR_404);
       }
     } catch (systemException $e) {
-      return $oResponse = Util::getResponseArray(2, (object)[], $e->getMessage(), constantGlobal::CONTROLLED_EXCEPTION . '(Code: '.$e->getCode().')');
+      return $oResponse = Util::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessageWithCode());
     } catch (Exception $e){
-      return $oResponse = Util::getResponseArray(3, (object)[], constantGlobal::CONTACT_SUPPORT, '(Code: '.$e->getCode().')' . $e->getMessage());
+      return $oResponse = Util::getResponseArray(3, (object)[], constantGlobal::CONTACT_SUPPORT, '(Code: '.$e->getCode().') ' . $e->getMessage());
     } catch (ExpiredException $e) {
       return $oResponse = Util::getResponseArray(4, (object)[], constantGlobal::ERROR_SESSION, constantGlobal::ERROR_SESSION);
     }
@@ -91,9 +91,9 @@ class emailController extends controller {
           echo "OK";
       }
     } catch (systemException $e) {
-      return $oResponse = Util::getResponseArray(2, (object)[], $e->getMessage(), constantGlobal::CONTROLLED_EXCEPTION . '(Code: '.$e->getCode().')');
+      return $oResponse = Util::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessageWithCode());
     } catch (Exception $e){
-      return $oResponse = Util::getResponseArray(3, (object)[], constantGlobal::CONTACT_SUPPORT, '(Code: '.$e->getCode().')' . $e->getMessage());
+      return $oResponse = Util::getResponseArray(3, (object)[], constantGlobal::CONTACT_SUPPORT, '(Code: '.$e->getCode().') ' . $e->getMessage());
     } catch (ExpiredException $e) {
       return $oResponse = Util::getResponseArray(4, (object)[], constantGlobal::ERROR_SESSION, constantGlobal::ERROR_SESSION);
     }

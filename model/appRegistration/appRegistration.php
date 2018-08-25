@@ -2,8 +2,11 @@
 
 namespace model\appRegistration;
 
+use \Exception;
+use \Firebase\JWT\{JWT, ExpiredException};
 use lib\MVC\model;
 use lib\Util\Util;
+use model\{connection, systemException};
 use model\appRegistration\queryAppRegistration;
 
 class appRegistration extends model {
@@ -33,6 +36,23 @@ class appRegistration extends model {
 
   /*
   */
+  public function validateInsert(){
+    $this->validateData();
+  }
+
+  /*
+  */
+  public function validateUpdate(){
+    $this->validateData();
+  }
+
+  /*
+  */
+  public function validateData(){
+  }
+
+  /*
+  */
   public function load(){
     $aParameters = [$this->iId];
     $sQuery = queryAppRegistration::getQuery('LOAD', $aParameters);
@@ -50,6 +70,8 @@ class appRegistration extends model {
   /*
   */
   public function insert(){
+    $this->validateInsert();
+
     $aParameters = [$this->sRegistrationCode];
     $sQuery = queryAppRegistration::getQuery('INSERT', $aParameters);
 
@@ -60,6 +82,7 @@ class appRegistration extends model {
   /*
   */
   public function update(){
+    $this->validateUpdate();
   }
 
   /*

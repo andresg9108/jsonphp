@@ -16,6 +16,30 @@ $(function(){
 
 /*
 */
+function updatePage(){
+    window.location.reload(true);
+}
+
+/*
+*/
+function setErrorMessage(sMessage){
+    sessionStorage.setItem(g_sSession+'message', sMessage);
+}
+
+/*
+*/
+function getErrorMessage(){
+    let sMessage = sessionStorage.getItem(g_sSession+'message');
+    sessionStorage.setItem(g_sSession+'message', '');
+    if(sMessage == null){
+        sMessage = '';
+    }
+
+    return sMessage;
+}
+
+/*
+*/
 function sendEmail(aEmail){
     $.each(aEmail, function(i, v){
         let iId = v.id;
@@ -32,13 +56,13 @@ function sendEmail(aEmail){
 
 /*
 */
-function irA(sUrl, sParametersGet){
+function goTo(sUrl, sParametersGet){
     location.href = sDirmain+sUrl+'?'+sParametersGet;
 }
 
 /*
 */
-function irAw(sUrl){
+function goTo_w(sUrl){
     window.open(sUrl);
 }
 

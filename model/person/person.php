@@ -2,8 +2,11 @@
 
 namespace model\person;
 
+use \Exception;
+use \Firebase\JWT\{JWT, ExpiredException};
 use lib\MVC\model;
 use lib\Util\Util;
+use model\{connection, systemException};
 use model\person\queryPerson;
 use model\user\user;
 
@@ -27,8 +30,6 @@ class person extends model {
   /*
   */
   public function save(){
-    $this->validateData();
-
     if(is_null($this->iId)){
       $this->insert();
     }else{
@@ -38,19 +39,33 @@ class person extends model {
 
   /*
   */
+  public function validateInsert(){
+    $this->validateData();
+  }
+
+  /*
+  */
+  public function validateUpdate(){
+    $this->validateData();
+  }
+
+  /*
+  */
   public function validateData(){
     if(empty($this->sName)){
-      throw new systemException('', 1);
+      throw new systemException('El campo nombre no puede estar vacío.', 1);
     }
 
     if(empty($this->sLastName)){
-      throw new systemException('', 1);
+      throw new systemException('El campo apellido no puede estar vacío.', 1);
     }
   }
 
   /*
   */
   public function insert(){
+    $this->validateInsert();
+
     $aParameters = [$this->sName, $this->sLastName];
     $sQuery = queryPerson::getQuery('INSERT', $aParameters);
 
@@ -81,6 +96,7 @@ class person extends model {
   /*
   */
   public function update(){
+    $this->validateUpdate();
   }
 
   /*

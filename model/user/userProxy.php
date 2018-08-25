@@ -72,11 +72,11 @@ class userProxy extends proxy {
 	    } catch (systemException $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();
-	    	return Util::getResponseArray(2, (object)[], $e->getMessage(), constantGlobal::CONTROLLED_EXCEPTION . '(Code: '.$e->getCode().')');
+	    	return $oResponse = Util::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessageWithCode());
 	    } catch (Exception $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();
-	    	return Util::getResponseArray(3, (object)[], constantGlobal::CONTACT_SUPPORT, '(Code: '.$e->getCode().')' . $e->getMessage());
+	    	return Util::getResponseArray(3, (object)[], constantGlobal::CONTACT_SUPPORT, '(Code: '.$e->getCode().') ' . $e->getMessage());
 	    } catch (ExpiredException $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();
@@ -117,11 +117,11 @@ class userProxy extends proxy {
 	    } catch (systemException $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();
-	    	return Util::getResponseArray(2, (object)[], $e->getMessage(), constantGlobal::CONTROLLED_EXCEPTION . '(Code: '.$e->getCode().')');
+	    	return $oResponse = Util::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessageWithCode());
 	    } catch (Exception $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();
-	    	return Util::getResponseArray(3, (object)[], constantGlobal::CONTACT_SUPPORT, '(Code: '.$e->getCode().')' . $e->getMessage());
+	    	return Util::getResponseArray(3, (object)[], constantGlobal::CONTACT_SUPPORT, '(Code: '.$e->getCode().') ' . $e->getMessage());
 	    } catch (ExpiredException $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();
@@ -175,11 +175,11 @@ class userProxy extends proxy {
 	    } catch (systemException $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();
-	    	return Util::getResponseArray(2, (object)[], $e->getMessage(), constantGlobal::CONTROLLED_EXCEPTION . '(Code: '.$e->getCode().')');
+	    	return $oResponse = Util::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessageWithCode());
 	    } catch (Exception $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();
-	    	return Util::getResponseArray(3, (object)[], constantGlobal::CONTACT_SUPPORT, '(Code: '.$e->getCode().')' . $e->getMessage());
+	    	return Util::getResponseArray(3, (object)[], constantGlobal::CONTACT_SUPPORT, '(Code: '.$e->getCode().') ' . $e->getMessage());
 	    } catch (ExpiredException $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();

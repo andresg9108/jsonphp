@@ -2,7 +2,10 @@
 
 namespace model\user;
 
+use \Exception;
+use \Firebase\JWT\{JWT, ExpiredException};
 use lib\MVC\model;
+use model\{connection, systemException};
 use model\user\queryUser;
 
 class user extends model {
@@ -29,9 +32,6 @@ class user extends model {
   /*
   */
   public function save(){
-    $this->validateData();
-
-
     if(is_null($this->iId)){
       $this->insert();
     }else{
@@ -42,6 +42,8 @@ class user extends model {
   /*
   */
   public function insert(){
+    $this->validateInsert();
+
     $aParameters = [$this->sEmail, $this->sUser, $this->sPassword, $this->iStatus, $this->sRegistrationCode, $this->iIdPerson, $this->iIdProfile];
     $sQuery = queryUser::getQuery('INSERT', $aParameters);
 
@@ -52,6 +54,8 @@ class user extends model {
   /*
   */
   public function update(){
+    $this->validateUpdate();
+
     $aParameters = [$this->iId, $this->sEmail, $this->sUser, $this->sPassword, $this->iStatus, $this->sRegistrationCode, $this->iIdPerson, $this->iIdProfile];
     $sQuery = queryUser::getQuery('UPDATE', $aParameters);
     
@@ -147,12 +151,24 @@ class user extends model {
 
   /*
   */
+  public function validateInsert(){
+    $this->validateData();
+  }
+
+  /*
+  */
+  public function validateUpdate(){
+    $this->validateData();
+  }
+
+  /*
+  */
   public function validateData(){
     $this->sUser = (!empty($this->sUser)) ? str_replace(' ', '', $this->sUser) : '';
     $this->sEmail = (!empty($this->sEmail)) ? str_replace(' ', '', $this->sEmail) : '';
 
     if(empty($this->sEmail)){
-      throw new systemException('', 1);
+      throw new systemException('El campo email no puede estar vacío.', 1);
     }
 
     if(empty($this->sUser)){

@@ -7,16 +7,14 @@ $(function(){
 /*
 */
 function setView(){
-    sessionStorage.setItem(g_sSession+'session', '');
-    let sMessageErr = sessionStorage.getItem(g_sSession+'sessionMessage');
-    $("#messageerr").html(sMessageErr);
+    let sMessage = getErrorMessage();
+    $("#messageerr").html(sMessage);
 }
 
 /*
 */
 function checkInAction(){
     let sMessageErr = '';
-    sessionStorage.setItem(g_sSession+'sessionMessage', sMessageErr);
 
     let sFieldNameEmail = 'r_email';
     let sTextEmail = 'Ya hay un usuario registrado con este email.';
@@ -41,7 +39,7 @@ function checkInAction(){
             oResponse1 = oResponse1[0].response;
             oResponse2 = oResponse2[0].response;
 
-            let iId1 = oResponse1.id;
+            /*let iId1 = oResponse1.id;
             let sRegCod1 = oResponse1.registration_code;
             sRegCod1 = getDecodeRegCod(sRegCod1);
 
@@ -58,7 +56,7 @@ function checkInAction(){
                 let bEmail = oResponse.email;
                 let bUser = oResponse.user;
 
-                if(!bEmail && !bUser){
+                if(!bEmail && !bUser){*/
                     let iId2 = oResponse2.id;
                     let sRegCod2 = oResponse2.registration_code;
                     sRegCod2 = getDecodeRegCod(sRegCod2);
@@ -76,30 +74,27 @@ function checkInAction(){
                     let sUrl2 = 'administration/user/checkIn';
                     $.when($.post(g_sBackEnd+sUrl2, oDatos2))
                     .then(function(oResponse){
-                        if(oResponse.status){
+                        console.log(oResponse);
+
+                        if(oResponse.status == 1){
                             oResponse = oResponse.response;
                             let bRegistered = oResponse.registered;
                             let aEmail = oResponse.email;
+                            let sResponse = oResponse.text.client;
 
-                            if(bRegistered){
-                                $.when(sendEmail(aEmail))
-                                .then(function(oResponse){
-                                    irA('checkIn/confirm.html', '');
-                                })
-                                .fail(function(){});
-                            }else{
-                                sMessageErr = 'Ocurrió un error al intentar hacer el registro. Intentalo más tarde.';
-                                sessionStorage.setItem(g_sSession+'sessionMessage', sMessageErr);
-                                window.location.reload(true);
-                            }
-                        }else{
-                            sMessageErr = 'Ocurrió un error al intentar hacer el registro. Intentalo más tarde.';
-                            sessionStorage.setItem(g_sSession+'sessionMessage', sMessageErr);
-                            window.location.reload(true);
+                            $.when(sendEmail(aEmail))
+                            .then(function(oResponse){
+                                setErrorMessage(sResponse);
+                                updatePage();
+                            })
+                            .fail(function(){});
+                        }else if(oResponse.status > 1){
+                            setErrorMessage(oResponse.text.client);
+                            updatePage();
                         }
                     })
                     .fail(function(){});
-                }else{
+                /*}else{
                     if(bEmail){
                         $("#err"+sFieldNameEmail).html(sTextEmail);
                         let oObjectE = document.getElementById(sFieldNameEmail);
@@ -112,7 +107,7 @@ function checkInAction(){
                     }
                 }
             })
-            .fail(function(){});
+            .fail(function(){});*/
         })
         .fail(function(){});
     }
@@ -127,7 +122,7 @@ function validateCheckInAction(){
     let sFieldName2 = '';
     let sText = '';
 
-    sFieldName = 'r_name';
+    /*sFieldName = 'r_name';
     sText = 'Debes agregar un nombre.';
     if(!validateTexto(sFieldName, sText)){return false;}
 
@@ -159,7 +154,7 @@ function validateCheckInAction(){
     if(!validatePasswords(sFieldName, sFieldName2, sText)){ return false; }
 
     sText = "Debes completar el Captcha por seguridad.";
-    if(!validateReCaptcha(sText)){return false;}
+    if(!validateReCaptcha(sText)){return false;}*/
 
     return true;
 }
