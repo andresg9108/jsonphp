@@ -224,7 +224,6 @@ class userController extends controller {
         $sLastName = Util::getFilterCharacters($sLastName);
         $sEmail = Util::getFilterCharacters($sEmail);
         $sUser = Util::getFilterCharacters($sUser);
-        $sPassword = md5($sPassword);
 
         $sRegistrationCode = Util::getRandomCode();
         $aUser = [];

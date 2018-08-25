@@ -25,32 +25,6 @@ class personProxy extends proxy {
 	      $oSendEmail = sendEmail::getInstance($oConnection);
 	      $oUser = user::getInstance($oConnection);
 
-	      // INIT VALIDATE EMAIL AND USER
-	      /*foreach ($aUsersSet as $i => $v) {
-	      	$sEmail = (!empty($v->email)) ? $v->email : '';
-	      	$sUser = (!empty($v->user)) ? $v->user : '';
-
-	      	$bUser = false;
-	      	$oUser->iId = null;
-	      	$oUser->sUser = $sUser;
-	      	$oUser->loadXUser();
-	      	if(!is_null($oUser->iId)){ $bUser = true; }
-
-	      	$bEmail = false;
-	      	$oUser->iId = null;
-	      	$oUser->sEmail = $sEmail;
-	      	$oUser->loadXEmail();
-	      	if(!is_null($oUser->iId)){ $bEmail = true; }
-
-	      	if($bEmail){
-		      throw new systemException('Ya se han registrado con esta cuenta de correo electrónico ('. $sEmail .').', 1);
-		    }
-		    if($bUser){
-		      throw new systemException('Debes agregar un nombre de usuario diferente ('.$sUser .').', 1);
-		    }
-	      }*/
-	      // END VALIDATE EMAIL AND USER
-
 	      $oPerson->sName = $sName;
 	      $oPerson->sLastName = $sLastName;
 	      $oPerson->aUsers = $aUsersSet;
@@ -61,7 +35,7 @@ class personProxy extends proxy {
 	      $aUser = $oUser->getUsersByIdPerson();
 
 	      $aEmail = [];
-	      /*foreach ($aUser as $i => $v){
+	      foreach ($aUser as $i => $v){
 			$iIdUser = (!empty($v->id)) ? $v->id : null;
 			$sEmail = (!empty($v->email)) ? $v->email : '';
 			$sRegistrationCode = (!empty($v->registration_code)) ? $v->registration_code : '';
@@ -87,11 +61,10 @@ class personProxy extends proxy {
 	      	$aEmailRow['cod'] = $oSendEmail->sCode;
 	      	$oEmailRow = (object)$aEmailRow;
 	      	$aEmail[] = $oEmailRow;
-		  }*/
+		  }
 	      // END EMAIL
 
 	      $aResponse = [];
-	      $aResponse['registered'] = true;
 	      $aResponse['email'] = $aEmail;
 
 	      $oConnection->commit();

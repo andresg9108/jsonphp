@@ -7,11 +7,11 @@ use Firebase\JWT\JWT;
 class Util {
   public static $aMail = [
     "name"=>"Test",
-    "host"=>"smtpout.secureserver.net",
+    "host"=>"smtp.example.net",
     "port"=>"25",
     //"port"=>"465",
-    "username"=>"info@vendapues.net",
-    "password"=>"InFod6-9D5e89"
+    "username"=>"info@example.net",
+    "password"=>""
   ];
 
   public static $aConnection = [

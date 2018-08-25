@@ -16,17 +16,17 @@ function setView(){
 function checkInAction(){
     let sMessageErr = '';
 
-    let sFieldNameEmail = 'r_email';
+    let sFieldNameEmail = 'email';
     let sTextEmail = 'Ya hay un usuario registrado con este email.';
-    let sFieldNameUser = 'r_user';
+    let sFieldNameUser = 'user';
     let sTextUser = 'Elige otro nombre de usuario.';
     
     if(validateCheckInAction()){
-        let sName = $("#r_name").val();
-        let sLastName = $("#r_last_name").val();
-        let sEmail = $("#r_email").val();
-        let sUser = $("#r_user").val();
-        let sPassword = $("#r_password").val();
+        let sName = $("#name").val();
+        let sLastName = $("#last_name").val();
+        let sEmail = $("#email").val();
+        let sUser = $("#user").val();
+        let sPassword = $("#password").val();
         let sResponse = '';
         if(g_bReCaptcha){
             sResponse = $("#g-recaptcha-response").val();
@@ -77,10 +77,9 @@ function checkInAction(){
                         console.log(oResponse);
 
                         if(oResponse.status == 1){
-                            oResponse = oResponse.response;
-                            let bRegistered = oResponse.registered;
-                            let aEmail = oResponse.email;
                             let sResponse = oResponse.text.client;
+                            oResponse = oResponse.response;
+                            let aEmail = oResponse.email;
 
                             $.when(sendEmail(aEmail))
                             .then(function(oResponse){
@@ -122,34 +121,34 @@ function validateCheckInAction(){
     let sFieldName2 = '';
     let sText = '';
 
-    /*sFieldName = 'r_name';
+    /*sFieldName = 'name';
     sText = 'Debes agregar un nombre.';
     if(!validateTexto(sFieldName, sText)){return false;}
 
-    sFieldName = 'r_last_name';
+    sFieldName = 'last_name';
     sText = 'Debes agregar un apellido.';
     if(!validateTexto(sFieldName, sText)){return false;}
 
-    sFieldName = 'r_email';
+    sFieldName = 'email';
     sText = 'Debes agregar un email.';
     if(!validateTexto(sFieldName, sText)){return false;}
     sText = 'Agrega un email válido.';
     if(!validateEmail(sFieldName, sText)){return false;}
 
-    sFieldName = 'r_user';
+    sFieldName = 'user';
     sText = 'Debes agregar un usuario.';
     if(!validateTexto(sFieldName, sText)){return false;}
 
-    sFieldName = 'r_password';
+    sFieldName = 'password';
     sText = 'Debes agregar un password.';
     if(!validateTexto(sFieldName, sText)){return false;}
 
-    sFieldName = 'r_rpassword';
+    sFieldName = 'rpassword';
     sText = 'Debes repetir el password.';
     if(!validateTexto(sFieldName, sText)){return false;}
 
-    sFieldName = 'r_password';
-    sFieldName2 = 'r_rpassword';
+    sFieldName = 'password';
+    sFieldName2 = 'rpassword';
     sText = 'Las contraseñas no coinciden.';
     if(!validatePasswords(sFieldName, sFieldName2, sText)){ return false; }
 

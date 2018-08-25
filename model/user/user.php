@@ -166,18 +166,40 @@ class user extends model {
   public function validateData(){
     $this->sUser = (!empty($this->sUser)) ? str_replace(' ', '', $this->sUser) : '';
     $this->sEmail = (!empty($this->sEmail)) ? str_replace(' ', '', $this->sEmail) : '';
+    $sUser = $this->sUser;
+    $sPassword = $this->sPassword;
+    $this->sUser = md5($this->sUser);
+    $this->sPassword = md5($this->sPassword);
 
     if(empty($this->sEmail)){
-      throw new systemException('El campo email no puede estar vacío.', 1);
+      throw new systemException('Debes enviar un email.', 1);
     }
 
-    if(empty($this->sUser)){
-      throw new systemException('', 1);
+    if(empty($sUser)){
+      throw new systemException('Debes enviar un usuario.', 1);
     }
 
-    if(empty($this->sPassword)){
-      throw new systemException('', 1);
+    if(empty($sPassword)){
+      throw new systemException('Debes enviar una contraseña.', 1);
     }
+
+    $oUser = clone $this;
+
+    $oUser->iId = null;
+    $oUser->sEmail = $this->sEmail;
+    $oUser->loadXEmail();
+    if(!is_null($oUser->iId)){
+      throw new systemException('Ya se registró alguien con este email ('.$this->sEmail.'). Si este es tu email, ve a la sección recuperar contraseña.', 1);
+    }
+
+    $oUser->iId = null;
+    $oUser->sUser = $this->sUser;
+    $oUser->loadXUser();
+    if(!is_null($oUser->iId)){
+      throw new systemException('Debes enviar un usuario diferente, ya se a registrado alguien con: '. $sUser, 1);
+    }
+
+    unset($oUser);
   }
 
   public function getUsersByIdPerson(){

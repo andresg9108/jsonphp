@@ -53,11 +53,11 @@ class person extends model {
   */
   public function validateData(){
     if(empty($this->sName)){
-      throw new systemException('El campo nombre no puede estar vacío.', 1);
+      throw new systemException('Debes enviar un nombre.', 1);
     }
 
     if(empty($this->sLastName)){
-      throw new systemException('El campo apellido no puede estar vacío.', 1);
+      throw new systemException('Debes enviar un apellido.', 1);
     }
   }
 
