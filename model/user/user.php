@@ -192,6 +192,10 @@ class user extends model {
       throw new systemException('Debes enviar un usuario valido e incluir al menos 5 caracteres. Caracteres permitidos: a, b, c... 0, 1, 2, 3... guion (-), guion bajo (_) y punto (.). No incluyas acentos del español (Ej: á), la letra ñ, ni espacios.');
     }
 
+    if(!Util::validatePassword($sPassword)){
+      throw new systemException('La contraseña se debe enviar con al menos 5 caracteres.');
+    }
+
     $oUser = clone $this;
 
     $oUser->iId = null;

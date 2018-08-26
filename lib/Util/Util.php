@@ -198,4 +198,14 @@ class Util {
 
     return $bResponse;
   }
+
+  /*
+  */
+  public static function validatePassword($sPassword){
+    $sExp = "/^.{5,}$/i";
+    $iResponse = preg_match($sExp, $sPassword);
+    $bResponse = ($iResponse == 1) ? true : false;
+
+    return $bResponse;
+  }
 }

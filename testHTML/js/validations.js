@@ -100,14 +100,34 @@ function validateReCaptcha(sText){
     return true;
 }
 
+/*
+*/
 function validatePasswords(sNameP1, sNameP2, sText){
     let oPassword1 = document.getElementById(sNameP1);
     let oPassword2 = document.getElementById(sNameP2);
+    $("#err"+sNameP1).html('');
+    $("#err"+sNameP2).html('');
 
     if(oPassword1.value != oPassword2.value){
         oPassword2.focus();
         $("#err"+sNameP2).text(sText);
 
+        return false;
+    }
+
+    return true;
+}
+
+/*
+*/
+function validatePassword(sName, sText){
+    let oObject = document.getElementById(sName);
+    let expr = /^.{5,}$/i;
+    $("#err"+sName).html('');
+    
+    if(!expr.test(oObject.value)){
+        oObject.focus();
+        $("#err"+sName).text(sText);
         return false;
     }
 

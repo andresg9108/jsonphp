@@ -146,11 +146,13 @@ function validateCheckInAction(){
     if(!validateUsername(sFieldName, sText)){return false;}
 
     sFieldName = 'password';
-    sText = 'Debes agregar un password.';
+    sText = 'Debes agregar una contraseña.';
     if(!validateTexto(sFieldName, sText)){return false;}
+    sText = 'La contraseña debe tener al menos 5 caracteres.';
+    if(!validatePassword(sFieldName, sText)){ return false; }
 
     sFieldName = 'rpassword';
-    sText = 'Debes repetir el password.';
+    sText = 'Debes repetir la contraseña.';
     if(!validateTexto(sFieldName, sText)){return false;}
 
     sFieldName = 'password';
