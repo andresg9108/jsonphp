@@ -44,7 +44,7 @@ class appRegistrationProxy extends proxy {
 	    } catch (systemException $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();
-	    	return $oResponse = Util::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessageWithCode());
+	    	return $oResponse = Util::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessage());
 	    } catch (Exception $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();
@@ -90,7 +90,7 @@ class appRegistrationProxy extends proxy {
 	    } catch (systemException $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();
-	    	return $oResponse = Util::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessageWithCode());
+	    	return $oResponse = Util::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessage());
 	    } catch (Exception $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();

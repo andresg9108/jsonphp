@@ -40,7 +40,7 @@ class userController extends controller {
           ,'', constantGlobal::ERROR_404);
       }
     } catch (systemException $e) {
-      return $oResponse = Util::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessageWithCode());
+      return $oResponse = Util::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessage());
     } catch (Exception $e){
       return $oResponse = Util::getResponseArray(3, (object)[], constantGlobal::CONTACT_SUPPORT, '(Code: '.$e->getCode().') ' . $e->getMessage());
     } catch (ExpiredException $e) {
@@ -74,7 +74,7 @@ class userController extends controller {
           ,'', constantGlobal::ERROR_404);
       }
     } catch (systemException $e) {
-      return $oResponse = Util::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessageWithCode());
+      return $oResponse = Util::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessage());
     } catch (Exception $e){
       return $oResponse = Util::getResponseArray(3, (object)[], constantGlobal::CONTACT_SUPPORT, '(Code: '.$e->getCode().') ' . $e->getMessage());
     } catch (ExpiredException $e) {
@@ -112,7 +112,7 @@ class userController extends controller {
           ,'', constantGlobal::ERROR_404);
       }
     } catch (systemException $e) {
-      return $oResponse = Util::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessageWithCode());
+      return $oResponse = Util::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessage());
     } catch (Exception $e){
       return $oResponse = Util::getResponseArray(3, (object)[], constantGlobal::CONTACT_SUPPORT, '(Code: '.$e->getCode().') ' . $e->getMessage());
     } catch (ExpiredException $e) {
@@ -146,7 +146,7 @@ class userController extends controller {
           ,'', constantGlobal::ERROR_404);
       }
     } catch (systemException $e) {
-      return $oResponse = Util::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessageWithCode());
+      return $oResponse = Util::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessage());
     } catch (Exception $e){
       return $oResponse = Util::getResponseArray(3, (object)[], constantGlobal::CONTACT_SUPPORT, '(Code: '.$e->getCode().') ' . $e->getMessage());
     } catch (ExpiredException $e) {
@@ -187,7 +187,7 @@ class userController extends controller {
           ,'', constantGlobal::ERROR_404);
       }
     } catch (systemException $e) {
-      return $oResponse = Util::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessageWithCode());
+      return $oResponse = Util::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessage());
     } catch (Exception $e){
       return $oResponse = Util::getResponseArray(3, (object)[], constantGlobal::CONTACT_SUPPORT, '(Code: '.$e->getCode().') ' . $e->getMessage());
     } catch (ExpiredException $e) {
@@ -247,7 +247,7 @@ class userController extends controller {
           ,'', constantGlobal::ERROR_404);
       }
     } catch (systemException $e) {
-      return $oResponse = Util::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessageWithCode());
+      return $oResponse = Util::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessage());
     } catch (Exception $e){
       return $oResponse = Util::getResponseArray(3, (object)[], constantGlobal::CONTACT_SUPPORT, '(Code: '.$e->getCode().') ' . $e->getMessage());
     } catch (ExpiredException $e) {
