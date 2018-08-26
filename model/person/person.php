@@ -53,11 +53,19 @@ class person extends model {
   */
   public function validateData(){
     if(empty($this->sName)){
-      throw new systemException('Debes enviar un nombre.', 1);
+      throw new systemException('Debes enviar un nombre.');
     }
 
     if(empty($this->sLastName)){
-      throw new systemException('Debes enviar un apellido.', 1);
+      throw new systemException('Debes enviar un apellido.');
+    }
+
+    if(!Util::validateNameOrLastName($this->sName)){
+      throw new systemException('Debes enviar un nombre válido.');
+    }
+
+    if(!Util::validateNameOrLastName($this->sLastName)){
+      throw new systemException('Debes enviar un apellido válido.');
     }
   }
 

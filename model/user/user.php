@@ -5,6 +5,7 @@ namespace model\user;
 use \Exception;
 use \Firebase\JWT\{JWT, ExpiredException};
 use lib\MVC\model;
+use lib\Util\Util;
 use model\{connection, systemException};
 use model\user\queryUser;
 
@@ -172,15 +173,19 @@ class user extends model {
     $this->sPassword = md5($this->sPassword);
 
     if(empty($this->sEmail)){
-      throw new systemException('Debes enviar un email.', 1);
+      throw new systemException('Debes enviar un email.');
     }
 
     if(empty($sUser)){
-      throw new systemException('Debes enviar un usuario.', 1);
+      throw new systemException('Debes enviar un usuario.');
     }
 
     if(empty($sPassword)){
-      throw new systemException('Debes enviar una contraseña.', 1);
+      throw new systemException('Debes enviar una contraseña.');
+    }
+
+    if(!Util::validateEmail($this->sEmail)){
+      throw new systemException('Debes enviar un email valido.');
     }
 
     $oUser = clone $this;
@@ -189,14 +194,14 @@ class user extends model {
     $oUser->sEmail = $this->sEmail;
     $oUser->loadXEmail();
     if(!is_null($oUser->iId)){
-      throw new systemException('Ya se registró alguien con este email ('.$this->sEmail.'). Si este es tu email, ve a la sección recuperar contraseña.', 1);
+      throw new systemException('Ya se registró alguien con este email ('.$this->sEmail.'). Si este es tu email, ve a la sección recuperar contraseña.');
     }
 
     $oUser->iId = null;
     $oUser->sUser = $this->sUser;
     $oUser->loadXUser();
     if(!is_null($oUser->iId)){
-      throw new systemException('Debes enviar un usuario diferente, ya se a registrado alguien con: '. $sUser, 1);
+      throw new systemException('Debes enviar un usuario diferente, ya se a registrado alguien con: '. $sUser);
     }
 
     unset($oUser);

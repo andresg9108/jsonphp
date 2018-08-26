@@ -2,6 +2,22 @@
 
 /*
 */
+function validateNameOrLastName(sName, sText){
+    let oObject = document.getElementById(sName);
+    let expr = /^[a-záéíóúü\s]*$/i;
+    $("#err"+sName).html('');
+
+    if(!expr.test(oObject.value)){
+        oObject.focus();
+        $("#err"+sName).text(sText);
+        return false;
+    }
+
+    return true;
+}
+
+/*
+*/
 function validateTexto(sName, sText){
     let oObject = document.getElementById(sName);
     $("#err"+sName).html('');

@@ -124,10 +124,14 @@ function validateCheckInAction(){
     sFieldName = 'name';
     sText = 'Debes agregar un nombre.';
     if(!validateTexto(sFieldName, sText)){return false;}
+    sText = 'Debes agregar un nombre valido.';
+    if(!validateNameOrLastName(sFieldName, sText)){return false;}
 
     sFieldName = 'last_name';
     sText = 'Debes agregar un apellido.';
     if(!validateTexto(sFieldName, sText)){return false;}
+    sText = 'Debes agregar un apellido valido.';
+    if(!validateNameOrLastName(sFieldName, sText)){return false;}
 
     sFieldName = 'email';
     sText = 'Debes agregar un email.';

@@ -168,4 +168,24 @@ class Util {
 
     return true;
   }
+
+  /*
+  */
+  public static function validateNameOrLastName($sName){
+    $sExp = "/^[a-záéíóúü\s]*$/i";
+    $iResponse = preg_match($sExp, $sName);
+    $bResponse = ($iResponse == 1) ? true : false;
+
+    return $bResponse;
+  }
+
+  /*
+  */
+  public static function validateEmail($sEmail){
+    $sExp = "/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/";
+    $iResponse = preg_match($sExp, $sEmail);
+    $bResponse = ($iResponse == 1) ? true : false;
+
+    return $bResponse;
+  }
 }
