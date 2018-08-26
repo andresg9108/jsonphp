@@ -142,6 +142,8 @@ function validateCheckInAction(){
     sFieldName = 'user';
     sText = 'Debes agregar un usuario.';
     if(!validateTexto(sFieldName, sText)){return false;}
+    sText = 'Debes agregar un usuario valido e incluir al menos 5 caracteres. Caracteres permitidos: a, b, c... 0, 1, 2, 3... guion (-), guion bajo (_) y punto (.). No incluyas acentos del español (Ej: á), la letra ñ, ni espacios.';
+    if(!validateUsername(sFieldName, sText)){return false;}
 
     sFieldName = 'password';
     sText = 'Debes agregar un password.';

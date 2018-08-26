@@ -2,9 +2,25 @@
 
 /*
 */
+function validateUsername(sName, sText){
+    let oObject = document.getElementById(sName);
+    let expr = /^[a-z0-9\._-]{5,}$/i;
+    $("#err"+sName).html('');
+
+    if(!expr.test(oObject.value)){
+        oObject.focus();
+        $("#err"+sName).text(sText);
+        return false;
+    }
+
+    return true;
+}
+
+/*
+*/
 function validateNameOrLastName(sName, sText){
     let oObject = document.getElementById(sName);
-    let expr = /^[a-záéíóúü\s]*$/i;
+    let expr = /^[a-zñáéíóúü\s]*$/i;
     $("#err"+sName).html('');
 
     if(!expr.test(oObject.value)){
