@@ -123,7 +123,7 @@ class connection{
 	public function runMySQL($sQuery){
 		if($this->oConnection->connect_error)
 			throw new Exception("Error de conexion: ".$this->oConnection->connect_error);
-	    if(!@$this->oConnection->query(utf8_encode($sQuery)))
+	    if(!@$this->oConnection->query($sQuery))
 	    	throw new Exception("Error en la query: ".$sQuery);
 	}
 
