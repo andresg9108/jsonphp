@@ -2,17 +2,25 @@
 
 namespace lib\MVC;
 
+use lib\Util\Util;
+
 class constant{
 
 	/*
 	*/
 	public static function getConstant($sNameConstant, $aParameters = []){
 		$sConstant = '';
+		$oConnection = Util::getConnectionArray();
+		$sConstantPrefix = (!empty($oConnection->constant_prefix)) ? $oConnection->constant_prefix : '';
 
-		if(defined("static::$sNameConstant")){
-			$sConstant = constant("static::$sNameConstant");
+		$sNameConstantPfx = $sConstantPrefix.$sNameConstant;
+		if(defined("static::$sNameConstantPfx")){
+			$sConstant = constant("static::$sNameConstantPfx");
+		}else{
+			if(defined("static::$sNameConstant")){
+				$sConstant = constant("static::$sNameConstant");
+			}
 		}
-		//trigger_error ("$sNameQuery  isn't defined");
 
 		foreach ($aParameters as $i => $v) {
 			$sConstant = str_replace("<".($i+1)."?>", $v, $sConstant);

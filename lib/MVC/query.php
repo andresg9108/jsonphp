@@ -11,20 +11,16 @@ class query {
 	public static function getQuery($sNameQuery, $aParameters = []){
 		$sQuery = '';
 		$oConnection = Util::getConnectionArray();
-		$sMotor = (!empty($oConnection->motor)) ? $oConnection->motor : '';
 		$sQueryPrefix = (!empty($oConnection->query_prefix)) ? $oConnection->query_prefix : '';
-
-		if(defined("static::$sNameQuery")){
-			$sQuery = constant("static::$sNameQuery");
-		}
-		//trigger_error ("$sNameQuery  isn't defined");
 		
-		if($sMotor == 'mysql'){
-			$sNameQueryMSQL = $sQueryPrefix.$sNameQuery;
-			if(defined("static::$sNameQueryMSQL")){
-				$sQuery = constant("static::$sNameQueryMSQL");
+		$sNameQueryPfx = $sQueryPrefix.$sNameQuery;
+		if(defined("static::$sNameQueryPfx")){
+			$sQuery = constant("static::$sNameQueryPfx");
+		}else{
+			if(defined("static::$sNameQuery")){
+				$sQuery = constant("static::$sNameQuery");
 			}
-		}else if($sMotor == 'sqlite'){
+			//trigger_error ("$sNameQuery  isn't defined");
 		}
 
 		foreach ($aParameters as $i => $v) {
