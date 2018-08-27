@@ -17,6 +17,7 @@ class Util {
   public static $aConnection = [
     'motor' => 'mysql',
     'query_prefix' => 'MSQL_',
+    //'constant_prefix' => '',
     'constant_prefix' => 'SPAN_',
     'server' => 'localhost',
     'user' => 'root',

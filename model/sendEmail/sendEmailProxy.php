@@ -42,7 +42,7 @@ class sendEmailProxy extends proxy {
 	      $oConnection->close();
 	      
 	      return Util::getResponseArray(1, (object)$aResponse,
-	      	"El email fue enviado con éxito.", 
+	      	"", 
 	      	constantGlobal::SUCCESSFUL_REQUEST);
 	    } catch (systemException $e) {
 	    	$oConnection->rollback();
