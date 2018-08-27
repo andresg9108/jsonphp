@@ -7,7 +7,7 @@ use \Firebase\JWT\{JWT, ExpiredException};
 use lib\MVC\model;
 use lib\Util\Util;
 use model\{connection, systemException};
-use model\appRegistration\queryAppRegistration;
+use model\appRegistration\{constantAppRegistration, queryAppRegistration};
 
 class appRegistration extends model {
 

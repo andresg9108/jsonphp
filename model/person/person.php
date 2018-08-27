@@ -7,7 +7,7 @@ use \Firebase\JWT\{JWT, ExpiredException};
 use lib\MVC\model;
 use lib\Util\Util;
 use model\{connection, systemException};
-use model\person\queryPerson;
+use model\person\{queryPerson, constantPerson};
 use model\user\user;
 
 class person extends model {

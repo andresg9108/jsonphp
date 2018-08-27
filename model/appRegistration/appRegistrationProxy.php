@@ -7,6 +7,7 @@ use \Firebase\JWT\{JWT, ExpiredException};
 use lib\Util\{Util, constantGlobal};
 use lib\MVC\proxy;
 use model\{connection, systemException};
+use model\appRegistration\{appRegistration, constantAppRegistration};
 
 class appRegistrationProxy extends proxy {
 
