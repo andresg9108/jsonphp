@@ -104,9 +104,7 @@ class userController extends controller {
         $iId = (!empty($oObject->id)) ? $oObject->id : null;
         $iProfile = (!empty($oObject->profile)) ? $oObject->profile : null;
         
-        return $oResponse = Util::getResponseArray(1, (object)[], 
-          'Datos de sesion correctos.', 
-          'Datos de sesion correctos.');
+        return $oResponse = Util::getResponseArray(1, (object)[], '', '');
       }else{
         return $oResponse = Util::getResponseArray(2, (object)[]
           ,'', constantGlobal::ERROR_404);
