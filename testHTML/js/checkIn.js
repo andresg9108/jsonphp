@@ -121,7 +121,7 @@ function validateCheckInAction(){
     let sFieldName2 = '';
     let sText = '';
 
-    /*sFieldName = 'name';
+    sFieldName = 'name';
     sText = 'Debes agregar un nombre.';
     if(!validateTexto(sFieldName, sText)){return false;}
     sText = 'Debes agregar un nombre valido.';
@@ -161,7 +161,7 @@ function validateCheckInAction(){
     if(!validatePasswords(sFieldName, sFieldName2, sText)){ return false; }
 
     sText = "Debes completar el Captcha por seguridad.";
-    if(!validateReCaptcha(sText)){return false;}*/
+    if(!validateReCaptcha(sText)){return false;}
 
     return true;
 }

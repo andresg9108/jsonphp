@@ -72,7 +72,7 @@ class personProxy extends proxy {
 	      $oConnection->close();
 	      
 	      return Util::getResponseArray(1, (object)$aResponse,
-	      	"El registro fue exitoso.", 
+	      	constantPerson::getConstant('SUCCESSFUL_REGISTRATION'), 
 	      	constantGlobal::SUCCESSFUL_REQUEST);
 	    } catch (systemException $e) {
 	    	$oConnection->rollback();
