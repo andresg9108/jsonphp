@@ -6,9 +6,34 @@ ini_set('display_errors', '1');
 const __DIRMAIN__ = "./";
 require_once __DIRMAIN__.'autoload.php';
 
-use lib\Util\{Util, constantGlobal};
+use model\{connection, systemException};
+use model\user\user;
 
-$oConnection = Util::getConnectionArray();
-$bPhpErrors = (!empty($oConnection->php_errors)) ? $oConnection->php_errors : false;
+try {
+	$oConnection = connection::getInstance();
+	$oConnection->connect();
 
-echo json_encode([$bPhpErrors]);
+	$oUser = user::getInstance($oConnection);
+	$oUser->iId = null;
+	$oUser->sEmail = "andresg9108@yahoo.es";
+	$oUser->sUser = "andresg91082222";
+	$oUser->sPassword = "123456789";
+	$oUser->iStatus = 0;
+	$oUser->sRegistrationCode = md5("1234567890");
+	$oUser->save();
+
+	$oConnection->commit();
+	$oConnection->close();
+
+	echo "OK";
+} catch (Exception $e) {
+	$oConnection->rollback();
+	$oConnection->close();
+	
+	echo $e->getMessage();
+} catch (systemException $e) {
+	$oConnection->rollback();
+	$oConnection->close();
+	
+	echo $e->getMessage();
+}

@@ -173,27 +173,27 @@ class user extends model {
     $this->sPassword = md5($this->sPassword);
 
     if(empty($this->sEmail)){
-      throw new systemException('Debes enviar un email.');
+      throw new systemException(constantUser::getConstant('VAL_EMPTY_EMAIL'));
     }
 
     if(empty($sUser)){
-      throw new systemException('Debes enviar un usuario.');
+      throw new systemException(constantUser::getConstant('VAL_EMPTY_USUARIO'));
     }
 
     if(empty($sPassword)){
-      throw new systemException('Debes enviar una contraseña.');
+      throw new systemException(constantUser::getConstant('VAL_EMPTY_PASSWORD'));
     }
 
     if(!Util::validateEmail($this->sEmail)){
-      throw new systemException('Debes enviar un email valido.');
+      throw new systemException(constantUser::getConstant('VAL_VAL_EMAIL'));
     }
 
     if(!Util::validateUsername($sUser)){
-      throw new systemException('Debes enviar un usuario valido e incluir al menos 5 caracteres. Caracteres permitidos: a, b, c... 0, 1, 2, 3... guion (-), guion bajo (_) y punto (.). No incluyas acentos del español (Ej: á), la letra ñ, ni espacios.');
+      throw new systemException(constantUser::getConstant('VAL_VAL_USERNAME'));
     }
 
     if(!Util::validatePassword($sPassword)){
-      throw new systemException('La contraseña se debe enviar con al menos 5 caracteres.');
+      throw new systemException(constantUser::getConstant('VAL_VAL_PASSWORD'));
     }
 
     $oUser = clone $this;
@@ -202,14 +202,16 @@ class user extends model {
     $oUser->sEmail = $this->sEmail;
     $oUser->loadXEmail();
     if(!is_null($oUser->iId)){
-      throw new systemException('Ya se registró alguien con este email ('.$this->sEmail.'). Si este es tu email, ve a la sección recuperar contraseña.');
+      $aParameters = [$this->sEmail];
+      throw new systemException(constantUser::getConstant('VAL_EXISTING_EMAIL', $aParameters));
     }
 
     $oUser->iId = null;
     $oUser->sUser = $this->sUser;
     $oUser->loadXUser();
     if(!is_null($oUser->iId)){
-      throw new systemException('Debes enviar un usuario diferente, ya se a registrado alguien con: '. $sUser);
+      $aParameters = [$sUser];
+      throw new systemException(constantUser::getConstant('VAL_EXISTING_USERNAME', $aParameters));
     }
 
     unset($oUser);
