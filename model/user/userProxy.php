@@ -67,7 +67,7 @@ class userProxy extends proxy {
 	      $oConnection->close();
 	      
 	      return Util::getResponseArray(1, (object)$aResponse,
-	      	"Se ha enviado un email con los datos que corresponden a la recuperación de la contraseña.", 
+	      	constantUser::getConstant('SUCCESSFUL_RECOVER_PASSWORD'), 
 	      	constantGlobal::SUCCESSFUL_REQUEST);
 	    } catch (systemException $e) {
 	    	$oConnection->rollback();

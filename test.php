@@ -15,7 +15,7 @@ try {
 
 	$oUser = user::getInstance($oConnection);
 	$oUser->iId = null;
-	$oUser->sEmail = "andresg9108@yahoo.es";
+	$oUser->sEmail = "example@example.com";
 	$oUser->sUser = "andresg91082222";
 	$oUser->sPassword = "123456789";
 	$oUser->iStatus = 0;
