@@ -39,7 +39,7 @@ class emailController extends controller {
         $aDatos['message'] = (!empty($oResponse->message)) ? $oResponse->message : '';
         $oDatos = (object)$aDatos;
 
-        $this->sendEmail($oDatos);
+        return $this->sendEmail($oDatos);
       }else{
         return $oResponse = Useful::getResponseArray(2, (object)[]
           ,'', constantGlobal::ERROR_404);
@@ -60,21 +60,23 @@ class emailController extends controller {
       $sEmail = (!empty($oDatos->email)) ? $oDatos->email : '';
       $sSubject = (!empty($oDatos->subject)) ? $oDatos->subject : '';
       $sMessage = (!empty($oDatos->message)) ? $oDatos->message : '';
-      //$sFirma = Useful::getFirmaEmail();
-      //$sMensaje .= $sFirma;
 
       $oMailD = Useful::getMailArray();
       $sServerName = (!empty($oMailD->name)) ? $oMailD->name : "";
       $sServerHost = (!empty($oMailD->host)) ? $oMailD->host : "";
+      $sSmtpSecure = (!empty($oMailD->smtp_secure)) ? $oMailD->smtp_secure : "";
       $sServerPort = (!empty($oMailD->port)) ? $oMailD->port : "";
       $sServerUsername = (!empty($oMailD->username)) ? $oMailD->username : "";
       $sServerPassword = (!empty($oMailD->password)) ? $oMailD->password : "";
 
       $this->oMail->isSMTP();//Protocolo
-      $this->oMail->SMTPDebug = 2;//SMTP Debug
+      $this->oMail->CharSet = 'UTF-8';
+      $this->oMail->SMTPDebug = 0;//SMTP Debug
       $this->oMail->Debugoutput = "html";//Salida de debug en html
       $this->oMail->Host = $sServerHost;//Servidor
       $this->oMail->Port = $sServerPort;//Puerto
+      if(!empty($sSmtpSecure))
+        $this->oMail->SMTPSecure = $sSmtpSecure;
       $this->oMail->SMTPAuth = TRUE;//Autenticacion
       $this->oMail->Username = $sServerUsername;//Usuario
       $this->oMail->Password = $sServerPassword;//Password
@@ -86,16 +88,17 @@ class emailController extends controller {
       $this->oMail->msgHTML($sMessage);
 
       if (!$this->oMail->send()) {
-          echo $this->oMail->ErrorInfo;
-      } else {
-          echo "OK";
+        $sMailError = $this->oMail->ErrorInfo;
+        return Useful::getResponseArray(2, (object)[], 
+          '', $sMailError);
       }
-    } catch (systemException $e) {
-      return $oResponse = Useful::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessage());
+
+      return Useful::getResponseArray(1, (object)[], 
+        '', 
+        constantGlobal::getConstant('SUCCESSFUL_REQUEST'));
     } catch (Exception $e){
-      return $oResponse = Useful::getResponseArray(3, (object)[], constantGlobal::CONTACT_SUPPORT, '(Code: '.$e->getCode().') ' . $e->getMessage());
-    } catch (ExpiredException $e) {
-      return $oResponse = Useful::getResponseArray(4, (object)[], constantGlobal::ERROR_SESSION, constantGlobal::ERROR_SESSION);
+      return Useful::getResponseArray(2, (object)[], 
+          '', $e->getMessage());
     }
   }
 

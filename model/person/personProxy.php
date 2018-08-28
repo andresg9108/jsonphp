@@ -44,10 +44,10 @@ class personProxy extends proxy {
 			$sCode = Useful::getRandomCode();
 
 			$aParameters = [$iIdUser, $sRegistrationCode];
-	      	$sUrl = constantGlobal::getConstant('EMAIL_CHECKIN_URL', $aParameters);
-	      	$sSubject = constantGlobal::getConstant('EMAIL_CHECKIN_SUBJECT');
+	      	$sUrl = constantPerson::getConstant('EMAIL_CHECKIN_URL', $aParameters);
+	      	$sSubject = constantPerson::getConstant('EMAIL_CHECKIN_SUBJECT');
 	      	$aParameters = [$sUrl];
-	      	$sMessage = constantGlobal::getConstant('EMAIL_CHECKIN_MESSAGE', $aParameters);
+	      	$sMessage = Useful::getEmailTemplate('checkin', $aParameters);
 
 	      	$oSendEmail->iId = null;
 	      	$oSendEmail->sEmail = $sEmail;

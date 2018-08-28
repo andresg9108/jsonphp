@@ -6,41 +6,20 @@ use lib\MVC\constant;
 
 class constantGlobal extends constant{
 
-	const CONTACT_SUPPORT = "Estamos teniendo problemas, contacta con soporte técnico.";
-    const CONTROLLED_EXCEPTION = "Excepción contralada.";
-    const SUCCESSFUL_REQUEST = "Solicitud exitosa.";
+	const CONTACT_SUPPORT = "We are having problems, contact technical support.";
+    const CONTROLLED_EXCEPTION = "Controlled exception.";
+    const SUCCESSFUL_REQUEST = "Successful application.";
     const ERROR_404 = "Error 404";
-    const ERROR_SESSION = "No se pudo establecer la sesión.";
-
-    // EMAIL
-    const EMAIL_CHECKIN_URL = "http://localhost/jsonphp/testHTML/validateUser/?id=<1?>&code=<2?>";
-
-    const EMAIL_CHECKIN_SUBJECT = "Gracias por registrarse.";
-    
-    const EMAIL_CHECKIN_MESSAGE = "<br /><br />
-    								<a href='<1?>' 
-								    style='padding: 10px 20px; 
-								    text-decoration: none; 
-								    background-color: black; 
-								    color: white;' 
-								    target='_blank'>
-								    Validar correo electr&oacute;nico
-								    </a>";
-
+    const ERROR_SESSION = "The session could not be established.";
+	const EMAIL_RECOVERPASSWORD_SUBJECT = "Recover password";
 	const EMAIL_RECOVERPASSWORD_URL = "http://localhost/jsonphp/testHTML/recoverPassword/changePassword/?id=<1?>&code=<2?>";
 
-	const EMAIL_RECOVERPASSWORD_SUBJECT = "Recuperar contrase&ntilde;a";
-
-	const EMAIL_RECOVERPASSWORD_MESSAGE = "<br /><br />
-		    								<a href='<1?>' 
-										    style='padding: 10px 20px; 
-										    text-decoration: none; 
-										    background-color: black; 
-										    color: white;' 
-										    target='_blank'>
-										    Recuperar contrase&ntilde;a
-										    </a>";
-
-
+	// Spanish
+	const SPAN_CONTACT_SUPPORT = "Estamos teniendo problemas, contacta con soporte técnico.";
+    const SPAN_CONTROLLED_EXCEPTION = "Excepción contralada.";
+    const SPAN_SUCCESSFUL_REQUEST = "Solicitud exitosa.";
+    const SPAN_ERROR_404 = "Error 404";
+    const SPAN_ERROR_SESSION = "No se pudo establecer la sesión.";
+	const SPAN_EMAIL_RECOVERPASSWORD_SUBJECT = "Recuperar contraseña";
 
 }

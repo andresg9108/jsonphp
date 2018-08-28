@@ -50,7 +50,9 @@ function sendEmail(aEmail){
             'id': iId,
             'cod': sCod
         };
-        $.post(g_sBackEnd+sUrl3,oDatos3);
+        $.post(g_sBackEnd+sUrl3,oDatos3)
+        .then(function(oResponse){
+        });
     });
 }
 

@@ -74,8 +74,6 @@ function checkInAction(){
                     let sUrl2 = 'administration/user/checkIn';
                     $.when($.post(g_sBackEnd+sUrl2, oDatos2))
                     .then(function(oResponse){
-                        console.log(oResponse);
-
                         if(oResponse.status == 1){
                             let sResponse = oResponse.text.client;
                             oResponse = oResponse.response;

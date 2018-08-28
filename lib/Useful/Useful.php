@@ -7,19 +7,19 @@ use Firebase\JWT\JWT;
 class Useful {
   public static $aMail = [
     "name"=>"Test",
-    "host"=>"smtp.example.net",
+    "host"=>"smtp.example.com",
     "port"=>"25",
     //"port"=>"465",
     "smtp_secure"=>"", //$mail->SMTPSecure = 'tls'; //ssl (obsoleto) o tls
-    "username"=>"info@example.net",
+    "username"=>"info@example.com",
     "password"=>"123456"
   ];
 
   public static $aConnection = [
     'motor' => 'mysql',
     'query_prefix' => 'MSQL_',
-    //'constant_prefix' => '',
-    'constant_prefix' => 'SPAN_',
+    'constant_prefix' => '',
+    //'constant_prefix' => 'SPAN_',
     'server' => 'localhost',
     'user' => 'root',
     'password' => '',
@@ -210,5 +210,22 @@ class Useful {
     $bResponse = ($iResponse == 1) ? true : false;
 
     return $bResponse;
+  }
+
+  /*
+  */
+  public static function getEmailTemplate($sTemplateName, $aParameters = []){
+    $sHtml = '';
+    $sRuta = __DIRMAIN__ .'email/templates/'.$sTemplateName.'.html';
+    if(is_file($sRuta)){
+      $sHtml = file_get_contents($sRuta);
+    }
+
+    foreach ($aParameters as $i => $v) {
+      $sHtml = str_replace("<".($i+1)."?>", $v, $sHtml);
+    }
+
+    $sHtml = str_replace("'", '"', $sHtml);
+    return $sHtml;
   }
 }
