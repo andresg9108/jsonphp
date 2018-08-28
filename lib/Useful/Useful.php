@@ -84,7 +84,7 @@ class Useful {
 
   /*
   */
-  public function getJWT($oObject){
+  public static function getJWT($oObject){
     $oConnection = (object)static::$aConnection;
     $sPrivateKey = (!empty($oConnection->s_private_key_only_server)) ? $oConnection->s_private_key_only_server : '';
     $iMaximumSessionTime = (!empty($oConnection->maximum_session_time)) ? $oConnection->maximum_session_time : 0;
@@ -99,7 +99,7 @@ class Useful {
     return $sJwt;
   }
 
-  public function getDecodeJWT($sJwt){
+  public static function getDecodeJWT($sJwt){
     $oConnection = (object)static::$aConnection;
     $sPrivateKey = (!empty($oConnection->s_private_key_only_server)) ? $oConnection->s_private_key_only_server : '';
     $oDecoded = JWT::decode($sJwt, $sPrivateKey, ['HS256']);

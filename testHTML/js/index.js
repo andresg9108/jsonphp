@@ -7,16 +7,14 @@ $(function(){
 /*
 */
 function setView(){
-    sessionStorage.setItem(g_sSession+'session', '');
-    let sMessageErr = sessionStorage.getItem(g_sSession+'sessionMessage');
-    $("#messageerr").html(sMessageErr);
+    let sMessage = getErrorMessage();
+    $("#messageerr").html(sMessage);
 }
 
 /*
 */
 function logInAction(){
     let sMessageErr = '';
-    sessionStorage.setItem(g_sSession+'sessionMessage', sMessageErr);
 
     let sUser = $("#user").val();
     let sPassword = $("#password").val();
@@ -44,41 +42,11 @@ function logInAction(){
         let sUrl2 = 'administration/user/logIn';
         $.when($.post(g_sBackEnd+sUrl2, oDatos2))
         .then(function(oResponse){
-            if(oResponse.status){
+            if(oResponse.status == 1){
                 oResponse = oResponse.response;
-                let bValid = oResponse.valid;
-                let bStatus = oResponse.status;
-
-                if(bValid){
-                    if(bStatus){
-                        let sCode = oResponse.code;
-                        let iProfile = oResponse.profile;
-
-                        if(iProfile == 1){
-                            sessionStorage.setItem(g_sSession+'session', sCode);
-                            location.href = 'dashboardAdmin';
-                        }else if(iProfile == 2){
-                            sessionStorage.setItem(g_sSession+'session', sCode);
-                            irA('dashboard', '');
-                        }else{
-                            sMessageErr = 'No tienes definido un perfil de usuario (Contacta con soporte).';
-                            sessionStorage.setItem(g_sSession+'sessionMessage', sMessageErr);
-                            window.location.reload(true);
-                        }
-                    }else{
-                        sMessageErr = 'Debes validar tu correo electrónico.';
-                        sessionStorage.setItem(g_sSession+'sessionMessage', sMessageErr);
-                        window.location.reload(true);
-                    }
-                }else{
-                    sMessageErr = 'Usuario o contraseña incorrecta.';
-                    sessionStorage.setItem(g_sSession+'sessionMessage', sMessageErr);
-                    window.location.reload(true);
-                }
+                console.log(oResponse);
             }else{
-                sMessageErr = 'Usuario o contraseña incorrecta.';
-                sessionStorage.setItem(g_sSession+'sessionMessage', sMessageErr);
-                window.location.reload(true);
+
             }
         })
         .fail(function(){});
