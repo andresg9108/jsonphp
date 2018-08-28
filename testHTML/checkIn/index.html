@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 	<head>
 		<meta charset="utf-8">
     	<meta name="viewport" content="width=device-width, initial-scale=1.0 ,user-scalable=no">
     	
-    	<title>Test HTML</title>
+    	<title>Check in</title>
 
     	<script src='https://www.google.com/recaptcha/api.js'></script>
     	<script src="../lib/jquery/jquery.min.js"></script>
@@ -17,35 +17,35 @@
 		<input type="hidden" id="dirmain" name="dirmain" value="../" />
 
 		<br />
-		<a href="../">Atras</a>
-		<br />
-		<h1>Registro</h1><br />
+		<a href="../">Go back</a><br />
+		<a href="../recoverPassword/">Recover Password</a><br />
+		<h1>Check in</h1><br />
 		<form method="post" onsubmit="return checkInAction()">
 			<div id="messageerr"></div><br />
 			
-			<input type="text" id="name" name="name" placeholder="Nombre" /><br />
+			<input type="text" id="name" name="name" placeholder="Name" /><br />
 			<span id="errname"></span><br />
 
-			<input type="text" id="last_name" name="last_name" placeholder="Apellido" /><br />
+			<input type="text" id="last_name" name="last_name" placeholder="Last name" /><br />
 			<span id="errlast_name"></span><br />
 
 			<input type="email" id="email" name="email" placeholder="E-mail" /><br />
 			<span id="erremail"></span><br />
 
-			<input type="text" id="user" name="user" placeholder="Usuario" /><br />
+			<input type="text" id="user" name="user" placeholder="User" /><br />
 			<span id="erruser"></span><br />
 
-			<input type="password" id="password" name="password" placeholder="Contrase&ntilde;a" /><br />
+			<input type="password" id="password" name="password" placeholder="Password" /><br />
 			<span id="errpassword"></span><br />
 
-			<input type="password" id="rpassword" name="rpassword" placeholder="Repetir contrase&ntilde;a" /><br />
+			<input type="password" id="rpassword" name="rpassword" placeholder="Repeat password" /><br />
 			<span id="errrpassword"></span><br />
 
 			<div class="g-recaptcha" data-sitekey="6Ld7vmoUAAAAAAGfEZ_EFvqz-rgCVjhHJXa_MOn2"></div><br />
 			<span id="errrobot" class="error"></span>
 			<br /><br />
 
-			<input type="submit" />
+			<input type="submit" value="Submit" />
 		</form>
 	</body>
 </html>
