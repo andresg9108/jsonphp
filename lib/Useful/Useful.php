@@ -1,10 +1,10 @@
 <?php
 
-namespace lib\Util;
+namespace lib\Useful;
 
 use Firebase\JWT\JWT;
 
-class Util {
+class Useful {
   public static $aMail = [
     "name"=>"Test",
     "host"=>"smtp.example.net",

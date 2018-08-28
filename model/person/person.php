@@ -5,7 +5,7 @@ namespace model\person;
 use \Exception;
 use \Firebase\JWT\{JWT, ExpiredException};
 use lib\MVC\model;
-use lib\Util\Util;
+use lib\Useful\Useful;
 use model\{connection, systemException};
 use model\person\{queryPerson, constantPerson};
 use model\user\user;
@@ -60,11 +60,11 @@ class person extends model {
       throw new systemException(constantPerson::getConstant('VAL_EMPTY_LAST_NAME'));
     }
 
-    if(!Util::validateNameOrLastName($this->sName)){
+    if(!Useful::validateNameOrLastName($this->sName)){
       throw new systemException(constantPerson::getConstant('VAL_VAL_NAME'));
     }
 
-    if(!Util::validateNameOrLastName($this->sLastName)){
+    if(!Useful::validateNameOrLastName($this->sLastName)){
       throw new systemException(constantPerson::getConstant('VAL_VAL_LAST_NAME'));
     }
   }

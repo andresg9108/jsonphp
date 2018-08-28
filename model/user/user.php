@@ -5,7 +5,7 @@ namespace model\user;
 use \Exception;
 use \Firebase\JWT\{JWT, ExpiredException};
 use lib\MVC\model;
-use lib\Util\Util;
+use lib\Useful\Useful;
 use model\{connection, systemException};
 use model\user\{queryUser, constantUser};
 
@@ -184,15 +184,15 @@ class user extends model {
       throw new systemException(constantUser::getConstant('VAL_EMPTY_PASSWORD'));
     }
 
-    if(!Util::validateEmail($this->sEmail)){
+    if(!Useful::validateEmail($this->sEmail)){
       throw new systemException(constantUser::getConstant('VAL_VAL_EMAIL'));
     }
 
-    if(!Util::validateUsername($sUser)){
+    if(!Useful::validateUsername($sUser)){
       throw new systemException(constantUser::getConstant('VAL_VAL_USERNAME'));
     }
 
-    if(!Util::validatePassword($sPassword)){
+    if(!Useful::validatePassword($sPassword)){
       throw new systemException(constantUser::getConstant('VAL_VAL_PASSWORD'));
     }
 

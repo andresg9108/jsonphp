@@ -5,7 +5,7 @@ namespace model\appRegistration;
 use \Exception;
 use \Firebase\JWT\{JWT, ExpiredException};
 use lib\MVC\model;
-use lib\Util\Util;
+use lib\Useful\Useful;
 use model\{connection, systemException};
 use model\appRegistration\{constantAppRegistration, queryAppRegistration};
 

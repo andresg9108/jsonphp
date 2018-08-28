@@ -6,10 +6,10 @@ require __DIRMAIN__.'vendor/phpmailer/phpmailer/src/SMTP.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-use lib\Util\{Util, constantGlobal};
+use lib\Useful\{Useful, constantGlobal};
 use administration\controller\emailController;
 
-$oConnection = Util::getConnectionArray();
+$oConnection = Useful::getConnectionArray();
 $bPhpErrors = (!empty($oConnection->php_errors)) ? $oConnection->php_errors : false;
 if($bPhpErrors){
 	error_reporting(E_ALL);
@@ -17,7 +17,7 @@ if($bPhpErrors){
 }
 
 $oEmailController = emailController::getInstance();
-$aResponse = Util::getResponseArray(2, (object)[]
+$aResponse = Useful::getResponseArray(2, (object)[]
 	,'', constantGlobal::ERROR_404);
 
 switch ($sAction) {

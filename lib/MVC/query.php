@@ -2,7 +2,7 @@
 
 namespace lib\MVC;
 
-use lib\Util\Util;
+use lib\Useful\Useful;
 
 class query {
 
@@ -10,7 +10,7 @@ class query {
 	*/
 	public static function getQuery($sNameQuery, $aParameters = []){
 		$sQuery = '';
-		$oConnection = Util::getConnectionArray();
+		$oConnection = Useful::getConnectionArray();
 		$sQueryPrefix = (!empty($oConnection->query_prefix)) ? $oConnection->query_prefix : '';
 		
 		$sNameQueryPfx = $sQueryPrefix.$sNameQuery;

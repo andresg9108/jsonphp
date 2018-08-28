@@ -1,6 +1,6 @@
 <?php
 
-namespace lib\Util;
+namespace lib\Useful;
 
 use lib\MVC\constant;
 

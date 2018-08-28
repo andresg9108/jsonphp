@@ -4,7 +4,7 @@ namespace model\sendEmail;
 
 use \Exception;
 use \Firebase\JWT\{JWT, ExpiredException};
-use lib\Util\{Util, constantGlobal};
+use lib\Useful\{Useful, constantGlobal};
 use lib\MVC\proxy;
 use model\{connection, systemException};
 use model\sendEmail\{sendEmail, constantSendEmail};
@@ -41,21 +41,21 @@ class sendEmailProxy extends proxy {
 	      $oConnection->commit();
 	      $oConnection->close();
 	      
-	      return Util::getResponseArray(1, (object)$aResponse,
+	      return Useful::getResponseArray(1, (object)$aResponse,
 	      	"", 
 	      	constantGlobal::SUCCESSFUL_REQUEST);
 	    } catch (systemException $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();
-	    	return $oResponse = Util::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessage());
+	    	return $oResponse = Useful::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessage());
 	    } catch (Exception $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();
-	    	return Util::getResponseArray(3, (object)[], constantGlobal::CONTACT_SUPPORT, '(Code: '.$e->getCode().') ' . $e->getMessage());
+	    	return Useful::getResponseArray(3, (object)[], constantGlobal::CONTACT_SUPPORT, '(Code: '.$e->getCode().') ' . $e->getMessage());
 	    } catch (ExpiredException $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();
-	    	return Util::getResponseArray(4, (object)[], constantGlobal::ERROR_SESSION, constantGlobal::ERROR_SESSION);
+	    	return Useful::getResponseArray(4, (object)[], constantGlobal::ERROR_SESSION, constantGlobal::ERROR_SESSION);
 		}
 	}
 }

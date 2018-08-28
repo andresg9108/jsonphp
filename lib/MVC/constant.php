@@ -2,7 +2,7 @@
 
 namespace lib\MVC;
 
-use lib\Util\Util;
+use lib\Useful\Useful;
 
 class constant{
 
@@ -10,7 +10,7 @@ class constant{
 	*/
 	public static function getConstant($sNameConstant, $aParameters = []){
 		$sConstant = '';
-		$oConnection = Util::getConnectionArray();
+		$oConnection = Useful::getConnectionArray();
 		$sConstantPrefix = (!empty($oConnection->constant_prefix)) ? $oConnection->constant_prefix : '';
 
 		$sNameConstantPfx = $sConstantPrefix.$sNameConstant;

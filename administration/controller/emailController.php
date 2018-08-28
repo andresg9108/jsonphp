@@ -5,7 +5,7 @@ namespace administration\controller;
 use \Exception;
 use \Firebase\JWT\{JWT, ExpiredException};
 use lib\MVC\controller;
-use lib\Util\{Util, constantGlobal};
+use lib\Useful\{Useful, constantGlobal};
 use model\systemException;
 use model\sendEmail\sendEmailProxy;
 
@@ -41,15 +41,15 @@ class emailController extends controller {
 
         $this->sendEmail($oDatos);
       }else{
-        return $oResponse = Util::getResponseArray(2, (object)[]
+        return $oResponse = Useful::getResponseArray(2, (object)[]
           ,'', constantGlobal::ERROR_404);
       }
     } catch (systemException $e) {
-      return $oResponse = Util::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessage());
+      return $oResponse = Useful::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessage());
     } catch (Exception $e){
-      return $oResponse = Util::getResponseArray(3, (object)[], constantGlobal::CONTACT_SUPPORT, '(Code: '.$e->getCode().') ' . $e->getMessage());
+      return $oResponse = Useful::getResponseArray(3, (object)[], constantGlobal::CONTACT_SUPPORT, '(Code: '.$e->getCode().') ' . $e->getMessage());
     } catch (ExpiredException $e) {
-      return $oResponse = Util::getResponseArray(4, (object)[], constantGlobal::ERROR_SESSION, constantGlobal::ERROR_SESSION);
+      return $oResponse = Useful::getResponseArray(4, (object)[], constantGlobal::ERROR_SESSION, constantGlobal::ERROR_SESSION);
     }
   }
 
@@ -60,10 +60,10 @@ class emailController extends controller {
       $sEmail = (!empty($oDatos->email)) ? $oDatos->email : '';
       $sSubject = (!empty($oDatos->subject)) ? $oDatos->subject : '';
       $sMessage = (!empty($oDatos->message)) ? $oDatos->message : '';
-      //$sFirma = Util::getFirmaEmail();
+      //$sFirma = Useful::getFirmaEmail();
       //$sMensaje .= $sFirma;
 
-      $oMailD = Util::getMailArray();
+      $oMailD = Useful::getMailArray();
       $sServerName = (!empty($oMailD->name)) ? $oMailD->name : "";
       $sServerHost = (!empty($oMailD->host)) ? $oMailD->host : "";
       $sServerPort = (!empty($oMailD->port)) ? $oMailD->port : "";
@@ -91,11 +91,11 @@ class emailController extends controller {
           echo "OK";
       }
     } catch (systemException $e) {
-      return $oResponse = Util::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessage());
+      return $oResponse = Useful::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessage());
     } catch (Exception $e){
-      return $oResponse = Util::getResponseArray(3, (object)[], constantGlobal::CONTACT_SUPPORT, '(Code: '.$e->getCode().') ' . $e->getMessage());
+      return $oResponse = Useful::getResponseArray(3, (object)[], constantGlobal::CONTACT_SUPPORT, '(Code: '.$e->getCode().') ' . $e->getMessage());
     } catch (ExpiredException $e) {
-      return $oResponse = Util::getResponseArray(4, (object)[], constantGlobal::ERROR_SESSION, constantGlobal::ERROR_SESSION);
+      return $oResponse = Useful::getResponseArray(4, (object)[], constantGlobal::ERROR_SESSION, constantGlobal::ERROR_SESSION);
     }
   }
 

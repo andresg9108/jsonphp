@@ -6,7 +6,7 @@ ini_set('display_errors', '1');
 const __DIRMAIN__ = "./";
 require_once __DIRMAIN__.'autoload.php';
 
-require __DIRMAIN__.'vendor/phpmailer/phpmailer/src/Exception.php';
+/*require __DIRMAIN__.'vendor/phpmailer/phpmailer/src/Exception.php';
 require __DIRMAIN__.'vendor/phpmailer/phpmailer/src/PHPMailer.php';
 require __DIRMAIN__.'vendor/phpmailer/phpmailer/src/SMTP.php';
 
@@ -53,14 +53,14 @@ if (!$oMail->send()) {
   echo $oMail->ErrorInfo;
 } else {
   echo "OK";
-}
+}*/
 
 
 
 
 
 
-/*use model\{connection, systemException};
+use model\{connection, systemException};
 use model\user\user;
 
 try {
@@ -90,4 +90,4 @@ try {
 	$oConnection->close();
 	
 	echo $e->getMessage();
-}*/
+}

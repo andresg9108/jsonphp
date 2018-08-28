@@ -4,7 +4,7 @@ namespace model\person;
 
 use \Exception;
 use \Firebase\JWT\{JWT, ExpiredException};
-use lib\Util\{Util, constantGlobal};
+use lib\Useful\{Useful, constantGlobal};
 use lib\MVC\proxy;
 use model\{connection, systemException};
 use model\person\{person, constantPerson};
@@ -41,7 +41,7 @@ class personProxy extends proxy {
 			$sEmail = (!empty($v->email)) ? $v->email : '';
 			$sRegistrationCode = (!empty($v->registration_code)) ? $v->registration_code : '';
 			$iIdEmail = 1;
-			$sCode = Util::getRandomCode();
+			$sCode = Useful::getRandomCode();
 
 			$aParameters = [$iIdUser, $sRegistrationCode];
 	      	$sUrl = constantGlobal::getConstant('EMAIL_CHECKIN_URL', $aParameters);
@@ -71,21 +71,21 @@ class personProxy extends proxy {
 	      $oConnection->commit();
 	      $oConnection->close();
 	      
-	      return Util::getResponseArray(1, (object)$aResponse,
+	      return Useful::getResponseArray(1, (object)$aResponse,
 	      	constantPerson::getConstant('SUCCESSFUL_REGISTRATION'), 
 	      	constantGlobal::SUCCESSFUL_REQUEST);
 	    } catch (systemException $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();
-	    	return $oResponse = Util::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessage());
+	    	return $oResponse = Useful::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessage());
 	    } catch (Exception $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();
-	    	return Util::getResponseArray(3, (object)[], constantGlobal::CONTACT_SUPPORT, '(Code: '.$e->getCode().') ' . $e->getMessage());
+	    	return Useful::getResponseArray(3, (object)[], constantGlobal::CONTACT_SUPPORT, '(Code: '.$e->getCode().') ' . $e->getMessage());
 	    } catch (ExpiredException $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();
-	    	return Util::getResponseArray(4, (object)[], constantGlobal::ERROR_SESSION, constantGlobal::ERROR_SESSION);
+	    	return Useful::getResponseArray(4, (object)[], constantGlobal::ERROR_SESSION, constantGlobal::ERROR_SESSION);
 		}
 	}
 }

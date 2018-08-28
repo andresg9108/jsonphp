@@ -4,7 +4,7 @@ namespace model;
 
 use \Exception;
 use \mysqli;
-use lib\Util\Util;
+use lib\Useful\Useful;
 
 class connection{
 
@@ -24,7 +24,7 @@ class connection{
 	// Construct
 	function __construct()
 	{
-		$oConnection = Util::getConnectionArray();
+		$oConnection = Useful::getConnectionArray();
 
 		$this->sMotor = (isset($oConnection->motor)) ? $oConnection->motor : '';
 		$this->sServer = (isset($oConnection->server)) ? $oConnection->server : '';

@@ -1,9 +1,9 @@
 <?php
 
-use lib\Util\{Util, constantGlobal};
+use lib\Useful\{Useful, constantGlobal};
 use administration\controller\publicDataController;
 
-$oConnection = Util::getConnectionArray();
+$oConnection = Useful::getConnectionArray();
 $bPhpErrors = (!empty($oConnection->php_errors)) ? $oConnection->php_errors : false;
 $bPhpErrors = (!empty($oConnection->php_errors)) ? $oConnection->php_errors : false;
 if($bPhpErrors){
@@ -12,7 +12,7 @@ if($bPhpErrors){
 }
 
 $oPublicDataController = publicDataController::getInstance();
-$aResponse = Util::getResponseArray(2, (object)[]
+$aResponse = Useful::getResponseArray(2, (object)[]
 	,'', constantGlobal::ERROR_404);
 
 switch ($sAction) {
