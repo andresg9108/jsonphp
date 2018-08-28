@@ -17,9 +17,9 @@ function checkInAction(){
     let sMessageErr = '';
 
     let sFieldNameEmail = 'email';
-    let sTextEmail = 'Ya hay un usuario registrado con este email.';
+    let sTextEmail = 'There is already a registered user with this email.';
     let sFieldNameUser = 'user';
-    let sTextUser = 'Elige otro nombre de usuario.';
+    let sTextUser = 'Choose another username.';
     
     if(validateCheckInAction()){
         let sName = $("#name").val();
@@ -120,45 +120,45 @@ function validateCheckInAction(){
     let sText = '';
 
     sFieldName = 'name';
-    sText = 'Debes agregar un nombre.';
+    sText = 'You must add a name.';
     if(!validateTexto(sFieldName, sText)){return false;}
-    sText = 'Debes agregar un nombre valido.';
+    sText = 'You must add a valid name.';
     if(!validateNameOrLastName(sFieldName, sText)){return false;}
 
     sFieldName = 'last_name';
-    sText = 'Debes agregar un apellido.';
+    sText = 'You must add a surname.';
     if(!validateTexto(sFieldName, sText)){return false;}
-    sText = 'Debes agregar un apellido valido.';
+    sText = 'You must add a valid surname.';
     if(!validateNameOrLastName(sFieldName, sText)){return false;}
 
     sFieldName = 'email';
-    sText = 'Debes agregar un email.';
+    sText = 'You must add an email.';
     if(!validateTexto(sFieldName, sText)){return false;}
-    sText = 'Agrega un email válido.';
+    sText = 'Add a valid email.';
     if(!validateEmail(sFieldName, sText)){return false;}
 
     sFieldName = 'user';
-    sText = 'Debes agregar un usuario.';
+    sText = 'You must add a user.';
     if(!validateTexto(sFieldName, sText)){return false;}
-    sText = 'Debes agregar un usuario valido e incluir al menos 5 caracteres. Caracteres permitidos: a, b, c... 0, 1, 2, 3... guion (-), guion bajo (_) y punto (.). No incluyas acentos del español (Ej: á), la letra ñ, ni espacios.';
+    sText = 'You must add a valid user and include at least 5 characters. Permitted characters: a, b, c ... 0, 1, 2, 3 ... hyphen (-), underscore (_) and period (.). Do not include accents of Spanish (Ej: á), the letter ñ, or spaces.';
     if(!validateUsername(sFieldName, sText)){return false;}
 
     sFieldName = 'password';
-    sText = 'Debes agregar una contraseña.';
+    sText = 'You must add a password.';
     if(!validateTexto(sFieldName, sText)){return false;}
-    sText = 'La contraseña debe tener al menos 5 caracteres.';
+    sText = 'The password must have at least 5 characters.';
     if(!validatePassword(sFieldName, sText)){ return false; }
 
     sFieldName = 'rpassword';
-    sText = 'Debes repetir la contraseña.';
+    sText = 'You must repeat the password.';
     if(!validateTexto(sFieldName, sText)){return false;}
 
     sFieldName = 'password';
     sFieldName2 = 'rpassword';
-    sText = 'Las contraseñas no coinciden.';
+    sText = 'Passwords do not match.';
     if(!validatePasswords(sFieldName, sFieldName2, sText)){ return false; }
 
-    sText = "Debes completar el Captcha por seguridad.";
+    sText = 'You must complete the Captcha for security.';
     if(!validateReCaptcha(sText)){return false;}
 
     return true;
