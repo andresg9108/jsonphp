@@ -10,8 +10,9 @@ class Util {
     "host"=>"smtp.example.net",
     "port"=>"25",
     //"port"=>"465",
+    "smtp_secure"=>"", //$mail->SMTPSecure = 'tls'; //ssl (obsoleto) o tls
     "username"=>"info@example.net",
-    "password"=>""
+    "password"=>"123456"
   ];
 
   public static $aConnection = [
