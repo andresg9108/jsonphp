@@ -27,17 +27,16 @@ function setView(){
         $.when($.post(g_sBackEnd+sUrl2, oDatos2))
         .then(function(oResponse){
         	if(oResponse.status){
+                let sMessage = oResponse.text.client;
                 oResponse = oResponse.response;
                 let bValid = oResponse.valid;
-
                 if(bValid){
-                    let sMessage = 'Has validado tu correo electrónico.';
-                    $("#validationMessage").html(sMessage);
+                    $("#validationMessage").html('<h1>'+ sMessage +'</h1>');
                 }else{
-                    irA('', '');
+                    goTo('', '');
                 }
             }else{
-                irA('', '');
+                goTo('', '');
             }
         })
         .fail(function(){});

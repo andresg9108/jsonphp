@@ -62,7 +62,7 @@ class user extends model {
     
     $this->oConnection->run($sQuery);
   }
-
+  
   /*
   */
   public function load(){
@@ -154,47 +154,6 @@ class user extends model {
   */
   public function validateInsert(){
     $this->validateData();
-  }
-
-  /*
-  */
-  public function validateUpdate(){
-    $this->validateData();
-  }
-
-  /*
-  */
-  public function validateData(){
-    $this->sUser = (!empty($this->sUser)) ? str_replace(' ', '', $this->sUser) : '';
-    $this->sEmail = (!empty($this->sEmail)) ? str_replace(' ', '', $this->sEmail) : '';
-    $sUser = $this->sUser;
-    $sPassword = $this->sPassword;
-    $this->sUser = md5($this->sUser);
-    $this->sPassword = md5($this->sPassword);
-
-    if(empty($this->sEmail)){
-      throw new systemException(constantUser::getConstant('VAL_EMPTY_EMAIL'));
-    }
-
-    if(empty($sUser)){
-      throw new systemException(constantUser::getConstant('VAL_EMPTY_USUARIO'));
-    }
-
-    if(empty($sPassword)){
-      throw new systemException(constantUser::getConstant('VAL_EMPTY_PASSWORD'));
-    }
-
-    if(!Useful::validateEmail($this->sEmail)){
-      throw new systemException(constantUser::getConstant('VAL_VAL_EMAIL'));
-    }
-
-    if(!Useful::validateUsername($sUser)){
-      throw new systemException(constantUser::getConstant('VAL_VAL_USERNAME'));
-    }
-
-    if(!Useful::validatePassword($sPassword)){
-      throw new systemException(constantUser::getConstant('VAL_VAL_PASSWORD'));
-    }
 
     $oUser = clone $this;
 
@@ -210,11 +169,45 @@ class user extends model {
     $oUser->sUser = $this->sUser;
     $oUser->loadXUser();
     if(!is_null($oUser->iId)){
-      $aParameters = [$sUser];
+      $aParameters = [$this->sUser];
       throw new systemException(constantUser::getConstant('VAL_EXISTING_USERNAME', $aParameters));
     }
 
     unset($oUser);
+  }
+
+  /*
+  */
+  public function validateUpdate(){
+    $this->validateData();
+  }
+
+  /*
+  */
+  public function validateData(){
+    if(empty($this->sEmail)){
+      throw new systemException(constantUser::getConstant('VAL_EMPTY_EMAIL'));
+    }
+
+    if(empty($this->sUser)){
+      throw new systemException(constantUser::getConstant('VAL_EMPTY_USUARIO'));
+    }
+
+    if(empty($this->sPassword)){
+      throw new systemException(constantUser::getConstant('VAL_EMPTY_PASSWORD'));
+    }
+
+    if(!Useful::validateEmail($this->sEmail)){
+      throw new systemException(constantUser::getConstant('VAL_VAL_EMAIL'));
+    }
+
+    if(!Useful::validateUsername($this->sUser)){
+      throw new systemException(constantUser::getConstant('VAL_VAL_USERNAME'));
+    }
+
+    if(!Useful::validatePassword($this->sPassword)){
+      throw new systemException(constantUser::getConstant('VAL_VAL_PASSWORD'));
+    }
   }
 
   public function getUsersByIdPerson(){

@@ -14,6 +14,50 @@ class userProxy extends proxy {
 
 	/*
 	*/
+	public static function validateEmailByCode($iIdUser, $sCodeUser){
+		try {
+	      $oConnection = connection::getInstance();
+	      $oConnection->connect();
+
+	      $oUser = user::getInstance($oConnection);
+	      $oUser->iId = $iIdUser;
+	      $oUser->load();
+	      $sCodeUserBD = $oUser->sRegistrationCode;
+
+	      $aResponse = [];
+	      $aResponse['valid'] = false;
+	      if(!empty($sCodeUserBD) && $sCodeUser == $sCodeUserBD){
+	      	$aResponse['valid'] = true;
+	      	$sCode = Useful::getRandomCode();
+
+	      	$oUser->iStatus = 1;
+	      	$oUser->sRegistrationCode = $sCode;
+	      	$oUser->save();
+	      }
+
+	      $oConnection->commit();
+	      $oConnection->close();
+	      
+	      return Useful::getResponseArray(1, (object)$aResponse,
+	      	constantUser::getConstant('SUCCESSFUL_VALIDATE_USER_BY_EMAIL'), 
+	      	constantGlobal::SUCCESSFUL_REQUEST);
+	    } catch (systemException $e) {
+	    	$oConnection->rollback();
+	    	$oConnection->close();
+	    	return $oResponse = Useful::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessage());
+	    } catch (Exception $e) {
+	    	$oConnection->rollback();
+	    	$oConnection->close();
+	    	return Useful::getResponseArray(3, (object)[], constantGlobal::CONTACT_SUPPORT, '(Code: '.$e->getCode().') ' . $e->getMessage());
+	    } catch (ExpiredException $e) {
+	    	$oConnection->rollback();
+	    	$oConnection->close();
+	    	return Useful::getResponseArray(4, (object)[], constantGlobal::ERROR_SESSION, constantGlobal::ERROR_SESSION);
+		}
+	}
+
+	/*
+	*/
 	public static function recoverPassword($sEmail){
 		try {
 	      $oConnection = connection::getInstance();
@@ -104,7 +148,7 @@ class userProxy extends proxy {
 
 	      $bUser = false;
 	      $oUser->iId = null;
-	      $oUser->sUser = md5($sUser);
+	      $oUser->sUser = $sUser;
 	      $oUser->loadXUser();
 	      if(!is_null($oUser->iId)){ $bUser = true; }
 

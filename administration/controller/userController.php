@@ -68,7 +68,7 @@ class userController extends controller {
         $iIdUser = (!empty($post->id_user)) ? $post->id_user : null;
         $sCodeUser = (!empty($post->code_user)) ? $post->code_user : '';
 
-        return [$iIdUser, $sCodeUser];
+        return userProxy::validateEmailByCode($iIdUser, $sCodeUser);
       }else{
         return $oResponse = Useful::getResponseArray(2, (object)[]
           ,'', constantGlobal::ERROR_404);
@@ -222,6 +222,9 @@ class userController extends controller {
         $sLastName = Useful::getFilterCharacters($sLastName);
         $sEmail = Useful::getFilterCharacters($sEmail);
         $sUser = Useful::getFilterCharacters($sUser);
+        $sEmail = str_replace(' ', '', $sEmail);
+        $sUser = str_replace(' ', '', $sUser);
+        $sPassword = (!empty($sPassword)) ? md5($sPassword) : '';
 
         $sRegistrationCode = Useful::getRandomCode();
         $aUser = [];
