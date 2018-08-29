@@ -26,7 +26,7 @@ function setView(){
         let sUrl2 = 'administration/user/validateEmailByCode';
         $.when($.post(g_sBackEnd+sUrl2, oDatos2))
         .then(function(oResponse){
-        	if(oResponse.status){
+        	if(oResponse.status == 1){
                 let sMessage = oResponse.text.client;
                 oResponse = oResponse.response;
                 let bValid = oResponse.valid;
