@@ -72,10 +72,10 @@ function goTo_w(sUrl){
 */
 function validateSession(){
     if(sSessionCode == null){
-        irA('', '');
+        //goTo('', '');
     }else{
         if(sSessionCode == ''){
-            irA('', '');
+            //goTo('', '');
         }else{
             let oDatos = {};
             let sUrl = 'administration/publicData/appRegistration';
@@ -94,9 +94,7 @@ function validateSession(){
                 let sUrl2 = 'administration/user/validateSession';
                 $.when($.post(g_sBackEnd+sUrl2, oDatos2))
                 .then(function(oResponse){
-                    if(!oResponse.status){
-                        irA('', '');
-                    }
+                    console.log(oResponse);
                 })
                 .fail(function(){});
             })
