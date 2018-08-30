@@ -4,7 +4,7 @@ namespace model;
 
 use \Exception;
 use \mysqli;
-use lib\Useful\Useful;
+use lib\Useful\{Useful, constantGlobal};
 
 class connection{
 
@@ -109,32 +109,42 @@ class connection{
 
 	/*
 	*/
-	public function connectMySQL(){
+	private function connectMySQL(){
 		$this->oConnection = @new mysqli($this->sServer, $this->sUser, $this->sPassword, $this->sDatabase);
-		$this->oConnection->set_charset('utf8');
-	    if($this->oConnection->connect_error)
-	    	throw new Exception("Error de conexion: ".$this->oConnection->connect_error);
+	    if($this->oConnection->connect_error){
+	    	$sMessageErr = constantGlobal::getConstant('FAIL_CONNECTION_FAILURE_DB');
+	    	throw new Exception($sMessageErr.' '.$this->oConnection->connect_error);
+	    }
 
+	    $this->oConnection->set_charset('utf8');
 	    $this->oConnection->autocommit(FALSE);
 	}
 
 	/*
 	*/
-	public function runMySQL($sQuery){
-		if($this->oConnection->connect_error)
-			throw new Exception("Error de conexion: ".$this->oConnection->connect_error);
-	    if(!@$this->oConnection->query($sQuery))
-	    	throw new Exception("Error en la query: ".$sQuery);
+	private function runMySQL($sQuery){
+		if($this->oConnection->connect_error){
+			$sMessageErr = constantGlobal::getConstant('FAIL_CONNECTION_FAILURE_DB');
+	    	throw new Exception($sMessageErr.' '.$this->oConnection->connect_error);
+		}
+	    if(!@$this->oConnection->query($sQuery)){
+	    	$sMessageErr = constantGlobal::getConstant('ERROR_IN_THE_QUERY');
+	    	throw new Exception($sMessageErr.' '.$sQuery);
+	    }
 	}
 
 	/*
 	*/
-	public function queryRowMySQL($sQuery, $aParameters){
-		if($this->oConnection->connect_error)
-			throw new Exception("Error de conexion: ".$this->oConnection->connect_error);
+	private function queryRowMySQL($sQuery, $aParameters){
+		if($this->oConnection->connect_error){
+			$sMessageErr = constantGlobal::getConstant('FAIL_CONNECTION_FAILURE_DB');
+	    	throw new Exception($sMessageErr.' '.$this->oConnection->connect_error);
+		}
 	    $oQuery = @$this->oConnection->query($sQuery);
-	    if(!$oQuery)
-	    	throw new Exception("Error en la query: ".$sQuery);
+	    if(!$oQuery){
+	    	$sMessageErr = constantGlobal::getConstant('ERROR_IN_THE_QUERY');
+	    	throw new Exception($sMessageErr.' '.$sQuery);
+	    }
 
 	    $aRow = $oQuery->fetch_row();
       	$oResponse = [];
@@ -152,12 +162,16 @@ class connection{
 
 	/*
 	*/
-	public function queryArrayMySQL($sQuery, $aParameters){
-		if($this->oConnection->connect_error)
-			throw new Exception("Error de conexion: ".$this->oConnection->connect_error);
+	private function queryArrayMySQL($sQuery, $aParameters){
+		if($this->oConnection->connect_error){
+			$sMessageErr = constantGlobal::getConstant('FAIL_CONNECTION_FAILURE_DB');
+	    	throw new Exception($sMessageErr.' '.$this->oConnection->connect_error);
+		}
 	    $oQuery = @$this->oConnection->query($sQuery);
-	    if(!$oQuery)
-	    	throw new Exception("Error en la query: ".$sQuery);
+	    if(!$oQuery){
+	    	$sMessageErr = constantGlobal::getConstant('ERROR_IN_THE_QUERY');
+	    	throw new Exception($sMessageErr.' '.$sQuery);
+	    }
 
 	    $aResponse = [];
 	    for($i=0;$i<$oQuery->num_rows;$i++){
@@ -179,28 +193,28 @@ class connection{
 
 	/*
 	*/
-	public function commitMySQL(){
+	private function commitMySQL(){
 		if(!$this->oConnection->connect_error)
 			@$this->oConnection->commit();
 	}
 
 	/*
 	*/
-	public function rollbackMySQL(){
+	private function rollbackMySQL(){
 		if(!$this->oConnection->connect_error)
 			@$this->oConnection->rollback();
 	}
 
 	/*
 	*/
-	public function closeMySQL(){
+	private function closeMySQL(){
 		if(!$this->oConnection->connect_error)
 			@$this->oConnection->close();
 	}
 
   	/*
 	*/
-	public function getIDInsertMySQL(){
+	private function getIDInsertMySQL(){
 		if(!$this->oConnection->connect_error)
 			return @$this->oConnection->insert_id;
 	}
