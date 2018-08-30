@@ -22,11 +22,11 @@ class publicDataController extends controller {
       
       return appRegistrationProxy::save($oAppRegistration);
     } catch (systemException $e) {
-      return $oResponse = Useful::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessage());
+      return Useful::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessage());
     } catch (Exception $e){
-      return $oResponse = Useful::getResponseArray(3, (object)[], constantGlobal::CONTACT_SUPPORT, '(Code: '.$e->getCode().') ' . $e->getMessage());
+      return Useful::getResponseArray(3, (object)[], constantGlobal::getConstant('CONTACT_SUPPORT'), '(Code: '.$e->getCode().') ' . $e->getMessage());
     } catch (ExpiredException $e) {
-      return $oResponse = Useful::getResponseArray(4, (object)[], constantGlobal::ERROR_SESSION, constantGlobal::ERROR_SESSION);
+      return Useful::getResponseArray(4, (object)[], constantGlobal::getConstant('ERROR_SESSION'), constantGlobal::getConstant('ERROR_SESSION'));
     }
   }
 
