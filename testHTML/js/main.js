@@ -7,17 +7,33 @@ var g_sSession = 'sfavevf5fA';
 var g_iPrivateKey = 15628;
 var g_sPrivateKey = "a5vbFgFFG4Fd2";
 
-var sSessionCode;
-var sDirmain;
+var g_sDirmain;
 
 $(function(){
-    sDirmain = $("#dirmain").val();
+    g_sDirmain = $("#dirmain").val();
 });
 
 /*
 */
 function updatePage(){
     window.location.reload(true);
+}
+
+/*
+*/
+function setSession(sCode){
+    localStorage.setItem(g_sSession+"session", sCode);
+}
+
+/*
+*/
+function getSession(){
+    let sSession = localStorage.getItem(g_sSession+"session");
+    if(sSession == null){
+        sSession = '';
+    }
+
+    return sSession;
 }
 
 /*
@@ -59,7 +75,7 @@ function sendEmail(aEmail){
 /*
 */
 function goTo(sUrl, sParametersGet){
-    location.href = sDirmain+sUrl+'?'+sParametersGet;
+    location.href = g_sDirmain+sUrl+'?'+sParametersGet;
 }
 
 /*
@@ -71,36 +87,30 @@ function goTo_w(sUrl){
 /*
 */
 function validateSession(){
-    if(sSessionCode == null){
-        //goTo('', '');
-    }else{
-        if(sSessionCode == ''){
-            //goTo('', '');
-        }else{
-            let oDatos = {};
-            let sUrl = 'administration/publicData/appRegistration';
-            $.when($.post(g_sBackEnd+sUrl, oDatos))
-            .then(function(oResponse){
-                let aResponse = oResponse.response;
-                let iId = aResponse.id;
-                let sRegCod = aResponse.registration_code;
-                sRegCod = getDecodeRegCod(sRegCod);
+    let sSessionCode = getSession();
+    
+    let oDatos = {};
+    let sUrl = 'administration/publicData/appRegistration';
+    $.when($.post(g_sBackEnd+sUrl, oDatos))
+    .then(function(oResponse){
+        let aResponse = oResponse.response;
+        let iId = aResponse.id;
+        let sRegCod = aResponse.registration_code;
+        sRegCod = getDecodeRegCod(sRegCod);
 
-                let oDatos2 = {
-                    'id': iId,
-                    'registration_code': sRegCod,
-                    'code': sSessionCode
-                };
-                let sUrl2 = 'administration/user/validateSession';
-                $.when($.post(g_sBackEnd+sUrl2, oDatos2))
-                .then(function(oResponse){
-                    console.log(oResponse);
-                })
-                .fail(function(){});
-            })
-            .fail(function(){});
-        }
-    }
+        let oDatos2 = {
+            'id': iId,
+            'registration_code': sRegCod,
+            'code': sSessionCode
+        };
+        let sUrl2 = 'administration/user/validateSession';
+        $.when($.post(g_sBackEnd+sUrl2, oDatos2))
+        .then(function(oResponse){
+            console.log(oResponse);
+        })
+        .fail(function(){});
+    })
+    .fail(function(){});
 }
 
 /*

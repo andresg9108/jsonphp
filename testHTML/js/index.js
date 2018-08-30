@@ -43,7 +43,18 @@ function logInAction(){
         $.when($.post(g_sBackEnd+sUrl2, oDatos2))
         .then(function(oResponse){
             if(oResponse.status == 1){
-                console.log(oResponse);
+                oResponse = oResponse.response;
+                let sCode = oResponse.code;
+                let iProfile = oResponse.profile;
+                $.when(setSession(sCode))
+                .then(function(){
+                    if(iProfile == 1){
+                        goTo('dashboardAdmin', '');
+                    }else{
+                        goTo('dashboard', '');
+                    }
+                })
+                .fail(function(){});
             }else{
                 setErrorMessage(oResponse.text.client);
                 updatePage();
