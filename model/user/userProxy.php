@@ -195,11 +195,11 @@ class userProxy extends proxy {
 	      $bStatus = ($iStatus == 1) ? true : false;
 
 	      if(empty($sPasswordBD) || $sPassword !== $sPasswordBD){
-	      	throw new systemException("Error Password.");
+	      	throw new systemException(constantUser::getConstant('FAIL_VALIDATE_LOGIN'));
 	      }
 
 	      if(!$bStatus){
-	      	throw new systemException("Debes validar tu email.");
+	      	throw new systemException(constantUser::getConstant('FAIL_VALIDATE_USER'));
 	      }
 
 	      $aResponse = [];

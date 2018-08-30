@@ -27,7 +27,7 @@ class sendEmailProxy extends proxy {
 	      $sCodBD = $oSendEmail->sCode;
 
 	      if(empty($sCodBD) || $sCod !== $sCodBD){
-	      	throw new systemException("NO SE PUEDE ENVIAR EMAIL");
+	      	throw new systemException(constantSendEmail::getConstant('FAIL_EMAIL_SEND'));
 	      }
 
 	      $aResponse = [];

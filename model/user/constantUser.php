@@ -6,6 +6,8 @@ use lib\MVC\constant;
 
 class constantUser extends constant{
 
+	const FAIL_VALIDATE_LOGIN = "Incorrect user or password.";
+	const FAIL_VALIDATE_USER = "You must validate your email.";
 	const FAIL_VALIDATE_USER_BY_EMAIL = "An error occurred when trying to validate this information, contact technical support.";
 	const SUCCESSFUL_VALIDATE_USER_BY_EMAIL = "You have validated your email successfully.";
 	const SUCCESSFUL_RECOVER_PASSWORD = "An email has been sent with the data corresponding to the recovery of the password.";
@@ -19,6 +21,8 @@ class constantUser extends constant{
 	const VAL_EXISTING_USERNAME = "You must send a different user, someone has already been registered with: <1?>";
 
 	// Spanish
+	const SPAN_FAIL_VALIDATE_LOGIN = "Usuario o contraseña incorrecta.";
+	const SPAN_FAIL_VALIDATE_USER = "Debes validar tu correo electrónico.";
 	const SPAN_FAIL_VALIDATE_USER_BY_EMAIL = "Ha ocurrido un error al intentar validar esta información, contacta con soporte técnico.";
 	const SPAN_SUCCESSFUL_VALIDATE_USER_BY_EMAIL = "Has validado tu correo electrónico con éxito.";
 	const SPAN_SUCCESSFUL_RECOVER_PASSWORD = "Se ha enviado un email con los datos que corresponden a la recuperación de la contraseña.";
