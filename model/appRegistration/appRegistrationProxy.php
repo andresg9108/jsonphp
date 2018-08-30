@@ -27,19 +27,15 @@ class appRegistrationProxy extends proxy {
 	      $sRegistrationCodeBD =  $oAppRegistration->sRegistrationCode;
 	      $sRegistrationCodeBD = Useful::getDecodeRegCod($sRegistrationCodeBD);
 
-	      $oResponse = [];
-	      if($sRegistrationCode == $sRegistrationCodeBD){
-	      	$oResponse['validate'] = true;
-
-	      	$oAppRegistration->delete();
-	      }else{
-	      	$oResponse['validate'] = false;
+	      if(empty($sRegistrationCodeBD) || $sRegistrationCode !== $sRegistrationCodeBD){
+	      	throw new systemException(constantGlobal::getConstant('CONTACT_SUPPORT'));
 	      }
+	      $oAppRegistration->delete();
 
 	      $oConnection->commit();
 	      $oConnection->close();
 	      
-	      return Useful::getResponseArray(1, (object)$oResponse,
+	      return Useful::getResponseArray(1, (object)[],
 	      	"", 
 	      	constantGlobal::SUCCESSFUL_REQUEST);
 	    } catch (systemException $e) {

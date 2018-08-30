@@ -29,10 +29,10 @@ class emailController extends controller {
       $aSendEmail['id'] = $iId;
       $aSendEmail['cod'] = $sCod;
       $oSendEmail = (object)$aSendEmail;
-
       $oResponse = sendEmailProxy::validateEmailSending($oSendEmail);
-      $oResponse = $oResponse->response;
-      if($oResponse->valid){
+
+      if($oResponse->status == 1){
+        $oResponse = $oResponse->response;
         $aDatos = [];
         $aDatos['email'] = (!empty($oResponse->email)) ? $oResponse->email : '';
         $aDatos['subject'] = (!empty($oResponse->subject)) ? $oResponse->subject : '';
@@ -40,10 +40,9 @@ class emailController extends controller {
         $oDatos = (object)$aDatos;
 
         return $this->sendEmail($oDatos);
-      }else{
-        return $oResponse = Useful::getResponseArray(2, (object)[]
-          ,'', constantGlobal::ERROR_404);
       }
+
+      return $oResponse;
     } catch (systemException $e) {
       return $oResponse = Useful::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessage());
     } catch (Exception $e){

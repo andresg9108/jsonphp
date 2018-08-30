@@ -26,19 +26,15 @@ class userController extends controller {
       $aAppRegistration['id'] = $iId;
       $aAppRegistration['registration_code'] = $sRegistrationCode;
       $oAppRegistration = (object)$aAppRegistration;
-
       $oResponse = appRegistrationProxy::validateRegCod($oAppRegistration);
-      $oResponse = $oResponse->response;
-      $bValidate = (!empty($oResponse->validate)) ? $oResponse->validate : false;
 
-      if($bValidate){
+      if($oResponse->status == 1){
         $sEmail = (!empty($post->email)) ? $post->email : '';
 
         return userProxy::recoverPassword($sEmail);
-      }else{
-        return $oResponse = Useful::getResponseArray(2, (object)[]
-          ,'', constantGlobal::ERROR_404);
       }
+
+      return $oResponse;
     } catch (systemException $e) {
       return $oResponse = Useful::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessage());
     } catch (Exception $e){
@@ -59,20 +55,16 @@ class userController extends controller {
       $aAppRegistration['id'] = $iId;
       $aAppRegistration['registration_code'] = $sRegistrationCode;
       $oAppRegistration = (object)$aAppRegistration;
-
       $oResponse = appRegistrationProxy::validateRegCod($oAppRegistration);
-      $oResponse = $oResponse->response;
-      $bValidate = (!empty($oResponse->validate)) ? $oResponse->validate : false;
 
-      if($bValidate){
+      if($oResponse->status == 1){
         $iIdUser = (!empty($post->id_user)) ? $post->id_user : null;
         $sCodeUser = (!empty($post->code_user)) ? $post->code_user : '';
 
         return userProxy::validateEmailByCode($iIdUser, $sCodeUser);
-      }else{
-        return $oResponse = Useful::getResponseArray(2, (object)[]
-          ,'', constantGlobal::ERROR_404);
       }
+
+      return $oResponse;
     } catch (systemException $e) {
       return $oResponse = Useful::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessage());
     } catch (Exception $e){
@@ -93,22 +85,18 @@ class userController extends controller {
       $aAppRegistration['id'] = $iId;
       $aAppRegistration['registration_code'] = $sRegistrationCode;
       $oAppRegistration = (object)$aAppRegistration;
-
       $oResponse = appRegistrationProxy::validateRegCod($oAppRegistration);
-      $oResponse = $oResponse->response;
-      $bValidate = (!empty($oResponse->validate)) ? $oResponse->validate : false;
 
-      if($bValidate){
+      if($oResponse->status == 1){
         $sCode = (!empty($post->code)) ? $post->code : '';
         $oObject = Useful::getDecodeJWT($sCode);
         $iId = (!empty($oObject->id)) ? $oObject->id : null;
         $iProfile = (!empty($oObject->profile)) ? $oObject->profile : null;
         
-        return $oResponse = Useful::getResponseArray(1, (object)[], '', '');
-      }else{
-        return $oResponse = Useful::getResponseArray(2, (object)[]
-          ,'', constantGlobal::ERROR_404);
+        return Useful::getResponseArray(1, (object)[], '', '');
       }
+
+      return $oResponse;
     } catch (systemException $e) {
       return $oResponse = Useful::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessage());
     } catch (Exception $e){
@@ -129,20 +117,16 @@ class userController extends controller {
       $aAppRegistration['id'] = $iId;
       $aAppRegistration['registration_code'] = $sRegistrationCode;
       $oAppRegistration = (object)$aAppRegistration;
-
       $oResponse = appRegistrationProxy::validateRegCod($oAppRegistration);
-      $oResponse = $oResponse->response;
-      $bValidate = (!empty($oResponse->validate)) ? $oResponse->validate : false;
 
-      if($bValidate){
+      if($oResponse->status == 1){
         $sEmail = (!empty($post->email)) ? $post->email : '';
         $sUser = (!empty($post->user)) ? $post->user : '';
 
         return userProxy::validateEmailAndUser($sEmail, $sUser);
-      }else{
-        return $oResponse = Useful::getResponseArray(2, (object)[]
-          ,'', constantGlobal::ERROR_404);
       }
+
+      return $oResponse;
     } catch (systemException $e) {
       return $oResponse = Useful::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessage());
     } catch (Exception $e){
@@ -164,13 +148,10 @@ class userController extends controller {
       $aAppRegistration['id'] = $iId;
       $aAppRegistration['registration_code'] = $sRegistrationCode;
       $oAppRegistration = (object)$aAppRegistration;
-
       $oResponse = appRegistrationProxy::validateRegCod($oAppRegistration);
-      $oResponse = $oResponse->response;
-      $bValidate = (!empty($oResponse->validate)) ? $oResponse->validate : false;
       $bReCaptcha = Useful::getStatusReCaptchaHidden($sResponse);
 
-      if($bValidate && $bReCaptcha){
+      if($oResponse->status == 1 && $bReCaptcha){
         $sUser = (!empty($post->user)) ? $post->user : '';
         $sPassword = (!empty($post->password)) ? $post->password : '';
 
@@ -180,10 +161,9 @@ class userController extends controller {
         $oUser = (object)$aUser;
 
         return userProxy::validatelogIn($oUser);
-      }else{
-        return $oResponse = Useful::getResponseArray(2, (object)[]
-          ,'', constantGlobal::ERROR_404);
       }
+
+      return $oResponse;
     } catch (systemException $e) {
       return $oResponse = Useful::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessage());
     } catch (Exception $e){
@@ -205,13 +185,10 @@ class userController extends controller {
       $aAppRegistration['id'] = $iId;
       $aAppRegistration['registration_code'] = $sRegistrationCode;
       $oAppRegistration = (object)$aAppRegistration;
-
       $oResponse = appRegistrationProxy::validateRegCod($oAppRegistration);
-      $oResponse = $oResponse->response;
-      $bValidate = (!empty($oResponse->validate)) ? $oResponse->validate : false;
       $bReCaptcha = Useful::getStatusReCaptcha($sResponse);
 
-      if($bValidate && $bReCaptcha){
+      if($oResponse->status == 1 && $bReCaptcha){
         $sName = (!empty($post->name)) ? $post->name : '';
         $sLastName = (!empty($post->last_name)) ? $post->last_name : '';
         $sEmail = (!empty($post->email)) ? $post->email : '';
@@ -243,10 +220,9 @@ class userController extends controller {
         $oPerson = (object)$aPerson;
 
         return personProxy::save($oPerson);
-      }else{
-        return $oResponse = Useful::getResponseArray(2, (object)[]
-          ,'', constantGlobal::ERROR_404);
       }
+
+      return $oResponse;
     } catch (systemException $e) {
       return $oResponse = Useful::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessage());
     } catch (Exception $e){

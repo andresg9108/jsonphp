@@ -24,19 +24,17 @@ class sendEmailProxy extends proxy {
 	      $oSendEmail = sendEmail::getInstance($oConnection);
 	      $oSendEmail->iId = $iId;
 	      $oSendEmail->load();
-
 	      $sCodBD = $oSendEmail->sCode;
-	      $aResponse = [];
-	      if(!empty($sCodBD) && $sCod === $sCodBD){
-	      	$aResponse['valid'] = true;
-	      	$aResponse['email'] = $oSendEmail->sEmail;
-	      	$aResponse['subject'] = $oSendEmail->sSubject;
-	      	$aResponse['message'] = $oSendEmail->sMessage;
-	      	$oSendEmail->delete();
-	      }else{
-	      	$aResponse['valid'] = false;
+
+	      if(empty($sCodBD) || $sCod !== $sCodBD){
+	      	throw new systemException("NO SE PUEDE ENVIAR EMAIL");
 	      }
 
+	      $aResponse = [];
+	      $aResponse['email'] = $oSendEmail->sEmail;
+	      $aResponse['subject'] = $oSendEmail->sSubject;
+	      $aResponse['message'] = $oSendEmail->sMessage;
+	      $oSendEmail->delete();
 
 	      $oConnection->commit();
 	      $oConnection->close();
