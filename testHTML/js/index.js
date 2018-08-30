@@ -43,10 +43,10 @@ function logInAction(){
         $.when($.post(g_sBackEnd+sUrl2, oDatos2))
         .then(function(oResponse){
             if(oResponse.status == 1){
-                oResponse = oResponse.response;
                 console.log(oResponse);
             }else{
-
+                setErrorMessage(oResponse.text.client);
+                updatePage();
             }
         })
         .fail(function(){});

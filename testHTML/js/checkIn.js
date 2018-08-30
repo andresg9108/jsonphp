@@ -85,7 +85,7 @@ function checkInAction(){
                                 updatePage();
                             })
                             .fail(function(){});
-                        }else if(oResponse.status > 1){
+                        }else{
                             setErrorMessage(oResponse.text.client);
                             updatePage();
                         }

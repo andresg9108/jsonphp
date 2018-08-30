@@ -24,21 +24,19 @@ class userProxy extends proxy {
 	      $oUser->load();
 	      $sCodeUserBD = $oUser->sRegistrationCode;
 
-	      $aResponse = [];
-	      $aResponse['valid'] = false;
-	      if(!empty($sCodeUserBD) && $sCodeUser == $sCodeUserBD){
-	      	$aResponse['valid'] = true;
-	      	$sCode = Useful::getRandomCode();
-
-	      	$oUser->iStatus = 1;
-	      	$oUser->sRegistrationCode = $sCode;
-	      	$oUser->save();
+	      if(empty($sCodeUserBD) || $sCodeUser != $sCodeUserBD){
+	      	throw new systemException(constantUser::getConstant('FAIL_VALIDATE_USER_BY_EMAIL'));
 	      }
+
+	      $sCode = Useful::getRandomCode();
+	      $oUser->iStatus = 1;
+	      $oUser->sRegistrationCode = $sCode;
+	      $oUser->save();
 
 	      $oConnection->commit();
 	      $oConnection->close();
 	      
-	      return Useful::getResponseArray(1, (object)$aResponse,
+	      return Useful::getResponseArray(1, (object)[],
 	      	constantUser::getConstant('SUCCESSFUL_VALIDATE_USER_BY_EMAIL'), 
 	      	constantGlobal::SUCCESSFUL_REQUEST);
 	    } catch (systemException $e) {
@@ -196,23 +194,22 @@ class userProxy extends proxy {
 	      $iStatus = $oUser->iStatus;
 	      $bStatus = ($iStatus == 1) ? true : false;
 
-	      $aResponse = [];
-	      if(!empty($sPasswordBD) && $sPassword === $sPasswordBD){
-	      	$aResponse['valid'] = true;
-	      	$aResponse['status'] = $bStatus;
-	      	if($bStatus){
-	      		$aObject = [];
-	      		$aObject['id'] = $oUser->iId;
-	      		$aObject['profile'] = $oUser->iIdProfile;
-	      		$oObject = (object)$aObject;
-	      		$sCode = Useful::getJWT($oObject);
-	      		$aResponse['code'] = $sCode;
-	      		$aResponse['profile'] = $oUser->iIdProfile;
-	      	}
-	      }else{
-	      	$aResponse['valid'] = false;
-	      	$aResponse['status'] = false;
+	      if(empty($sPasswordBD) || $sPassword !== $sPasswordBD){
+	      	throw new systemException("Error Password.");
 	      }
+
+	      if(!$bStatus){
+	      	throw new systemException("Debes validar tu email.");
+	      }
+
+	      $aResponse = [];
+	      $aObject = [];
+	      $aObject['id'] = $oUser->iId;
+	      $aObject['profile'] = $oUser->iIdProfile;
+	      $oObject = (object)$aObject;
+	      $sCode = Useful::getJWT($oObject);
+	      $aResponse['code'] = $sCode;
+	      $aResponse['profile'] = $oUser->iIdProfile;
 
 	      $oConnection->commit();
 	      $oConnection->close();

@@ -28,13 +28,7 @@ function setView(){
         .then(function(oResponse){
         	if(oResponse.status == 1){
                 let sMessage = oResponse.text.client;
-                oResponse = oResponse.response;
-                let bValid = oResponse.valid;
-                if(bValid){
-                    $("#validationMessage").html('<h1>'+ sMessage +'</h1>');
-                }else{
-                    goTo('', '');
-                }
+                $("#validationMessage").html('<h1>'+ sMessage +'</h1>');
             }else{
                 goTo('', '');
             }
