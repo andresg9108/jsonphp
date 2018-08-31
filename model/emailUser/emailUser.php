@@ -5,8 +5,9 @@ namespace model\emailUser;
 use \Exception;
 use \Firebase\JWT\{JWT, ExpiredException};
 use lib\MVC\model;
+use lib\Useful\{Useful, constantGlobal};
 use model\{connection, systemException};
-use model\sendEmail\{queryEmailUser, constantEmailUser};
+use model\emailUser\{queryEmailUser, constantEmailUser};
 
 class emailUser extends model {
 
@@ -41,6 +42,18 @@ class emailUser extends model {
   */
   public function validateInsert(){
     $this->validateData();
+
+    $oEmailUser = clone $this;
+
+    $oEmailUser->iId = null;
+    $oEmailUser->sEmail = $this->sEmail;
+    $oEmailUser->loadByEmail();
+    if(!is_null($oEmailUser->iId)){
+      $aParameters = [$this->sEmail];
+      throw new systemException(constantEmailUser::getConstant('VAL_EXISTING_EMAIL', $aParameters));
+    }
+
+    unset($oEmailUser);
   }
 
   /*
@@ -52,6 +65,13 @@ class emailUser extends model {
   /*
   */
   public function validateData(){
+    if(empty($this->sEmail)){
+      throw new systemException(constantEmailUser::getConstant('VAL_EMPTY_EMAIL'));
+    }
+
+    if(!Useful::validateEmail($this->sEmail)){
+      throw new systemException(constantEmailUser::getConstant('VAL_VAL_EMAIL'));
+    }
   }
 
   /*
@@ -59,7 +79,7 @@ class emailUser extends model {
   public function insert(){
     $this->validateInsert();
 
-    $aParameters = [];
+    $aParameters = [$this->sEmail, $this->sRegistrationCode, $this->iStatus, $this->iIdUser];
     $sQuery = queryEmailUser::getQuery('INSERT', $aParameters);
 
     $this->oConnection->run($sQuery);
@@ -80,6 +100,45 @@ class emailUser extends model {
   /*
   */
   public function load(){
+    $aParameters = [$this->iId];
+    $sQuery = queryEmailUser::getQuery('LOAD', $aParameters);
+    $aParameters = ['id', 'email', 'registration_code', 'status', 'id_user'];
+    $this->oConnection->queryRow($sQuery, $aParameters);
+    $oEmailUser = $this->oConnection->getQuery();
+
+    $iId = (!empty($oEmailUser->id)) ? $oEmailUser->id : null;
+    $sEmail = (!empty($oEmailUser->email)) ? $oEmailUser->email : '';
+    $sRegistrationCode = (!empty($oEmailUser->registration_code)) ? $oEmailUser->registration_code : '';
+    $iStatus = (!empty($oEmailUser->status)) ? $oEmailUser->status : null;
+    $iIdUser = (!empty($oEmailUser->id_user)) ? $oEmailUser->id_user : null;
+
+    $this->iId = $iId;
+    $this->sEmail = $sEmail;
+    $this->sRegistrationCode = $sRegistrationCode;
+    $this->iStatus = $iStatus;
+    $this->iIdUser = $iIdUser;
+  }
+
+  /*
+  */
+  public function loadByEmail(){
+    $aParameters = [$this->sEmail];
+    $sQuery = queryEmailUser::getQuery('LOAD_BY_EMAIL', $aParameters);
+    $aParameters = ['id', 'email', 'registration_code', 'status', 'id_user'];
+    $this->oConnection->queryRow($sQuery, $aParameters);
+    $oEmailUser = $this->oConnection->getQuery();
+
+    $iId = (!empty($oEmailUser->id)) ? $oEmailUser->id : null;
+    $sEmail = (!empty($oEmailUser->email)) ? $oEmailUser->email : '';
+    $sRegistrationCode = (!empty($oEmailUser->registration_code)) ? $oEmailUser->registration_code : '';
+    $iStatus = (!empty($oEmailUser->status)) ? $oEmailUser->status : null;
+    $iIdUser = (!empty($oEmailUser->id_user)) ? $oEmailUser->id_user : null;
+
+    $this->iId = $iId;
+    $this->sEmail = $sEmail;
+    $this->sRegistrationCode = $sRegistrationCode;
+    $this->iStatus = $iStatus;
+    $this->iIdUser = $iIdUser;
   }
 
   /*

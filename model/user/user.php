@@ -15,13 +15,11 @@ class user extends model {
   private static $instance;
   private $oConnection;
   public $iId;
-  public $sEmail;
   public $sUser;
   public $sPassword;
   public $iIdPerson;
   public $iIdProfile;
   public $iStatus;
-  public $sRegistrationCode;
 
   // Construct
   function __construct($oConnection){
@@ -158,14 +156,6 @@ class user extends model {
     $oUser = clone $this;
 
     $oUser->iId = null;
-    $oUser->sEmail = $this->sEmail;
-    $oUser->loadXEmail();
-    if(!is_null($oUser->iId)){
-      $aParameters = [$this->sEmail];
-      throw new systemException(constantUser::getConstant('VAL_EXISTING_EMAIL', $aParameters));
-    }
-
-    $oUser->iId = null;
     $oUser->sUser = $this->sUser;
     $oUser->loadXUser();
     if(!is_null($oUser->iId)){
@@ -185,20 +175,12 @@ class user extends model {
   /*
   */
   public function validateData(){
-    if(empty($this->sEmail)){
-      throw new systemException(constantUser::getConstant('VAL_EMPTY_EMAIL'));
-    }
-
     if(empty($this->sUser)){
       throw new systemException(constantUser::getConstant('VAL_EMPTY_USUARIO'));
     }
 
     if(empty($this->sPassword)){
       throw new systemException(constantUser::getConstant('VAL_EMPTY_PASSWORD'));
-    }
-
-    if(!Useful::validateEmail($this->sEmail)){
-      throw new systemException(constantUser::getConstant('VAL_VAL_EMAIL'));
     }
 
     if(!Useful::validateUsername($this->sUser)){

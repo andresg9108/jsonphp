@@ -6,6 +6,16 @@ use lib\MVC\query;
 
 class queryEmailUser extends query {
 
-	const INSERT = "";
+	const LOAD = "SELECT `id`, `email`, 
+					`registration_code`, 
+					`status`, `id_user` 
+					FROM `email_user` 
+					WHERE `id`=<1?>;";
+	const LOAD_BY_EMAIL = "SELECT `id`, `email`, 
+							`registration_code`, 
+							`status`, `id_user` 
+							FROM `email_user` 
+							WHERE `email`='<1?>';";
+	const INSERT = "INSERT INTO `email_user`(`email`, `registration_code`, `status`, `id_user`) VALUES ('<1?>', '<2?>', <3?>, <4?>);";
 
 }
