@@ -7,6 +7,8 @@ $(function(){
 /*
 */
 function setView(){
+    validateSession(false);
+    
     let sMessage = getErrorMessage();
     $("#messageerr").html(sMessage);
 }

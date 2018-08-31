@@ -7,6 +7,8 @@ $(function(){
 /*
 */
 function setView(){
+    validateSession(false);
+    
     let sMessage = getErrorMessage();
     $("#messageerr").html(sMessage);
 }
@@ -48,11 +50,7 @@ function logInAction(){
                 let iProfile = oResponse.profile;
                 $.when(setSession(sCode))
                 .then(function(){
-                    if(iProfile == 1){
-                        goTo('dashboardAdmin', '');
-                    }else{
-                        goTo('dashboard', '');
-                    }
+                    goToDashboard(iProfile);
                 })
                 .fail(function(){});
             }else{

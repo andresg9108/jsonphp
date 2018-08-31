@@ -7,5 +7,5 @@ $(function(){
 /*
 */
 function setView(){
-	validateSession();
+	validateSession(true);
 }

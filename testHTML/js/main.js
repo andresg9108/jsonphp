@@ -15,6 +15,14 @@ $(function(){
 
 /*
 */
+function closeSession(){
+    setSession('');
+    goTo('', '');
+}
+
+
+/*
+*/
 function updatePage(){
     window.location.reload(true);
 }
@@ -23,6 +31,16 @@ function updatePage(){
 */
 function setSession(sCode){
     localStorage.setItem(g_sSession+"session", sCode);
+}
+
+/*
+*/
+function goToDashboard(iProfile){
+    if(iProfile == 1){
+        goTo('dashboardAdmin', '');
+    }else{
+        goTo('dashboard', '');
+    }
 }
 
 /*
@@ -86,7 +104,7 @@ function goTo_w(sUrl){
 
 /*
 */
-function validateSession(){
+function validateSession(bSession){
     let sSessionCode = getSession();
     
     let oDatos = {};
@@ -106,7 +124,19 @@ function validateSession(){
         let sUrl2 = 'administration/user/validateSession';
         $.when($.post(g_sBackEnd+sUrl2, oDatos2))
         .then(function(oResponse){
-            console.log(oResponse);
+            if(oResponse.status != 1){
+                setSession('');
+                if(bSession){
+                    goTo('', '');
+                }
+            }else{
+                oResponse = oResponse.response;
+                let iProfile = oResponse.profile;
+                
+                if(!bSession){
+                    goToDashboard(iProfile);
+                }
+            }
         })
         .fail(function(){});
     })

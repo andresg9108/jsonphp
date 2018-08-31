@@ -92,8 +92,11 @@ class userController extends controller {
         $oObject = Useful::getDecodeJWT($sCode);
         $iId = (!empty($oObject->id)) ? $oObject->id : null;
         $iProfile = (!empty($oObject->profile)) ? $oObject->profile : null;
-        
-        return Useful::getResponseArray(1, (object)[], '', '');
+
+        $aResponse = [];
+        $aResponse['profile'] = $iProfile;
+
+        return Useful::getResponseArray(1, (object)$aResponse, '', '');
       }
 
       return $oResponse;
