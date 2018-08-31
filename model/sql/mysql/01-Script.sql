@@ -62,15 +62,25 @@ foreign key(id_privileges) references privileges(id)
 create table user(
 id int not null auto_increment,
 registration_date timestamp DEFAULT CURRENT_TIMESTAMP,
-email varchar(300),
 user varchar(250),
 password text,
 status int(1),
-registration_code text,
 id_person int,
 id_profile int,
 index(user),
 primary key(id),
 foreign key(id_person) references person(id),
 foreign key(id_profile) references profile(id)
+);
+
+create table email_user(
+id int not null auto_increment,
+registration_date timestamp DEFAULT CURRENT_TIMESTAMP,
+email varchar(300),
+registration_code text,
+status int(1),
+id_user int,
+index(email),
+primary key(id),
+foreign key(id_user) references user(id)
 );
