@@ -9,6 +9,7 @@ use lib\MVC\proxy;
 use model\{connection, systemException};
 use model\person\{person, constantPerson};
 use model\user\user;
+use model\emailUser\emailUser;
 use model\sendEmail\sendEmail;
 
 class personProxy extends proxy {
@@ -25,10 +26,11 @@ class personProxy extends proxy {
 	      $oPerson = person::getInstance($oConnection);
 	      $oSendEmail = sendEmail::getInstance($oConnection);
 	      $oUser = user::getInstance($oConnection);
+	      $oEmailUser = emailUser::getInstance($oConnection);
 
 	      $oPerson->sName = $sName;
 	      $oPerson->sLastName = $sLastName;
-	      $oPerson->aUsers = $aUsersSet;
+	      $oPerson->aUser = $aUsersSet;
 	      $oPerson->save();
 
 	      // SEND EMAIL
@@ -38,19 +40,19 @@ class personProxy extends proxy {
 	      $aEmail = [];
 	      foreach ($aUser as $i => $v){
 			$iIdUser = (!empty($v->id)) ? $v->id : null;
-			$sEmail = (!empty($v->email)) ? $v->email : '';
-			$sRegistrationCode = (!empty($v->registration_code)) ? $v->registration_code : '';
 			$iIdEmail = 1;
 			$sCode = Useful::getRandomCode();
+			$oEmailUser->iIdUser = $iIdUser;
+			$oEmailUser->loadMainByIdUser();
 
-			$aParameters = [$iIdUser, $sRegistrationCode];
+			$aParameters = [$iIdUser, $oEmailUser->sRegistrationCode];
 	      	$sUrl = constantPerson::getConstant('EMAIL_CHECKIN_URL', $aParameters);
 	      	$sSubject = constantPerson::getConstant('EMAIL_CHECKIN_SUBJECT');
 	      	$aParameters = [$sUrl];
 	      	$sMessage = Useful::getEmailTemplate('checkin', $aParameters);
 
 	      	$oSendEmail->iId = null;
-	      	$oSendEmail->sEmail = $sEmail;
+	      	$oSendEmail->sEmail = $oEmailUser->sEmail;
 	      	$oSendEmail->sCode = $sCode;
 	      	$oSendEmail->iIdEmail = $iIdEmail;
 	      	$oSendEmail->sSubject = $sSubject;

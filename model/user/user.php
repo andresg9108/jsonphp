@@ -8,6 +8,7 @@ use lib\MVC\model;
 use lib\Useful\Useful;
 use model\{connection, systemException};
 use model\user\{queryUser, constantUser};
+use model\emailUser\emailUser;
 
 class user extends model {
 
@@ -20,12 +21,15 @@ class user extends model {
   public $iIdPerson;
   public $iIdProfile;
   public $iStatus;
+  public $aEmailUser;
 
   // Construct
   function __construct($oConnection){
     $this->oConnection = $oConnection;
 
     $this->iId = null;
+    $this->iIdProfile = null;
+    $this->iIdPerson = null;
   }
   
   /*
@@ -43,11 +47,28 @@ class user extends model {
   public function insert(){
     $this->validateInsert();
 
-    $aParameters = [$this->sEmail, $this->sUser, $this->sPassword, $this->iStatus, $this->sRegistrationCode, $this->iIdPerson, $this->iIdProfile];
+    $aParameters = [$this->sUser, $this->sPassword, $this->iStatus, $this->iIdPerson, $this->iIdProfile];
     $sQuery = queryUser::getQuery('INSERT', $aParameters);
 
     $this->oConnection->run($sQuery);
     $this->iId = $this->oConnection->getIDInsert();
+
+    $oEmailUser = emailUser::getInstance($this->oConnection);
+    foreach ($this->aEmailUser as $i => $v) {
+      $sEmail = (!empty($v->email)) ? $v->email : '';
+      $sRegistrationCode = (!empty($v->registration_code)) ? $v->registration_code : '';
+      $iMain = (!empty($v->main)) ? $v->main : 0;
+      $iStatus = (!empty($v->status)) ? $v->status : 0;
+      $iIdUser = $this->iId;
+
+      $oEmailUser->iId = null;
+      $oEmailUser->sEmail = $sEmail;
+      $oEmailUser->sRegistrationCode = $sRegistrationCode;
+      $oEmailUser->iMain = $iMain;
+      $oEmailUser->iStatus = $iStatus;
+      $oEmailUser->iIdUser = $iIdUser;
+      $oEmailUser->save();
+    }
   }
 
   /*
@@ -55,7 +76,7 @@ class user extends model {
   public function update(){
     $this->validateUpdate();
 
-    $aParameters = [$this->iId, $this->sEmail, $this->sUser, $this->sPassword, $this->iStatus, $this->sRegistrationCode, $this->iIdPerson, $this->iIdProfile];
+    $aParameters = [$this->iId, $this->sUser, $this->sPassword, $this->iStatus, $this->iIdPerson, $this->iIdProfile];
     $sQuery = queryUser::getQuery('UPDATE', $aParameters);
     
     $this->oConnection->run($sQuery);
@@ -66,84 +87,45 @@ class user extends model {
   public function load(){
     $aParameters = [$this->iId];
     $sQuery = queryUser::getQuery('LOAD', $aParameters);
-    $aParameters = ['id', 'registration_date', 'email', 'user',
-        'password', 'status', 'registration_code', 'id_person', 'id_profile'];
+    $aParameters = ['id', 'registration_date', 'user', 'password', 'status', 'id_person', 'id_profile'];
     $this->oConnection->queryRow($sQuery, $aParameters);
     $oUser = $this->oConnection->getQuery();
 
     $iId = (!empty($oUser->id)) ? $oUser->id : null;
-    $sEmail = (!empty($oUser->email)) ? $oUser->email : '';
     $sUser = (!empty($oUser->user)) ? $oUser->user : '';
     $sPassword = (!empty($oUser->password)) ? $oUser->password : '';
-    $iStatus = (!empty($oUser->status)) ? $oUser->status : '0';
-    $sRegistrationCode = (!empty($oUser->registration_code)) ? $oUser->registration_code : '';
+    $iStatus = (!empty($oUser->status)) ? $oUser->status : 0;
     $iIdPerson = (!empty($oUser->id_person)) ? $oUser->id_person : null;
     $iIdProfile = (!empty($oUser->id_profile)) ? $oUser->id_profile : null;
 
     $this->iId = $iId;
-    $this->sEmail = $sEmail;
     $this->sUser = $sUser;
     $this->sPassword = $sPassword;
     $this->iStatus = $iStatus;
-    $this->sRegistrationCode = $sRegistrationCode;
     $this->iIdPerson = $iIdPerson;
     $this->iIdProfile = $iIdProfile;
   }
 
   /*
   */
-  public function loadXUser(){
+  public function loadByUser(){
     $aParameters = [$this->sUser];
-    $sQuery = queryUser::getQuery('LOADXUSER', $aParameters);
-    $aParameters = ['id', 'registration_date', 'email', 'user',
-        'password', 'status', 'registration_code', 'id_person', 'id_profile'];
+    $sQuery = queryUser::getQuery('LOAD_BY_USER', $aParameters);
+    $aParameters = ['id', 'registration_date', 'user', 'password', 'status', 'id_person', 'id_profile'];
     $this->oConnection->queryRow($sQuery, $aParameters);
     $oUser = $this->oConnection->getQuery();
 
     $iId = (!empty($oUser->id)) ? $oUser->id : null;
-    $sEmail = (!empty($oUser->email)) ? $oUser->email : '';
     $sUser = (!empty($oUser->user)) ? $oUser->user : '';
     $sPassword = (!empty($oUser->password)) ? $oUser->password : '';
-    $iStatus = (!empty($oUser->status)) ? $oUser->status : '0';
-    $sRegistrationCode = (!empty($oUser->registration_code)) ? $oUser->registration_code : '';
+    $iStatus = (!empty($oUser->status)) ? $oUser->status : 0;
     $iIdPerson = (!empty($oUser->id_person)) ? $oUser->id_person : null;
     $iIdProfile = (!empty($oUser->id_profile)) ? $oUser->id_profile : null;
 
     $this->iId = $iId;
-    $this->sEmail = $sEmail;
     $this->sUser = $sUser;
     $this->sPassword = $sPassword;
     $this->iStatus = $iStatus;
-    $this->sRegistrationCode = $sRegistrationCode;
-    $this->iIdPerson = $iIdPerson;
-    $this->iIdProfile = $iIdProfile;
-  }
-
-  /*
-  */
-  public function loadXEmail(){
-    $aParameters = [$this->sEmail];
-    $sQuery = queryUser::getQuery('LOADXEMAIL', $aParameters);
-    $aParameters = ['id', 'registration_date', 'email', 'user',
-        'password', 'status', 'registration_code', 'id_person', 'id_profile'];
-    $this->oConnection->queryRow($sQuery, $aParameters);
-    $oUser = $this->oConnection->getQuery();
-
-    $iId = (!empty($oUser->id)) ? $oUser->id : null;
-    $sEmail = (!empty($oUser->email)) ? $oUser->email : '';
-    $sUser = (!empty($oUser->user)) ? $oUser->user : '';
-    $sPassword = (!empty($oUser->password)) ? $oUser->password : '';
-    $iStatus = (!empty($oUser->status)) ? $oUser->status : '0';
-    $sRegistrationCode = (!empty($oUser->registration_code)) ? $oUser->registration_code : '';
-    $iIdPerson = (!empty($oUser->id_person)) ? $oUser->id_person : null;
-    $iIdProfile = (!empty($oUser->id_profile)) ? $oUser->id_profile : null;
-
-    $this->iId = $iId;
-    $this->sEmail = $sEmail;
-    $this->sUser = $sUser;
-    $this->sPassword = $sPassword;
-    $this->iStatus = $iStatus;
-    $this->sRegistrationCode = $sRegistrationCode;
     $this->iIdPerson = $iIdPerson;
     $this->iIdProfile = $iIdProfile;
   }
@@ -157,7 +139,7 @@ class user extends model {
 
     $oUser->iId = null;
     $oUser->sUser = $this->sUser;
-    $oUser->loadXUser();
+    $oUser->loadByUser();
     if(!is_null($oUser->iId)){
       $aParameters = [$this->sUser];
       throw new systemException(constantUser::getConstant('VAL_EXISTING_USERNAME', $aParameters));
@@ -195,7 +177,7 @@ class user extends model {
   public function getUsersByIdPerson(){
     $aParameters = [$this->iIdPerson];
     $sQuery = queryUser::getQuery('SELECT_BY_ID_PERSON', $aParameters);
-    $aParameters = ['id', 'registration_date', 'email', 'user', 'password', 'status', 'registration_code', 'id_person', 'id_profile'];
+    $aParameters = ['id', 'registration_date', 'user', 'password', 'status', 'id_person', 'id_profile'];
     $this->oConnection->queryArray($sQuery, $aParameters);
     $aUser = $this->oConnection->getQuery();
 

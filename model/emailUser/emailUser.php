@@ -18,6 +18,7 @@ class emailUser extends model {
   public $sEmail;
   public $sRegistrationCode;
   public $iStatus;
+  public $iMain;
   public $iIdUser;
 
   // Construct
@@ -79,7 +80,7 @@ class emailUser extends model {
   public function insert(){
     $this->validateInsert();
 
-    $aParameters = [$this->sEmail, $this->sRegistrationCode, $this->iStatus, $this->iIdUser];
+    $aParameters = [$this->sEmail, $this->sRegistrationCode, $this->iMain, $this->iStatus, $this->iIdUser];
     $sQuery = queryEmailUser::getQuery('INSERT', $aParameters);
 
     $this->oConnection->run($sQuery);
@@ -90,6 +91,11 @@ class emailUser extends model {
   */
   public function update(){
     $this->validateUpdate();
+
+    $aParameters = [$this->iId, $this->sEmail, $this->sRegistrationCode, $this->iStatus, $this->iMain, $this->iIdUser];
+    $sQuery = queryEmailUser::getQuery('UPDATE', $aParameters);
+    
+    $this->oConnection->run($sQuery);
   }
 
   /*
@@ -102,19 +108,21 @@ class emailUser extends model {
   public function load(){
     $aParameters = [$this->iId];
     $sQuery = queryEmailUser::getQuery('LOAD', $aParameters);
-    $aParameters = ['id', 'email', 'registration_code', 'status', 'id_user'];
+    $aParameters = ['id', 'email', 'registration_code', 'main', 'status', 'id_user'];
     $this->oConnection->queryRow($sQuery, $aParameters);
     $oEmailUser = $this->oConnection->getQuery();
 
     $iId = (!empty($oEmailUser->id)) ? $oEmailUser->id : null;
     $sEmail = (!empty($oEmailUser->email)) ? $oEmailUser->email : '';
     $sRegistrationCode = (!empty($oEmailUser->registration_code)) ? $oEmailUser->registration_code : '';
+    $iMain = (!empty($oEmailUser->main)) ? $oEmailUser->main : null;
     $iStatus = (!empty($oEmailUser->status)) ? $oEmailUser->status : null;
     $iIdUser = (!empty($oEmailUser->id_user)) ? $oEmailUser->id_user : null;
 
     $this->iId = $iId;
     $this->sEmail = $sEmail;
     $this->sRegistrationCode = $sRegistrationCode;
+    $this->iMain = $iMain;
     $this->iStatus = $iStatus;
     $this->iIdUser = $iIdUser;
   }
@@ -124,19 +132,45 @@ class emailUser extends model {
   public function loadByEmail(){
     $aParameters = [$this->sEmail];
     $sQuery = queryEmailUser::getQuery('LOAD_BY_EMAIL', $aParameters);
-    $aParameters = ['id', 'email', 'registration_code', 'status', 'id_user'];
+    $aParameters = ['id', 'email', 'registration_code', 'main', 'status', 'id_user'];
     $this->oConnection->queryRow($sQuery, $aParameters);
     $oEmailUser = $this->oConnection->getQuery();
 
     $iId = (!empty($oEmailUser->id)) ? $oEmailUser->id : null;
     $sEmail = (!empty($oEmailUser->email)) ? $oEmailUser->email : '';
     $sRegistrationCode = (!empty($oEmailUser->registration_code)) ? $oEmailUser->registration_code : '';
+    $iMain = (!empty($oEmailUser->main)) ? $oEmailUser->main : null;
     $iStatus = (!empty($oEmailUser->status)) ? $oEmailUser->status : null;
     $iIdUser = (!empty($oEmailUser->id_user)) ? $oEmailUser->id_user : null;
 
     $this->iId = $iId;
     $this->sEmail = $sEmail;
     $this->sRegistrationCode = $sRegistrationCode;
+    $this->iMain = $iMain;
+    $this->iStatus = $iStatus;
+    $this->iIdUser = $iIdUser;
+  }
+
+  /*
+  */
+  public function loadMainByIdUser(){
+    $aParameters = [$this->iIdUser];
+    $sQuery = queryEmailUser::getQuery('LOAD_MAIN_BY_ID_USER', $aParameters);
+    $aParameters = ['id', 'email', 'registration_code', 'main', 'status', 'id_user'];
+    $this->oConnection->queryRow($sQuery, $aParameters);
+    $oEmailUser = $this->oConnection->getQuery();
+
+    $iId = (!empty($oEmailUser->id)) ? $oEmailUser->id : null;
+    $sEmail = (!empty($oEmailUser->email)) ? $oEmailUser->email : '';
+    $sRegistrationCode = (!empty($oEmailUser->registration_code)) ? $oEmailUser->registration_code : '';
+    $iMain = (!empty($oEmailUser->main)) ? $oEmailUser->main : null;
+    $iStatus = (!empty($oEmailUser->status)) ? $oEmailUser->status : null;
+    $iIdUser = (!empty($oEmailUser->id_user)) ? $oEmailUser->id_user : null;
+
+    $this->iId = $iId;
+    $this->sEmail = $sEmail;
+    $this->sRegistrationCode = $sRegistrationCode;
+    $this->iMain = $iMain;
     $this->iStatus = $iStatus;
     $this->iIdUser = $iIdUser;
   }

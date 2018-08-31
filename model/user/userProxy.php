@@ -8,29 +8,37 @@ use lib\Useful\{Useful, constantGlobal};
 use lib\MVC\proxy;
 use model\{connection, systemException};
 use model\user\{user, constantUser};
+use model\emailUser\emailUser;
 use model\sendEmail\sendEmail;
 
 class userProxy extends proxy {
 
 	/*
 	*/
-	public static function validateEmailByCode($iIdUser, $sCodeUser){
+	public static function validateEmailByCode($iIdUser, $sCodeEmailUser){
 		try {
 	      $oConnection = connection::getInstance();
 	      $oConnection->connect();
 
 	      $oUser = user::getInstance($oConnection);
-	      $oUser->iId = $iIdUser;
-	      $oUser->load();
-	      $sCodeUserBD = $oUser->sRegistrationCode;
+	      $oEmailUser = emailUser::getInstance($oConnection);
 
-	      if(empty($sCodeUserBD) || $sCodeUser != $sCodeUserBD){
+	      $oEmailUser->iIdUser = $iIdUser;
+	      $oEmailUser->loadMainByIdUser();
+	      $sCodeEmailUserBD = $oEmailUser->sRegistrationCode;
+
+	      if(empty($sCodeEmailUserBD) || $sCodeEmailUser != $sCodeEmailUserBD){
 	      	throw new systemException(constantUser::getConstant('FAIL_VALIDATE_USER_BY_EMAIL'));
 	      }
 
 	      $sCode = Useful::getRandomCode();
+	      $oEmailUser->iStatus = 1;
+	      $oEmailUser->sRegistrationCode = $sCode;
+	      $oEmailUser->save();
+
+	      $oUser->iId = $iIdUser;
+	      $oUser->load();
 	      $oUser->iStatus = 1;
-	      $oUser->sRegistrationCode = $sCode;
 	      $oUser->save();
 
 	      $oConnection->commit();
@@ -137,17 +145,18 @@ class userProxy extends proxy {
 	      $sUser = str_replace(' ', '', $sUser);
 
 	      $oUser = user::getInstance($oConnection);
+	      $oEmailUser = emailUser::getInstance($oConnection);
 
 	      $bEmail = false;
-	      $oUser->iId = null;
-	      $oUser->sEmail = $sEmail;
-	      $oUser->loadXEmail();
-	      if(!is_null($oUser->iId)){ $bEmail = true; }
+	      $oEmailUser->iId = null;
+	      $oEmailUser->sEmail = $sEmail;
+	      $oEmailUser->loadByEmail();
+	      if(!is_null($oEmailUser->iId)){ $bEmail = true; }
 
 	      $bUser = false;
 	      $oUser->iId = null;
 	      $oUser->sUser = $sUser;
-	      $oUser->loadXUser();
+	      $oUser->loadByUser();
 	      if(!is_null($oUser->iId)){ $bUser = true; }
 
 	      $aResponse = [];
@@ -189,7 +198,7 @@ class userProxy extends proxy {
 
 	      $oUser = user::getInstance($oConnection);
 	      $oUser->sUser = $sUser;
-	      $oUser->loadXUser();
+	      $oUser->loadByUser();
 	      $sPasswordBD = $oUser->sPassword;
 	      $iStatus = $oUser->iStatus;
 	      $bStatus = ($iStatus == 1) ? true : false;

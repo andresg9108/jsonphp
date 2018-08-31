@@ -18,7 +18,7 @@ class person extends model {
   public $iId;
   public $sName;
   public $sLastName;
-  public $aUsers;
+  public $aUser;
 
   // Construct
   function __construct($oConnection){
@@ -80,23 +80,21 @@ class person extends model {
     $this->oConnection->run($sQuery);
     $this->iId = $this->oConnection->getIDInsert();
 
-    foreach ($this->aUsers as $i => $v) {
-      $sEmail = (!empty($v->email)) ? $v->email : '';
+    $oUser = user::getInstance($this->oConnection);
+    foreach ($this->aUser as $i => $v) {
       $sUser = (!empty($v->user)) ? $v->user : '';
       $sPassword = (!empty($v->password)) ? $v->password : '';
-      $sRegistrationCode = (!empty($v->registration_code)) ? $v->registration_code : '';
       $iStatus = (!empty($v->status)) ? $v->status : 0;
       $iIdProfile = (!empty($v->id_profile)) ? $v->id_profile : null;
+      $aEmailUser = (!empty($v->email_user)) ? $v->email_user : [];
 
-      $oUser = user::getInstance($this->oConnection);
       $oUser->iId = null;
-      $oUser->sEmail = $sEmail;
       $oUser->sUser = $sUser;
       $oUser->iStatus = $iStatus;
-      $oUser->sRegistrationCode = $sRegistrationCode;
       $oUser->sPassword = $sPassword;
       $oUser->iIdPerson = $this->iId;
       $oUser->iIdProfile = $iIdProfile;
+      $oUser->aEmailUser = $aEmailUser;
       $oUser->save();
     }
   }

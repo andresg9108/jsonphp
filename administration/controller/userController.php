@@ -204,13 +204,19 @@ class userController extends controller {
         $sPassword = (!empty($sPassword)) ? md5($sPassword) : '';
 
         $sRegistrationCode = Useful::getRandomCode();
+        $aEmailUser = [];
+        $aEmailUser['email'] = $sEmail;
+        $aEmailUser['registration_code'] = $sRegistrationCode;
+        $aEmailUser['main'] = 1;
+        $aEmailUser['status'] = 0;
+        $oEmailUser = (object)$aEmailUser;
+
         $aUser = [];
-        $aUser['email'] = $sEmail;
         $aUser['user'] = $sUser;
         $aUser['password'] = $sPassword;
-        $aUser['registration_code'] = $sRegistrationCode;
         $aUser['status'] = 0;
         $aUser['id_profile'] = 2;
+        $aUser['email_user'] = [$oEmailUser];
         $oUser = (object)$aUser;
 
         $aPerson = [];
