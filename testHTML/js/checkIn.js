@@ -16,8 +16,6 @@ function setView(){
 /*
 */
 function checkInAction(){
-    let sMessageErr = '';
-
     let sFieldNameEmail = 'email';
     let sTextEmail = 'There is already a registered user with this email.';
     let sFieldNameUser = 'user';

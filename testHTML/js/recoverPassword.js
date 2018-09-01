@@ -36,7 +36,21 @@ function recoverPasswordAction(){
 	        let sUrl2 = 'administration/user/recoverPassword';
 	        $.when($.post(g_sBackEnd+sUrl2, oDatos2))
 	        .then(function(oResponse){
-	        	console.log(oResponse);
+	        	if(oResponse.status == 1){
+	        		let sResponse = oResponse.text.client;
+                    oResponse = oResponse.response;
+                    let aEmail = oResponse.email;
+
+                    $.when(sendEmail(aEmail))
+                    .then(function(oResponse){
+                        setErrorMessage(sResponse);
+                        updatePage();
+                    })
+                    .fail(function(){});
+	        	}else{
+	        		setErrorMessage(oResponse.text.client);
+                    updatePage();
+	        	}
 	        })
 	        .fail(function(){});
 	    })
@@ -53,9 +67,9 @@ function validateRecoverPassword(){
     let sFieldName2 = '';
     let sText = '';
 
-    sFieldName = 'email';
+    /*sFieldName = 'email';
     sText = 'Debes ingresar el email de tu cuenta.';
-    if(!validateTexto(sFieldName, sText)){return false;}
+    if(!validateTexto(sFieldName, sText)){return false;}*/
 
 	return true;
 }

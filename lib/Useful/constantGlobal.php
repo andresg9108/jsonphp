@@ -13,8 +13,6 @@ class constantGlobal extends constant{
     const SUCCESSFUL_REQUEST = "Successful application.";
     const ERROR_404 = "Error 404";
     const ERROR_SESSION = "The session could not be established.";
-	const EMAIL_RECOVERPASSWORD_SUBJECT = "Recover password";
-	const EMAIL_RECOVERPASSWORD_URL = "http://localhost/jsonphp/testHTML/recoverPassword/changePassword/?id=<1?>&code=<2?>";
     const FAIL_CAPTCHA = "You must complete the Captcha for security reasons.";
 
 	// Spanish
@@ -25,7 +23,6 @@ class constantGlobal extends constant{
     const SPAN_SUCCESSFUL_REQUEST = "Solicitud exitosa.";
     const SPAN_ERROR_404 = "Error 404";
     const SPAN_ERROR_SESSION = "No se pudo establecer la sesión.";
-	const SPAN_EMAIL_RECOVERPASSWORD_SUBJECT = "Recuperar contraseña";
     const SPAN_FAIL_CAPTCHA = "Debes completar el Captcha por motivos de seguridad.";
 
 }

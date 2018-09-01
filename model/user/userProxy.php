@@ -69,49 +69,47 @@ class userProxy extends proxy {
 	      $oConnection = connection::getInstance();
 	      $oConnection->connect();
 
-	      $oUser = user::getInstance($oConnection);
+	      // $oUser = user::getInstance($oConnection);
+	      $oEmailUser = emailUser::getInstance($oConnection);
 	      $oSendEmail = sendEmail::getInstance($oConnection);
 
-	      $oUser->iId = null;
-	      $oUser->sEmail = $sEmail;
-	      $oUser->loadXEmail();
+	      $oEmailUser->iId = null;
+	      $oEmailUser->sEmail = $sEmail;
+	      $oEmailUser->loadByEmail();
+
+	      if(empty($oEmailUser->iId)){
+	      	throw new systemException(constantUser::getConstant('FAIL_EMAIL_RECOVER_PASSWORD'));
+	      }
+
+	      // SEND EMAIL
+	      $aEmail = [];
+
+	      $iIdEmail = 2;
+	      $sCode = Useful::getRandomCode();
+
+	      $aParameters = [$oEmailUser->iId, $oEmailUser->sRegistrationCode];
+	      $sUrl = constantUser::getConstant('EMAIL_RECOVER_PASSWORD_URL', $aParameters);
+	      $sSubject = constantUser::getConstant('EMAIL_SUBJECT_RECOVER_PASSWORD');
+	      $aParameters = [$sUrl];
+	      $sMessage = Useful::getEmailTemplate('recoverPassword', $aParameters);
+
+	      $oSendEmail->iId = null;
+	      $oSendEmail->sEmail = $oEmailUser->sEmail;
+	      $oSendEmail->sCode = $sCode;
+	      $oSendEmail->iIdEmail = $iIdEmail;
+	      $oSendEmail->sSubject = $sSubject;
+	      $oSendEmail->sMessage = $sMessage;
+	      $oSendEmail->save();
+
+	      $aEmailRow = [];
+	      $aEmailRow['id'] = $oSendEmail->iId;
+	      $aEmailRow['cod'] = $oSendEmail->sCode;
+	      $oEmailRow = (object)$aEmailRow;
+	      $aEmail[] = $oEmailRow;
+	      // END EMAIL
 
 	      $aResponse = [];
-	      $aResponse['send_email'] = false;
-	      if(!is_null($oUser->iId)){
-	      	$aResponse['send_email'] = true;
-
-	      	// SEND EMAIL
-	      	$iIdUser = (!empty($oUser->iId)) ? $oUser->iId : null;
-	      	$sEmail = (!empty($oUser->sEmail)) ? $oUser->sEmail : '';
-	      	$sRegistrationCode = (!empty($oUser->sRegistrationCode)) ? $oUser->sRegistrationCode : '';
-	      	$iIdEmail = 2;
-	      	$sCode = Useful::getRandomCode();
-
-	      	$aParameters = [$iIdUser, $sRegistrationCode];
-	      	$sUrl = constantGlobal::getConstant('EMAIL_RECOVERPASSWORD_URL', $aParameters);
-	      	$sSubject = constantGlobal::getConstant('EMAIL_RECOVERPASSWORD_SUBJECT');
-	      	$sSubject = str_replace("'", '"', $sSubject);
-	      	$aParameters = [$sUrl];
-	      	$sMessage = constantGlobal::getConstant('EMAIL_RECOVERPASSWORD_MESSAGE', $aParameters);
-	      	$sMessage = str_replace("'", '"', $sMessage);
-
-	      	$oSendEmail->iId = null;
-	      	$oSendEmail->sEmail = $sEmail;
-	      	$oSendEmail->sCode = $sCode;
-	      	$oSendEmail->iIdEmail = $iIdEmail;
-	      	$oSendEmail->sSubject = $sSubject;
-	      	$oSendEmail->sMessage = $sMessage;
-	      	$oSendEmail->save();
-
-	      	$aEmailRow = [];
-	      	$aEmailRow['id'] = $oSendEmail->iId;
-	      	$aEmailRow['cod'] = $oSendEmail->sCode;
-	      	$oEmailRow = (object)$aEmailRow;
-
-	      	$aResponse['email'] = [$oEmailRow];
-	      	// END EMAIL
-	      }
+	      $aResponse['email'] = $aEmail;
 
 	      $oConnection->commit();
 	      $oConnection->close();
