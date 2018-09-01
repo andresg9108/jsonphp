@@ -17,10 +17,7 @@ class publicDataController extends controller {
   */
   public function getRegCodeAction($get, $post){
     try {
-      $oAppRegistration = [];
-      $oAppRegistration = (object)$oAppRegistration;
-      
-      return appRegistrationProxy::save($oAppRegistration);
+      return appRegistrationProxy::save((object)[]);
     } catch (systemException $e) {
       return Useful::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessage());
     } catch (Exception $e){
