@@ -15,6 +15,37 @@ class userProxy extends proxy {
 
 	/*
 	*/
+	public static function sendRecoverPassword($iIdEUser, $sCodeEUser, $sPassword){
+		try {
+	      $oConnection = connection::getInstance();
+	      $oConnection->connect();
+
+	      $oUser = user::getInstance($oConnection);
+	      $oEmailUser = emailUser::getInstance($oConnection);
+
+	      $oConnection->commit();
+	      $oConnection->close();
+	      
+	      return Useful::getResponseArray(1, (object)[],
+	      	'', 
+	      	constantGlobal::SUCCESSFUL_REQUEST);
+	    } catch (systemException $e) {
+	    	$oConnection->rollback();
+	    	$oConnection->close();
+	    	return Useful::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessage());
+	    } catch (Exception $e) {
+	    	$oConnection->rollback();
+	    	$oConnection->close();
+	    	return Useful::getResponseArray(3, (object)[], constantGlobal::getConstant('CONTACT_SUPPORT'), '(Code: '.$e->getCode().') ' . $e->getMessage());
+	    } catch (ExpiredException $e) {
+	    	$oConnection->rollback();
+	    	$oConnection->close();
+	    	return Useful::getResponseArray(4, (object)[], constantGlobal::getConstant('ERROR_SESSION'), constantGlobal::getConstant('ERROR_SESSION'));
+		}
+	}
+
+	/*
+	*/
 	public static function validateRecoverPassword($iIdEUser, $sCodeEUser){
 		try {
 	      $oConnection = connection::getInstance();

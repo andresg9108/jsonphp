@@ -44,7 +44,7 @@ class userController extends controller {
       $sCodeEUser = (!empty($post->codeeuser)) ? $post->codeeuser : '';
       $sPassword = (!empty($post->password)) ? $post->password : '';
 
-      return [$iIdEUser, $sCodeEUser, $sPassword];
+      return userProxy::sendRecoverPassword($iIdEUser, $sCodeEUser, $sPassword);
     } catch (systemException $e) {
       return Useful::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessage());
     } catch (Exception $e){
