@@ -17,6 +17,36 @@ class userController extends controller {
 
   /*
   */
+  public function validateRecoverPasswordAction($get, $post){
+    try {
+      // BEGIN APP VALIDATION
+      $iId = (!empty($post->id)) ? $post->id : null;
+      $sRegistrationCode = (!empty($post->registration_code)) ? $post->registration_code : '';
+      $aAppRegistration = [];
+      $aAppRegistration['id'] = $iId;
+      $aAppRegistration['registration_code'] = $sRegistrationCode;
+      $oAppRegistration = (object)$aAppRegistration;
+      $oResponse = appRegistrationProxy::validateRegCod($oAppRegistration);
+      if($oResponse->status != 1){
+        return $oResponse;
+      }
+      // END APP VALIDATION
+
+      $iIdEUser = (!empty($post->ideuser)) ? $post->ideuser : null;
+      $sCodeEUser = (!empty($post->codeeuser)) ? $post->codeeuser : '';
+
+      return userProxy::validateRecoverPassword($iIdEUser, $sCodeEUser);
+    } catch (systemException $e) {
+      return Useful::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessage());
+    } catch (Exception $e){
+      return Useful::getResponseArray(3, (object)[], constantGlobal::getConstant('CONTACT_SUPPORT'), '(Code: '.$e->getCode().') ' . $e->getMessage());
+    } catch (ExpiredException $e) {
+      return Useful::getResponseArray(4, (object)[], constantGlobal::getConstant('ERROR_SESSION'), constantGlobal::getConstant('ERROR_SESSION'));
+    }
+  }
+
+  /*
+  */
   public function recoverPasswordAction($get, $post){
     try {
       // BEGIN APP VALIDATION

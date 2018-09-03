@@ -15,6 +15,9 @@ $aResponse = Useful::getResponseArray(2, (object)[]
 	,'', constantGlobal::ERROR_404);
 
 switch ($sAction) {
+	case 'validateRecoverPassword':
+		$aResponse = $oUserController->validateRecoverPasswordAction((object)$_GET, (object)$_POST);
+		break;
 	case 'recoverPassword':
 		$aResponse = $oUserController->recoverPasswordAction((object)$_GET, (object)$_POST);
 		break;
