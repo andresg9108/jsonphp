@@ -43,8 +43,8 @@ function setView(){
                 $("#ideuser").val(iIdEUser);
                 $("#codeeuser").val(sCodeEUser);
             }else{
-                alert(oResponse.text.client);
-                //goTo('recoverPassword/', '');
+                setErrorMessage(oResponse.text.client);
+                goTo('recoverPassword/', '');
             }
         })
         .fail(function(){});
@@ -81,7 +81,12 @@ function recoverPasswordAction(){
             let sUrl1 = 'administration/user/sendRecoverPassword';
             $.when($.post(g_sBackEnd+sUrl1, oDatos1))
             .then(function(oResponse){
-                console.log(oResponse);
+                setErrorMessage(oResponse.text.client);
+                if(oResponse.status == 1){
+                    goTo('', '');
+                }else{
+                    goTo('recoverPassword/', '');
+                }
             })
             .fail(function(){});
         })

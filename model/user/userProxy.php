@@ -23,11 +23,27 @@ class userProxy extends proxy {
 	      $oUser = user::getInstance($oConnection);
 	      $oEmailUser = emailUser::getInstance($oConnection);
 
+	      $oEmailUser->iId = $iIdEUser;
+	      $oEmailUser->load();
+
+	      if(empty($oEmailUser->iId) || $sCodeEUser != $oEmailUser->sRegistrationCode){
+	      	throw new systemException(constantUser::getConstant('FAIL_VALIDATE_RECOVER_PASSWORD'));
+	      }
+
+	      $sCode = Useful::getRandomCode();
+	      $oEmailUser->sRegistrationCode = $sCode;
+	      $oEmailUser->save();
+
+	      $oUser->iId = $oEmailUser->iIdUser;
+	      $oUser->load();
+	      $oUser->sPassword = $sPassword;
+	      $oUser->save();
+
 	      $oConnection->commit();
 	      $oConnection->close();
 	      
 	      return Useful::getResponseArray(1, (object)[],
-	      	'', 
+	      	constantUser::getConstant('SUCCESSFUL_SEND_RECOVER_PASSWORD'), 
 	      	constantGlobal::SUCCESSFUL_REQUEST);
 	    } catch (systemException $e) {
 	    	$oConnection->rollback();
