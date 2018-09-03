@@ -6,6 +6,7 @@ use lib\MVC\constant;
 
 class constantUser extends constant{
 
+	const FAIL_VALIDATE_RECOVER_PASSWORD = "This link can only be used once.";
 	const FAIL_EMAIL_RECOVER_PASSWORD = "No one has been registered with this email.";
 	const FAIL_VALIDATE_LOGIN = "Incorrect user or password.";
 	const FAIL_VALIDATE_USER = "You must validate your email.";
@@ -21,6 +22,7 @@ class constantUser extends constant{
 	const EMAIL_RECOVER_PASSWORD_URL = "http://localhost/jsonphp/testHTML/recoverPassword/change/?id=<1?>&code=<2?>";
 
 	// Spanish
+	const SPAN_FAIL_VALIDATE_RECOVER_PASSWORD = "Este link solo puede ser usado una sola vez.";
 	const SPAN_FAIL_EMAIL_RECOVER_PASSWORD = "No se ha registrado nadie con este correo electrónico.";
 	const SPAN_FAIL_VALIDATE_LOGIN = "Usuario o contraseña incorrecta.";
 	const SPAN_FAIL_VALIDATE_USER = "Debes validar tu correo electrónico.";
