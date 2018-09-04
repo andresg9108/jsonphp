@@ -161,16 +161,8 @@ class user extends model {
       throw new systemException(constantUser::getConstant('VAL_EMPTY_USUARIO'));
     }
 
-    if(empty($this->sPassword)){
-      throw new systemException(constantUser::getConstant('VAL_EMPTY_PASSWORD'));
-    }
-
     if(!Useful::validateUsername($this->sUser)){
       throw new systemException(constantUser::getConstant('VAL_VAL_USERNAME'));
-    }
-
-    if(!Useful::validatePassword($this->sPassword)){
-      throw new systemException(constantUser::getConstant('VAL_VAL_PASSWORD'));
     }
   }
 

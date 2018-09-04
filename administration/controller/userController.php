@@ -44,7 +44,7 @@ class userController extends controller {
       $sCodeEUser = (!empty($post->codeeuser)) ? $post->codeeuser : '';
       $sPassword = (!empty($post->password)) ? $post->password : '';
 
-      $sPassword = md5($sPassword);
+      $sPassword = Useful::getFilterPassword($sPassword);
 
       return userProxy::sendRecoverPassword($iIdEUser, $sCodeEUser, $sPassword);
     } catch (systemException $e) {
@@ -104,7 +104,17 @@ class userController extends controller {
       }
       // END APP VALIDATION
 
+      // BEGIN CAPTCHA VALIDATION
+      $sResponse = (!empty($post->response)) ? $post->response : '';
+      $bReCaptcha = Useful::getStatusReCaptcha($sResponse);
+      if(!$bReCaptcha){
+        throw new systemException(constantGlobal::getConstant('FAIL_CAPTCHA'));
+      }
+      // END CAPTCHA VALIDATION
+
       $sEmail = (!empty($post->email)) ? $post->email : '';
+
+      $sEmail = Useful::getFilterCharacters($sEmail);
 
       return userProxy::recoverPassword($sEmail);
     } catch (systemException $e) {
@@ -237,6 +247,10 @@ class userController extends controller {
 
       $sUser = (!empty($post->user)) ? $post->user : '';
       $sPassword = (!empty($post->password)) ? $post->password : '';
+
+      $sUser = Useful::getFilterCharacters($sUser);
+      $sUser = str_replace(' ', '', $sUser);
+
       $aUser = [];
       $aUser['user'] = $sUser;
       $aUser['password'] = $sPassword;
@@ -289,7 +303,7 @@ class userController extends controller {
       $sUser = Useful::getFilterCharacters($sUser);
       $sEmail = str_replace(' ', '', $sEmail);
       $sUser = str_replace(' ', '', $sUser);
-      $sPassword = (!empty($sPassword)) ? md5($sPassword) : '';
+      $sPassword = Useful::getFilterPassword($sPassword);
 
       $sRegistrationCode = Useful::getRandomCode();
       $aEmailUser = [];

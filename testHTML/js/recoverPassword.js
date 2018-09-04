@@ -18,6 +18,10 @@ function setView(){
 function recoverPasswordAction(){
 	if(validateRecoverPassword()){
 		let sEmail = $("#email").val();
+		let sResponse = '';
+        if(g_bReCaptcha){
+            sResponse = $("#g-recaptcha-response").val();
+        }
 
 		let oDatos = {};
 	    let sUrl = 'administration/publicData/appRegistration';
@@ -31,6 +35,7 @@ function recoverPasswordAction(){
 	        let oDatos2 = {
 	            'id': iId,
 	            'registration_code': sRegCod,
+	            'response': sResponse,
 	            'email': sEmail
 	        };
 	        let sUrl2 = 'administration/user/recoverPassword';
@@ -67,9 +72,11 @@ function validateRecoverPassword(){
     let sFieldName2 = '';
     let sText = '';
 
-    /*sFieldName = 'email';
-    sText = 'Debes ingresar el email de tu cuenta.';
-    if(!validateTexto(sFieldName, sText)){return false;}*/
+    sFieldName = 'email';
+    sText = 'You must add an email.';
+    if(!validateTexto(sFieldName, sText)){return false;}
+    sText = 'Add a valid email.';
+    if(!validateEmail(sFieldName, sText)){return false;}
 
 	return true;
 }

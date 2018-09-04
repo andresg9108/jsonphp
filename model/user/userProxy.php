@@ -168,7 +168,15 @@ class userProxy extends proxy {
 	      $oConnection = connection::getInstance();
 	      $oConnection->connect();
 
-	      // $oUser = user::getInstance($oConnection);
+	      if(empty($sEmail)){
+	      	throw new systemException(constantUser::getConstant('VAL_EMPTY_EMAIL_RECOVER_PASSWORD'));
+	      }
+
+	      if(!Useful::validateEmail($sEmail)){
+	      	throw new systemException(constantUser::getConstant('VAL_VAL_EMAIL_RECOVER_PASSWORD'));
+	      }
+
+
 	      $oEmailUser = emailUser::getInstance($oConnection);
 	      $oSendEmail = sendEmail::getInstance($oConnection);
 

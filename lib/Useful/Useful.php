@@ -3,6 +3,8 @@
 namespace lib\Useful;
 
 use Firebase\JWT\JWT;
+use lib\Useful\constantGlobal;
+use model\systemException;
 
 class Useful {
   public static $aMail = [
@@ -45,6 +47,21 @@ class Useful {
   */
   public static function getConnectionArray() {
     return (object)static::$aConnection;
+  }
+
+  /*
+  */
+  public static function getFilterPassword($sPassword){
+    if(empty($sPassword)){
+        throw new systemException(constantGlobal::getConstant('VAL_EMPTY_PASSWORD'));
+      }
+
+      if(!static::validatePassword($sPassword)){
+        throw new systemException(constantGlobal::getConstant('VAL_VAL_PASSWORD'));
+      }
+
+      $sPassword = md5($sPassword);
+      return $sPassword;
   }
 
   /*
