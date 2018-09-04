@@ -78,5 +78,8 @@ function validateRecoverPassword(){
     sText = 'Add a valid email.';
     if(!validateEmail(sFieldName, sText)){return false;}
 
+    sText = 'You must complete the Captcha for security.';
+    if(!validateReCaptcha(sText)){return false;}
+
 	return true;
 }

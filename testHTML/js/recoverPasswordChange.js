@@ -59,6 +59,10 @@ function recoverPasswordAction(){
         let iIdEUser = $("#ideuser").val();
         let sCodeEUser = $("#codeeuser").val();
         let sPassword = $("#password").val();
+        let sResponse = '';
+        if(g_bReCaptcha){
+            sResponse = $("#g-recaptcha-response").val();
+        }
 
         let oDatos = {};
         let sUrl = 'administration/publicData/appRegistration';
@@ -73,6 +77,7 @@ function recoverPasswordAction(){
             let oDatos1 = {
                 'id': iId,
                 'registration_code': sRegCod,
+                'response': sResponse,
                 'ideuser': iIdEUser,
                 'codeeuser': sCodeEUser,
                 'password': sPassword
@@ -99,6 +104,27 @@ function recoverPasswordAction(){
 /*
 */
 function validateRecoverPassword(){
+    let sFieldName = '';
+    let sFieldName2 = '';
+    let sText = '';
+
+    sFieldName = 'password';
+    sText = 'You must add a password.';
+    if(!validateTexto(sFieldName, sText)){return false;}
+    sText = 'The password must have at least 5 characters.';
+    if(!validatePassword(sFieldName, sText)){ return false; }
+
+    sFieldName = 'rpassword';
+    sText = 'You must repeat the password.';
+    if(!validateTexto(sFieldName, sText)){return false;}
+
+    sFieldName = 'password';
+    sFieldName2 = 'rpassword';
+    sText = 'Passwords do not match.';
+    if(!validatePasswords(sFieldName, sFieldName2, sText)){ return false; }
+
+    sText = 'You must complete the Captcha for security.';
+    if(!validateReCaptcha(sText)){return false;}
 
     return true;
 }
