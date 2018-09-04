@@ -10,6 +10,7 @@ id int not null auto_increment,
 registration_date timestamp DEFAULT CURRENT_TIMESTAMP,
 title varchar(80),
 description text,
+index(title),
 primary key(id)
 );
 
@@ -30,14 +31,16 @@ id int not null auto_increment,
 registration_date timestamp DEFAULT CURRENT_TIMESTAMP,
 name varchar(250),
 last_name varchar(250),
+index(name),
+index(last_name),
 primary key(id)
 );
 
-create table profile(
+create table module(
 id int not null auto_increment,
 registration_date timestamp DEFAULT CURRENT_TIMESTAMP,
 title varchar(250),
-all_privileges int(1),
+index(title),
 primary key(id)
 );
 
@@ -45,13 +48,24 @@ create table privileges(
 id int not null auto_increment,
 registration_date timestamp DEFAULT CURRENT_TIMESTAMP,
 title varchar(250),
+id_module int,
+index(title),
+primary key(id),
+foreign key(id_module) references module(id)
+);
+
+create table profile(
+id int not null auto_increment,
+registration_date timestamp DEFAULT CURRENT_TIMESTAMP,
+title varchar(250),
+all_privileges int(1),
+index(title),
 primary key(id)
 );
 
 create table profpriv(
 id int not null auto_increment,
 registration_date timestamp DEFAULT CURRENT_TIMESTAMP,
-title varchar(250),
 id_profile int,
 id_privileges int,
 primary key(id),
@@ -67,6 +81,7 @@ password text,
 status int(1),
 id_person int,
 id_profile int,
+index(user),
 index(user),
 primary key(id),
 foreign key(id_person) references person(id),

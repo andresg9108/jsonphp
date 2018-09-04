@@ -36,75 +36,80 @@ function checkInAction(){
         let sUrl = 'administration/publicData/appRegistration';
         $.when($.post(g_sBackEnd+sUrl, oDatos), $.post(g_sBackEnd+sUrl, oDatos))
         .then(function(oResponse1, oResponse2){
-            oResponse1 = oResponse1[0].response;
-            oResponse2 = oResponse2[0].response;
+            if(oResponse1[0].status == 1 && oResponse2[0].status == 1){
+                oResponse1 = oResponse1[0].response;
+                oResponse2 = oResponse2[0].response;
 
-            let iId1 = oResponse1.id;
-            let sRegCod1 = oResponse1.registration_code;
-            sRegCod1 = getDecodeRegCod(sRegCod1);
+                let iId1 = oResponse1.id;
+                let sRegCod1 = oResponse1.registration_code;
+                sRegCod1 = getDecodeRegCod(sRegCod1);
 
-            let oDatos1 = {
-                'id': iId1,
-                'registration_code': sRegCod1,
-                'email': sEmail,
-                'user': sUser
-            };
-            let sUrl1 = 'administration/user/validateEmailAndUser';
-            $.when($.post(g_sBackEnd+sUrl1, oDatos1))
-            .then(function(oResponse){
-                oResponse = oResponse.response;
-                let bEmail = oResponse.email;
-                let bUser = oResponse.user;
+                let oDatos1 = {
+                    'id': iId1,
+                    'registration_code': sRegCod1,
+                    'email': sEmail,
+                    'user': sUser
+                };
+                let sUrl1 = 'administration/user/validateEmailAndUser';
+                $.when($.post(g_sBackEnd+sUrl1, oDatos1))
+                .then(function(oResponse){
+                    oResponse = oResponse.response;
+                    let bEmail = oResponse.email;
+                    let bUser = oResponse.user;
 
-                if(!bEmail && !bUser){
-                    let iId2 = oResponse2.id;
-                    let sRegCod2 = oResponse2.registration_code;
-                    sRegCod2 = getDecodeRegCod(sRegCod2);
+                    if(!bEmail && !bUser){
+                        let iId2 = oResponse2.id;
+                        let sRegCod2 = oResponse2.registration_code;
+                        sRegCod2 = getDecodeRegCod(sRegCod2);
 
-                    let oDatos2 = {
-                        'id': iId2,
-                        'registration_code': sRegCod2,
-                        'response': sResponse,
-                        'name': sName,
-                        'last_name': sLastName,
-                        'email': sEmail,
-                        'user': sUser,
-                        'password': sPassword
-                    };
-                    let sUrl2 = 'administration/user/checkIn';
-                    $.when($.post(g_sBackEnd+sUrl2, oDatos2))
-                    .then(function(oResponse){
-                        if(oResponse.status == 1){
-                            let sResponse = oResponse.text.client;
-                            oResponse = oResponse.response;
-                            let aEmail = oResponse.email;
+                        let oDatos2 = {
+                            'id': iId2,
+                            'registration_code': sRegCod2,
+                            'response': sResponse,
+                            'name': sName,
+                            'last_name': sLastName,
+                            'email': sEmail,
+                            'user': sUser,
+                            'password': sPassword
+                        };
+                        let sUrl2 = 'administration/user/checkIn';
+                        $.when($.post(g_sBackEnd+sUrl2, oDatos2))
+                        .then(function(oResponse){
+                            if(oResponse.status == 1){
+                                let sResponse = oResponse.text.client;
+                                oResponse = oResponse.response;
+                                let aEmail = oResponse.email;
 
-                            $.when(sendEmail(aEmail))
-                            .then(function(oResponse){
-                                setErrorMessage(sResponse);
+                                $.when(sendEmail(aEmail))
+                                .then(function(oResponse){
+                                    setErrorMessage(sResponse);
+                                    updatePage();
+                                })
+                                .fail(function(){});
+                            }else{
+                                setErrorMessage(oResponse.text.client);
                                 updatePage();
-                            })
-                            .fail(function(){});
-                        }else{
-                            setErrorMessage(oResponse.text.client);
-                            updatePage();
+                            }
+                        })
+                        .fail(function(){});
+                    }else{
+                        if(bEmail){
+                            $("#err"+sFieldNameEmail).html(sTextEmail);
+                            let oObjectE = document.getElementById(sFieldNameEmail);
+                            oObjectE.focus();
                         }
-                    })
-                    .fail(function(){});
-                }else{
-                    if(bEmail){
-                        $("#err"+sFieldNameEmail).html(sTextEmail);
-                        let oObjectE = document.getElementById(sFieldNameEmail);
-                        oObjectE.focus();
+                        if(bUser){
+                            $("#err"+sFieldNameUser).html(sTextUser);
+                            let oObjectU = document.getElementById(sFieldNameUser);
+                            oObjectU.focus();
+                        }
                     }
-                    if(bUser){
-                        $("#err"+sFieldNameUser).html(sTextUser);
-                        let oObjectU = document.getElementById(sFieldNameUser);
-                        oObjectU.focus();
-                    }
-                }
-            })
-            .fail(function(){});
+                })
+                .fail(function(){});
+            }else{
+                setErrorMessage(oResponse1[0].text.client);
+                goTo('', '');
+            }
         })
         .fail(function(){});
     }

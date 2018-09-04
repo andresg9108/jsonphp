@@ -35,16 +35,6 @@ function setSession(sCode){
 
 /*
 */
-function goToDashboard(iProfile){
-    if(iProfile == 1){
-        goTo('dashboardAdmin', '');
-    }else{
-        goTo('dashboard', '');
-    }
-}
-
-/*
-*/
 function getSession(){
     let sSession = localStorage.getItem(g_sSession+"session");
     if(sSession == null){
@@ -111,34 +101,42 @@ function validateSession(bSession){
     let sUrl = 'administration/publicData/appRegistration';
     $.when($.post(g_sBackEnd+sUrl, oDatos))
     .then(function(oResponse){
-        let aResponse = oResponse.response;
-        let iId = aResponse.id;
-        let sRegCod = aResponse.registration_code;
-        sRegCod = getDecodeRegCod(sRegCod);
+        if(oResponse.status == 1){
+            let aResponse = oResponse.response;
+            let iId = aResponse.id;
+            let sRegCod = aResponse.registration_code;
+            sRegCod = getDecodeRegCod(sRegCod);
 
-        let oDatos2 = {
-            'id': iId,
-            'registration_code': sRegCod,
-            'code': sSessionCode
-        };
-        let sUrl2 = 'administration/user/validateSession';
-        $.when($.post(g_sBackEnd+sUrl2, oDatos2))
-        .then(function(oResponse){
-            if(oResponse.status != 1){
-                setSession('');
-                if(bSession){
-                    goTo('', '');
+            let oDatos2 = {
+                'id': iId,
+                'registration_code': sRegCod,
+                'code': sSessionCode
+            };
+            let sUrl2 = 'administration/user/validateSession';
+            $.when($.post(g_sBackEnd+sUrl2, oDatos2))
+            .then(function(oResponse){
+                if(oResponse.status != 1){
+                    setSession('');
+                    if(bSession){
+                        goTo('', '');
+                    }
+                }else{
+                    oResponse = oResponse.response;
+                    let iProfile = oResponse.profile;
+                    
+                    if(!bSession){
+                        goTo('dashboard', '');
+                    }
                 }
-            }else{
-                oResponse = oResponse.response;
-                let iProfile = oResponse.profile;
-                
-                if(!bSession){
-                    goToDashboard(iProfile);
-                }
+            })
+            .fail(function(){});
+        }else{
+            setErrorMessage(oResponse.text.client);
+            setSession('');
+            if(bSession){
+                goTo('', '');
             }
-        })
-        .fail(function(){});
+        }
     })
     .fail(function(){});
 }

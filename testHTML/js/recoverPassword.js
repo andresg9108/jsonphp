@@ -27,37 +27,42 @@ function recoverPasswordAction(){
 	    let sUrl = 'administration/publicData/appRegistration';
 	    $.when($.post(g_sBackEnd+sUrl, oDatos))
 	    .then(function(oResponse){
-	        let aResponse = oResponse.response;
-	        let iId = aResponse.id;
-	        let sRegCod = aResponse.registration_code;
-	        sRegCod = getDecodeRegCod(sRegCod);
+	        if(oResponse.status == 1){
+	        	let aResponse = oResponse.response;
+		        let iId = aResponse.id;
+		        let sRegCod = aResponse.registration_code;
+		        sRegCod = getDecodeRegCod(sRegCod);
 
-	        let oDatos2 = {
-	            'id': iId,
-	            'registration_code': sRegCod,
-	            'response': sResponse,
-	            'email': sEmail
-	        };
-	        let sUrl2 = 'administration/user/recoverPassword';
-	        $.when($.post(g_sBackEnd+sUrl2, oDatos2))
-	        .then(function(oResponse){
-	        	if(oResponse.status == 1){
-	        		let sResponse = oResponse.text.client;
-                    oResponse = oResponse.response;
-                    let aEmail = oResponse.email;
+		        let oDatos2 = {
+		            'id': iId,
+		            'registration_code': sRegCod,
+		            'response': sResponse,
+		            'email': sEmail
+		        };
+		        let sUrl2 = 'administration/user/recoverPassword';
+		        $.when($.post(g_sBackEnd+sUrl2, oDatos2))
+		        .then(function(oResponse){
+		        	if(oResponse.status == 1){
+		        		let sResponse = oResponse.text.client;
+	                    oResponse = oResponse.response;
+	                    let aEmail = oResponse.email;
 
-                    $.when(sendEmail(aEmail))
-                    .then(function(oResponse){
-                        setErrorMessage(sResponse);
-                        updatePage();
-                    })
-                    .fail(function(){});
-	        	}else{
-	        		setErrorMessage(oResponse.text.client);
-                    updatePage();
-	        	}
-	        })
-	        .fail(function(){});
+	                    $.when(sendEmail(aEmail))
+	                    .then(function(oResponse){
+	                        setErrorMessage(sResponse);
+	                        updatePage();
+	                    })
+	                    .fail(function(){});
+		        	}else{
+		        		setErrorMessage(oResponse.text.client);
+	                    updatePage();
+		        	}
+		        })
+		        .fail(function(){});
+	        }else{
+	        	setErrorMessage(oResponse.text.client);
+            	goTo('', '');
+	        }
 	    })
 	    .fail(function(){});
 	}

@@ -19,35 +19,39 @@ function setView(){
     let sUrl = 'administration/publicData/appRegistration';
     $.when($.post(g_sBackEnd+sUrl, oDatos))
     .then(function(oResponse){
-        oResponse = oResponse.response;
+        if(oResponse.status == 1){
+            oResponse = oResponse.response;
+            let iId = oResponse.id;
+            let sRegCod = oResponse.registration_code;
+            sRegCod = getDecodeRegCod(sRegCod);
 
-        let iId = oResponse.id;
-        let sRegCod = oResponse.registration_code;
-        sRegCod = getDecodeRegCod(sRegCod);
+            let oDatos1 = {
+                'id': iId,
+                'registration_code': sRegCod,
+                'ideuser': iIdEUser,
+                'codeeuser': sCodeEUser
 
-        let oDatos1 = {
-            'id': iId,
-            'registration_code': sRegCod,
-            'ideuser': iIdEUser,
-            'codeeuser': sCodeEUser
+            };
+            let sUrl1 = 'administration/user/validateRecoverPassword';
+            $.when($.post(g_sBackEnd+sUrl1, oDatos1))
+            .then(function(oResponse){
+                if(oResponse.status == 1){
+                    oResponse = oResponse.response;
+                    let iIdEUser = oResponse.ideuser;
+                    let sCodeEUser = oResponse.codeeuser;
 
-        };
-        let sUrl1 = 'administration/user/validateRecoverPassword';
-        $.when($.post(g_sBackEnd+sUrl1, oDatos1))
-        .then(function(oResponse){
-        	if(oResponse.status == 1){
-                oResponse = oResponse.response;
-                let iIdEUser = oResponse.ideuser;
-                let sCodeEUser = oResponse.codeeuser;
-
-                $("#ideuser").val(iIdEUser);
-                $("#codeeuser").val(sCodeEUser);
-            }else{
-                setErrorMessage(oResponse.text.client);
-                goTo('recoverPassword/', '');
-            }
-        })
-        .fail(function(){});
+                    $("#ideuser").val(iIdEUser);
+                    $("#codeeuser").val(sCodeEUser);
+                }else{
+                    setErrorMessage(oResponse.text.client);
+                    goTo('recoverPassword/', '');
+                }
+            })
+            .fail(function(){});
+        }else{
+            setErrorMessage(oResponse.text.client);
+            goTo('', '');
+        }
     })
     .fail(function(){});
 }
@@ -68,32 +72,36 @@ function recoverPasswordAction(){
         let sUrl = 'administration/publicData/appRegistration';
         $.when($.post(g_sBackEnd+sUrl, oDatos))
         .then(function(oResponse){
-            oResponse = oResponse.response;
+            if(oResponse.status == 1){
+                oResponse = oResponse.response;
+                let iId = oResponse.id;
+                let sRegCod = oResponse.registration_code;
+                sRegCod = getDecodeRegCod(sRegCod);
 
-            let iId = oResponse.id;
-            let sRegCod = oResponse.registration_code;
-            sRegCod = getDecodeRegCod(sRegCod);
+                let oDatos1 = {
+                    'id': iId,
+                    'registration_code': sRegCod,
+                    'response': sResponse,
+                    'ideuser': iIdEUser,
+                    'codeeuser': sCodeEUser,
+                    'password': sPassword
 
-            let oDatos1 = {
-                'id': iId,
-                'registration_code': sRegCod,
-                'response': sResponse,
-                'ideuser': iIdEUser,
-                'codeeuser': sCodeEUser,
-                'password': sPassword
-
-            };
-            let sUrl1 = 'administration/user/sendRecoverPassword';
-            $.when($.post(g_sBackEnd+sUrl1, oDatos1))
-            .then(function(oResponse){
+                };
+                let sUrl1 = 'administration/user/sendRecoverPassword';
+                $.when($.post(g_sBackEnd+sUrl1, oDatos1))
+                .then(function(oResponse){
+                    setErrorMessage(oResponse.text.client);
+                    if(oResponse.status == 1){
+                        goTo('', '');
+                    }else{
+                        goTo('recoverPassword/', '');
+                    }
+                })
+                .fail(function(){});
+            }else{
                 setErrorMessage(oResponse.text.client);
-                if(oResponse.status == 1){
-                    goTo('', '');
-                }else{
-                    goTo('recoverPassword/', '');
-                }
-            })
-            .fail(function(){});
+                goTo('', '');
+            }
         })
         .fail(function(){});
     }
