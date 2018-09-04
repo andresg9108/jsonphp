@@ -1,0 +1,5 @@
+Options +FollowSymLinks -MultiViews
+
+RewriteEngine On
+
+RewriteRule ^([^/]+)/([^/]+) view/main.php?view=$1&action=$2 [L,QSA]
