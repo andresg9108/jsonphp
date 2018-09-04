@@ -44,7 +44,7 @@ class userProxy extends proxy {
 	      
 	      return Useful::getResponseArray(1, (object)[],
 	      	constantUser::getConstant('SUCCESSFUL_SEND_RECOVER_PASSWORD'), 
-	      	constantGlobal::SUCCESSFUL_REQUEST);
+	      	constantGlobal::getConstant('SUCCESSFUL_REQUEST'));
 	    } catch (systemException $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();
@@ -52,7 +52,7 @@ class userProxy extends proxy {
 	    } catch (Exception $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();
-	    	return Useful::getResponseArray(3, (object)[], constantGlobal::getConstant('CONTACT_SUPPORT'), '(Code: '.$e->getCode().') ' . $e->getMessage());
+	    	return Useful::getResponseArray(3, (object)[], constantGlobal::getConstant('CONTACT_SUPPORT'), $e->getMessage());
 	    } catch (ExpiredException $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();
@@ -96,7 +96,7 @@ class userProxy extends proxy {
 	      
 	      return Useful::getResponseArray(1, (object)$aResponse,
 	      	'', 
-	      	constantGlobal::SUCCESSFUL_REQUEST);
+	      	constantGlobal::getConstant('SUCCESSFUL_REQUEST'));
 	    } catch (systemException $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();
@@ -104,7 +104,7 @@ class userProxy extends proxy {
 	    } catch (Exception $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();
-	    	return Useful::getResponseArray(3, (object)[], constantGlobal::getConstant('CONTACT_SUPPORT'), '(Code: '.$e->getCode().') ' . $e->getMessage());
+	    	return Useful::getResponseArray(3, (object)[], constantGlobal::getConstant('CONTACT_SUPPORT'), $e->getMessage());
 	    } catch (ExpiredException $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();
@@ -145,7 +145,7 @@ class userProxy extends proxy {
 	      
 	      return Useful::getResponseArray(1, (object)[],
 	      	constantUser::getConstant('SUCCESSFUL_VALIDATE_USER_BY_EMAIL'), 
-	      	constantGlobal::SUCCESSFUL_REQUEST);
+	      	constantGlobal::getConstant('SUCCESSFUL_REQUEST'));
 	    } catch (systemException $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();
@@ -153,7 +153,7 @@ class userProxy extends proxy {
 	    } catch (Exception $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();
-	    	return Useful::getResponseArray(3, (object)[], constantGlobal::getConstant('CONTACT_SUPPORT'), '(Code: '.$e->getCode().') ' . $e->getMessage());
+	    	return Useful::getResponseArray(3, (object)[], constantGlobal::getConstant('CONTACT_SUPPORT'), $e->getMessage());
 	    } catch (ExpiredException $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();
@@ -223,7 +223,7 @@ class userProxy extends proxy {
 	      
 	      return Useful::getResponseArray(1, (object)$aResponse,
 	      	constantUser::getConstant('SUCCESSFUL_RECOVER_PASSWORD'), 
-	      	constantGlobal::SUCCESSFUL_REQUEST);
+	      	constantGlobal::getConstant('SUCCESSFUL_REQUEST'));
 	    } catch (systemException $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();
@@ -231,7 +231,7 @@ class userProxy extends proxy {
 	    } catch (Exception $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();
-	    	return Useful::getResponseArray(3, (object)[], constantGlobal::getConstant('CONTACT_SUPPORT'), '(Code: '.$e->getCode().') ' . $e->getMessage());
+	    	return Useful::getResponseArray(3, (object)[], constantGlobal::getConstant('CONTACT_SUPPORT'), $e->getMessage());
 	    } catch (ExpiredException $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();
@@ -273,7 +273,7 @@ class userProxy extends proxy {
 	      
 	      return Useful::getResponseArray(1, (object)$aResponse,
 	      	"", 
-	      	constantGlobal::SUCCESSFUL_REQUEST);
+	      	constantGlobal::getConstant('SUCCESSFUL_REQUEST'));
 	    } catch (systemException $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();
@@ -281,7 +281,7 @@ class userProxy extends proxy {
 	    } catch (Exception $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();
-	    	return Useful::getResponseArray(3, (object)[], constantGlobal::getConstant('CONTACT_SUPPORT'), '(Code: '.$e->getCode().') ' . $e->getMessage());
+	    	return Useful::getResponseArray(3, (object)[], constantGlobal::getConstant('CONTACT_SUPPORT'), $e->getMessage());
 	    } catch (ExpiredException $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();
@@ -330,7 +330,7 @@ class userProxy extends proxy {
 	      
 	      return Useful::getResponseArray(1, (object)$aResponse,
 	      	"", 
-	      	constantGlobal::SUCCESSFUL_REQUEST);
+	      	constantGlobal::getConstant('SUCCESSFUL_REQUEST'));
 	    } catch (systemException $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();
@@ -338,7 +338,7 @@ class userProxy extends proxy {
 	    } catch (Exception $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();
-	    	return Useful::getResponseArray(3, (object)[], constantGlobal::getConstant('CONTACT_SUPPORT'), '(Code: '.$e->getCode().') ' . $e->getMessage());
+	    	return Useful::getResponseArray(3, (object)[], constantGlobal::getConstant('CONTACT_SUPPORT'), $e->getMessage());
 	    } catch (ExpiredException $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();

@@ -75,7 +75,7 @@ class personProxy extends proxy {
 	      
 	      return Useful::getResponseArray(1, (object)$aResponse,
 	      	constantPerson::getConstant('SUCCESSFUL_REGISTRATION'), 
-	      	constantGlobal::SUCCESSFUL_REQUEST);
+	      	constantGlobal::getConstant('SUCCESSFUL_REQUEST'));
 	    } catch (systemException $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();
@@ -83,7 +83,7 @@ class personProxy extends proxy {
 	    } catch (Exception $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();
-	    	return Useful::getResponseArray(3, (object)[], constantGlobal::getConstant('CONTACT_SUPPORT'), '(Code: '.$e->getCode().') ' . $e->getMessage());
+	    	return Useful::getResponseArray(3, (object)[], constantGlobal::getConstant('CONTACT_SUPPORT'), $e->getMessage());
 	    } catch (ExpiredException $e) {
 	    	$oConnection->rollback();
 	    	$oConnection->close();
