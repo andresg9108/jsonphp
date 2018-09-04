@@ -2,16 +2,16 @@
 
 ### Starting:
 
-<ul>
-	<ol>Clone the repository.</ol>
-	<ol>Execute "composer install", in the root of the project.</ol>
-</ul>
+<ol>
+	<li>Clone the repository.</li>
+	<li>Execute "composer install", in the root of the project.</li>
+</ol>
 
 ### Types of web services states
 
-<ul>
-	<li>Successful request (Solicitud exitosa).</li>
-	<li>Controlled exception of the system (Excepción controlada del sistema).</li>
-	<li>Uncontrolled exception (Excepción incontrolada).</li>
-	<li>The session could not be validated (La sesión no pudo ser validada).</li>>
-</ul>
+<ol>
+	<li>Successful request.</li>
+	<li>Controlled exception of the system.</li>
+	<li>Uncontrolled exception.</li>
+	<li>The session could not be validated.</li>>
+</ol>
