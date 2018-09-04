@@ -29,6 +29,7 @@ class Useful {
     'encryption_red_cod' => true,
     'recaptcha' => false,
     'php_errors' => true,
+    'system_errors' => true,
     'recaptcha_secret_key' => '6Ld7vmoUAAArJlmxnPc',
     'recaptcha_secret_key_hidden' => '6LdoshRlMcnEciKwUI5B',
     'maximum_session_time' => 86400, // (24*60*60 = 86400)
@@ -77,7 +78,14 @@ class Useful {
   /*
   */
   public static function getResponseArray($status = false, $aResponse = [], $sClient = '',$sDeveloper = '') {
-    $sText = ['client'=>$sClient, 'developer'=>$sDeveloper];
+    $oConnection = (object)static::$aConnection;
+    $bSystemErrors = (!empty($oConnection->system_errors)) ? $oConnection->system_errors :false;
+    
+    if($bSystemErrors){
+      $sText = ['client'=>$sClient, 'developer'=>$sDeveloper];
+    }else{
+      $sText = ['client'=>$sClient];
+    }
     $aResponse = [
       'status'=>$status,
       'response'=>$aResponse,
