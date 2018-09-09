@@ -2,9 +2,11 @@
 
 namespace lib\Useful;
 
-use Firebase\JWT\JWT;
+use \Exception;
+use \Firebase\JWT\{JWT, ExpiredException};
 use lib\Useful\constantGlobal;
 use model\systemException;
+use model\sendEmail\sendEmail;
 
 class Useful {
   public static $aMail = [
@@ -252,5 +254,27 @@ class Useful {
 
     $sHtml = str_replace("'", '"', $sHtml);
     return $sHtml;
+  }
+
+  /*
+  */
+  public static function saveEmail($sEmail, $iIdEmail, $sSubject, $sMessage, $oConnection){
+    $oSendEmail = sendEmail::getInstance($oConnection);
+    $sCode = static::getRandomCode();
+
+    $oSendEmail->iId = null;
+    $oSendEmail->sEmail = $sEmail;
+    $oSendEmail->sCode = $sCode;
+    $oSendEmail->iIdEmail = $iIdEmail;
+    $oSendEmail->sSubject = $sSubject;
+    $oSendEmail->sMessage = $sMessage;
+    $oSendEmail->save();
+
+    $aEmail = [];
+    $aEmail['id'] = $oSendEmail->iId;
+    $aEmail['cod'] = $oSendEmail->sCode;
+    $oEmail = (object)$aEmail;
+    
+    return $oEmail;
   }
 }
