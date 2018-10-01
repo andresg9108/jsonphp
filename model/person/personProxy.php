@@ -39,7 +39,7 @@ class personProxy extends proxy {
 
 	      $aEmail = [];
 	      foreach ($aUser as $i => $v){
-	      	$iIdEmail = 1;
+	      	$iIdEmailSettings = 1;
 			$iIdUser = (!empty($v->id)) ? $v->id : null;
 			$oEmailUser->iIdUser = $iIdUser;
 			$oEmailUser->loadMainByIdUser();
@@ -50,7 +50,7 @@ class personProxy extends proxy {
 	      	$aParameters = [$sUrl];
 	      	$sMessage = Useful::getEmailTemplate('checkin', $aParameters);
 
-	      	$oEmail = Useful::saveEmail($oEmailUser->sEmail, $iIdEmail, 
+	      	$oEmail = Useful::saveEmail($oEmailUser->sEmail, $iIdEmailSettings, 
 	      		$sSubject, $sMessage, $oConnection);
 	      	$aEmail[] = $oEmail;
 		  }

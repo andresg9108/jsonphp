@@ -18,7 +18,7 @@ class sendEmail extends model {
   public $sCode;
   public $sSubject;
   public $sMessage;
-  public $iIdEmail;
+  public $iIdEmailSettings;
 
   // Construct
   function __construct($oConnection){
@@ -59,7 +59,7 @@ class sendEmail extends model {
   public function insert(){
     $this->validateInsert();
 
-    $aParameters = [$this->sEmail, $this->sCode, $this->sSubject, $this->sMessage, $this->iIdEmail];
+    $aParameters = [$this->sEmail, $this->sCode, $this->sSubject, $this->sMessage, $this->iIdEmailSettings];
     $sQuery = querySendEmail::getQuery('INSERT', $aParameters);
 
     $this->oConnection->run($sQuery);
@@ -86,7 +86,7 @@ class sendEmail extends model {
   public function load(){
     $aParameters = [$this->iId];
     $sQuery = querySendEmail::getQuery('LOAD', $aParameters);
-    $aParameters = ["id", "registration_date", "email", "code", "subject", "message", "id_email"];
+    $aParameters = ["id", "registration_date", "email", "code", "subject", "message", "id_email_settings"];
     $this->oConnection->queryRow($sQuery, $aParameters);
     $oSendEmail = $this->oConnection->getQuery();
 
@@ -95,14 +95,14 @@ class sendEmail extends model {
     $sCode = (!empty($oSendEmail->code)) ? $oSendEmail->code : '';
     $sSubject = (!empty($oSendEmail->subject)) ? $oSendEmail->subject : '';
     $sMessage = (!empty($oSendEmail->message)) ? $oSendEmail->message : '';
-    $iIdEmail = (!empty($oSendEmail->id_email)) ? $oSendEmail->id_email : null;
+    $iIdEmailSettings = (!empty($oSendEmail->id_email_settings)) ? $oSendEmail->id_email_settings : null;
 
     $this->iId = $iId;
     $this->sEmail = $sEmail;
     $this->sCode = $sCode;
     $this->sSubject = $sSubject;
     $this->sMessage = $sMessage;
-    $this->iIdEmail = $iIdEmail;
+    $this->iIdEmailSettings = $iIdEmailSettings;
   }
 
   /*

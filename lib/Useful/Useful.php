@@ -258,14 +258,14 @@ class Useful {
 
   /*
   */
-  public static function saveEmail($sEmail, $iIdEmail, $sSubject, $sMessage, $oConnection){
+  public static function saveEmail($sEmail, $iIdEmailSettings, $sSubject, $sMessage, $oConnection){
     $oSendEmail = sendEmail::getInstance($oConnection);
     $sCode = static::getRandomCode();
 
     $oSendEmail->iId = null;
     $oSendEmail->sEmail = $sEmail;
     $oSendEmail->sCode = $sCode;
-    $oSendEmail->iIdEmail = $iIdEmail;
+    $oSendEmail->iIdEmailSettings = $iIdEmailSettings;
     $oSendEmail->sSubject = $sSubject;
     $oSendEmail->sMessage = $sMessage;
     $oSendEmail->save();
