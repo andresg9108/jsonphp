@@ -32,8 +32,8 @@ class Useful {
     'recaptcha' => false,
     'php_errors' => true,
     'system_errors' => true,
-    'recaptcha_secret_key' => '6Ld7vmoUAAArJlmxnPc',
-    'recaptcha_secret_key_hidden' => '6LdoshRlMcnEciKwUI5B',
+    'recaptcha_secret_key' => '6Ld7vmoU',
+    'recaptcha_secret_key_hidden' => '6LdoshR',
     'maximum_session_time' => 86400, // (24*60*60 = 86400)
     's_private_key_only_server' => 'dasf1s5GSG52',
     's_private_key' => 'a5vbFgFFG4Fd2',
