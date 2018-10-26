@@ -60,7 +60,7 @@ class sendEmail extends model {
   public function insert(){
     $this->validateInsert();
 
-    $aParameters = [$this->sEmail, $this->sCode, $this->sSubject, $this->sMessage, $this->iIdEmailSettings];
+    $aParameters = [$this->sEmail, $this->sCode, $this->sSubject, $this->sMessage, $this->iStatus, $this->iIdEmailSettings];
     $sQuery = querySendEmail::getQuery('INSERT', $aParameters);
 
     $this->oConnection->run($sQuery);
@@ -71,6 +71,11 @@ class sendEmail extends model {
   */
   public function update(){
     $this->validateUpdate();
+
+    $aParameters = [$this->iId, $this->sEmail, $this->sCode, $this->sSubject, $this->sMessage, $this->iStatus, $this->iIdEmailSettings];
+    $sQuery = querySendEmail::getQuery('UPDATE', $aParameters);
+
+    $this->oConnection->run($sQuery);
   }
 
   /*
@@ -87,7 +92,7 @@ class sendEmail extends model {
   public function load(){
     $aParameters = [$this->iId];
     $sQuery = querySendEmail::getQuery('LOAD', $aParameters);
-    $aParameters = ["id", "registration_date", "email", "code", "subject", "message", "id_email_settings"];
+    $aParameters = ["id", "registration_date", "email", "code", "subject", "message", "status", "id_email_settings"];
     $this->oConnection->queryRow($sQuery, $aParameters);
     $oSendEmail = $this->oConnection->getQuery();
 
@@ -96,6 +101,7 @@ class sendEmail extends model {
     $sCode = (!empty($oSendEmail->code)) ? $oSendEmail->code : '';
     $sSubject = (!empty($oSendEmail->subject)) ? $oSendEmail->subject : '';
     $sMessage = (!empty($oSendEmail->message)) ? $oSendEmail->message : '';
+    $iStatus = (!empty($oSendEmail->status)) ? $oSendEmail->status : 0;
     $iIdEmailSettings = (!empty($oSendEmail->id_email_settings)) ? $oSendEmail->id_email_settings : null;
 
     $this->iId = $iId;
@@ -103,6 +109,7 @@ class sendEmail extends model {
     $this->sCode = $sCode;
     $this->sSubject = $sSubject;
     $this->sMessage = $sMessage;
+    $this->iStatus = $iStatus;
     $this->iIdEmailSettings = $iIdEmailSettings;
   }
 

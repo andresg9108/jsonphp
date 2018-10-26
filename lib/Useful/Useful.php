@@ -268,6 +268,7 @@ class Useful {
     $oSendEmail->iIdEmailSettings = $iIdEmailSettings;
     $oSendEmail->sSubject = $sSubject;
     $oSendEmail->sMessage = $sMessage;
+    $oSendEmail->iStatus = 0;
     $oSendEmail->save();
 
     $aEmail = [];

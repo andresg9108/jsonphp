@@ -44,7 +44,7 @@ class emailController extends controller {
         return $oResponse;
       }
 
-      // Register
+      return sendEmailProxy::registerEmailSent($oSendEmail);
     } catch (systemException $e) {
       return Useful::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessage());
     } catch (Exception $e){
