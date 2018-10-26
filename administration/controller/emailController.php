@@ -39,8 +39,12 @@ class emailController extends controller {
       $aDatos['subject'] = (!empty($oResponse->subject)) ? $oResponse->subject : '';
       $aDatos['message'] = (!empty($oResponse->message)) ? $oResponse->message : '';
       $oDatos = (object)$aDatos;
+      $oResponse = $this->sendEmail($oDatos);
+      if($oResponse->status != 1){
+        return $oResponse;
+      }
 
-      return $this->sendEmail($oDatos);
+      // Register
     } catch (systemException $e) {
       return Useful::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessage());
     } catch (Exception $e){

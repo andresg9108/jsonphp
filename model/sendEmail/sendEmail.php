@@ -18,6 +18,7 @@ class sendEmail extends model {
   public $sCode;
   public $sSubject;
   public $sMessage;
+  public $iStatus;
   public $iIdEmailSettings;
 
   // Construct

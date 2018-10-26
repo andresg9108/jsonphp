@@ -21,6 +21,7 @@ email varchar(80),
 code varchar(100),
 subject text,
 message text,
+status int(1),
 id_email_settings int,
 primary key(id),
 foreign key(id_email_settings) references email_settings(id)

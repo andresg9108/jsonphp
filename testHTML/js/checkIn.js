@@ -80,12 +80,9 @@ function checkInAction(){
                                 oResponse = oResponse.response;
                                 let aEmail = oResponse.email;
 
-                                $.when(sendEmail(aEmail))
-                                .then(function(oResponse){
-                                    setErrorMessage(sResponse);
-                                    updatePage();
-                                })
-                                .fail(function(){});
+                                sendEmail(aEmail);
+                                setErrorMessage(sResponse);
+                                updatePage();
                             }else{
                                 setErrorMessage(oResponse.text.client);
                                 updatePage();
