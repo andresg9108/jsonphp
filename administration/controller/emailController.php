@@ -83,7 +83,7 @@ class emailController extends controller {
     $this->oMail->setFrom($sServerUsername, $sServerName);//De
     $this->oMail->addReplyTo($sServerUsername, $sServerName);//Responder a
 
-    $this->oMail->addAddress($sEmail, $sEmail);
+    $this->oMail->addAddress($sEmail, '');
     $this->oMail->Subject = $sSubject;
     $this->oMail->msgHTML($sMessage);
 
