@@ -10,8 +10,16 @@ $mpdf = new \Mpdf\Mpdf([
 	'mode' => 'utf-8', 
 	'format' => [100, 300], 
 	'orientation' => 'L', 
-	'margin' => [10, 10, 10, 10]
+	'margin_header' => 2.5,
+	'margin_footer' => 2.5,
+	'margin_top' => 7.5,
+	'margin_left' => 2.5,
+	'margin_right' => 2.5,
+	'margin_bottom' => 7.5,
 ]);
 
-$mpdf->WriteHTML('<h1>Hello world!</h1>');
+$mpdf->SetHTMLHeader('Header');
+$mpdf->SetHTMLFooter('Footer');
+$mpdf->WriteHTML('Hello world!');
+
 $mpdf->Output();
