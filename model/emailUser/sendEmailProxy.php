@@ -34,7 +34,7 @@ class sendEmailProxy extends proxy {
 	      $aResponse['email'] = $oSendEmail->sEmail;
 	      $aResponse['subject'] = $oSendEmail->sSubject;
 	      $aResponse['message'] = $oSendEmail->sMessage;
-	      $oSendEmail->delete();
+	      //$oSendEmail->delete();
 
 	      $oConnection->commit();
 	      $oConnection->close();

@@ -39,8 +39,12 @@ class emailController extends controller {
       $aDatos['subject'] = (!empty($oResponse->subject)) ? $oResponse->subject : '';
       $aDatos['message'] = (!empty($oResponse->message)) ? $oResponse->message : '';
       $oDatos = (object)$aDatos;
+      $oResponse = $this->sendEmail($oDatos);
+      if($oResponse->status != 1){
+        return $oResponse;
+      }
 
-      return $this->sendEmail($oDatos);
+      return sendEmailProxy::registerEmailSent($oSendEmail);
     } catch (systemException $e) {
       return Useful::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessage());
     } catch (Exception $e){
@@ -79,7 +83,7 @@ class emailController extends controller {
     $this->oMail->setFrom($sServerUsername, $sServerName);//De
     $this->oMail->addReplyTo($sServerUsername, $sServerName);//Responder a
 
-    $this->oMail->addAddress($sEmail, $sEmail);
+    $this->oMail->addAddress($sEmail, '');
     $this->oMail->Subject = $sSubject;
     $this->oMail->msgHTML($sMessage);
 

@@ -2,9 +2,11 @@
 
 namespace lib\Useful;
 
-use Firebase\JWT\JWT;
+use \Exception;
+use \Firebase\JWT\{JWT, ExpiredException};
 use lib\Useful\constantGlobal;
 use model\systemException;
+use model\sendEmail\sendEmail;
 
 class Useful {
   public static $aMail = [
@@ -26,12 +28,12 @@ class Useful {
     'user' => 'root',
     'password' => '',
     'database' => 'my_database',
-    'encryption_red_cod' => true,
+    'encryption_red_cod' => 30,
     'recaptcha' => false,
     'php_errors' => true,
     'system_errors' => true,
-    'recaptcha_secret_key' => '6Ld7vmoUAAArJlmxnPc',
-    'recaptcha_secret_key_hidden' => '6LdoshRlMcnEciKwUI5B',
+    'recaptcha_secret_key' => '6Ld7vmoU',
+    'recaptcha_secret_key_hidden' => '6LdoshR',
     'maximum_session_time' => 86400, // (24*60*60 = 86400)
     's_private_key_only_server' => 'dasf1s5GSG52',
     's_private_key' => 'a5vbFgFFG4Fd2',
@@ -139,7 +141,7 @@ class Useful {
     $iPrivateKey = (!empty($oConnection->i_private_key)) ? $oConnection->i_private_key : null;
     $sPrivateKey = (!empty($oConnection->s_private_key)) ? $oConnection->s_private_key : '';
 
-    if($oConnection->encryption_red_cod){
+    if($oConnection->encryption_red_cod == 30){
       $aRegCod = explode('.', $sRegCod);
       $iRegCod = 0;
 
@@ -252,5 +254,28 @@ class Useful {
 
     $sHtml = str_replace("'", '"', $sHtml);
     return $sHtml;
+  }
+
+  /*
+  */
+  public static function saveEmail($sEmail, $iIdEmailSettings, $sSubject, $sMessage, $oConnection){
+    $oSendEmail = sendEmail::getInstance($oConnection);
+    $sCode = static::getRandomCode();
+
+    $oSendEmail->iId = null;
+    $oSendEmail->sEmail = $sEmail;
+    $oSendEmail->sCode = $sCode;
+    $oSendEmail->iIdEmailSettings = $iIdEmailSettings;
+    $oSendEmail->sSubject = $sSubject;
+    $oSendEmail->sMessage = $sMessage;
+    $oSendEmail->iStatus = 0;
+    $oSendEmail->save();
+
+    $aEmail = [];
+    $aEmail['id'] = $oSendEmail->iId;
+    $aEmail['cod'] = $oSendEmail->sCode;
+    $oEmail = (object)$aEmail;
+    
+    return $oEmail;
   }
 }

@@ -189,30 +189,17 @@ class userProxy extends proxy {
 	      }
 
 	      // SEND EMAIL
-	      $aEmail = [];
-
-	      $iIdEmail = 2;
-	      $sCode = Useful::getRandomCode();
-
+	      $iIdEmailSettings = 2;
 	      $aParameters = [$oEmailUser->iId, $oEmailUser->sRegistrationCode];
 	      $sUrl = constantUser::getConstant('EMAIL_RECOVER_PASSWORD_URL', $aParameters);
 	      $sSubject = constantUser::getConstant('EMAIL_SUBJECT_RECOVER_PASSWORD');
 	      $aParameters = [$sUrl];
 	      $sMessage = Useful::getEmailTemplate('recoverPassword', $aParameters);
 
-	      $oSendEmail->iId = null;
-	      $oSendEmail->sEmail = $oEmailUser->sEmail;
-	      $oSendEmail->sCode = $sCode;
-	      $oSendEmail->iIdEmail = $iIdEmail;
-	      $oSendEmail->sSubject = $sSubject;
-	      $oSendEmail->sMessage = $sMessage;
-	      $oSendEmail->save();
-
-	      $aEmailRow = [];
-	      $aEmailRow['id'] = $oSendEmail->iId;
-	      $aEmailRow['cod'] = $oSendEmail->sCode;
-	      $oEmailRow = (object)$aEmailRow;
-	      $aEmail[] = $oEmailRow;
+	      $aEmail = [];
+	      $oEmail = Useful::saveEmail($oEmailUser->sEmail, $iIdEmailSettings, 
+	      		$sSubject, $sMessage, $oConnection);
+	      $aEmail[] = $oEmail;
 	      // END EMAIL
 
 	      $aResponse = [];

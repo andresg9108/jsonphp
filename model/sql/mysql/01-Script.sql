@@ -5,7 +5,7 @@ registration_code text,
 primary key(id)
 );
 
-create table email(
+create table email_settings(
 id int not null auto_increment,
 registration_date timestamp DEFAULT CURRENT_TIMESTAMP,
 title varchar(80),
@@ -21,9 +21,10 @@ email varchar(80),
 code varchar(100),
 subject text,
 message text,
-id_email int,
+status int(1),
+id_email_settings int,
 primary key(id),
-foreign key(id_email) references email(id)
+foreign key(id_email_settings) references email_settings(id)
 );
 
 create table person(
