@@ -28,7 +28,7 @@ class Useful {
     'user' => 'root',
     'password' => '',
     'database' => 'my_database',
-    'encryption_red_cod' => true,
+    'encryption_red_cod' => 30,
     'recaptcha' => false,
     'php_errors' => true,
     'system_errors' => true,
@@ -141,7 +141,7 @@ class Useful {
     $iPrivateKey = (!empty($oConnection->i_private_key)) ? $oConnection->i_private_key : null;
     $sPrivateKey = (!empty($oConnection->s_private_key)) ? $oConnection->s_private_key : '';
 
-    if($oConnection->encryption_red_cod){
+    if($oConnection->encryption_red_cod == 30){
       $aRegCod = explode('.', $sRegCod);
       $iRegCod = 0;
 
