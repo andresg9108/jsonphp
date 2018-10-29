@@ -11,8 +11,8 @@ if(is_file($sFile)){
 
 $mpdf = new \Mpdf\Mpdf([
 	'mode' => 'utf-8', 
-	'format' => [100, 300], 
-	'orientation' => 'L', 
+	//'format' => [100, 300], 
+	//'orientation' => 'L', 
 	'margin_header' => 2.5,
 	'margin_footer' => 2.5,
 	'margin_top' => 7.5,
