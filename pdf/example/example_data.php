@@ -13,12 +13,12 @@ $mpdf = new \Mpdf\Mpdf([
 	'mode' => 'utf-8', 
 	//'format' => [100, 300], 
 	//'orientation' => 'L', 
-	'margin_header' => 2.5,
-	'margin_footer' => 2.5,
-	'margin_top' => 7.5,
+	'margin_header' => 0,
+	'margin_footer' => 0,
+	'margin_top' => 2.5,
 	'margin_left' => 2.5,
 	'margin_right' => 2.5,
-	'margin_bottom' => 7.5,
+	'margin_bottom' => 2.5,
 ]);
 
 //$mpdf->SetHTMLHeader('Header');
