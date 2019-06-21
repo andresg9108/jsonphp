@@ -13,13 +13,10 @@ class appRegistrationProxy extends proxy {
 
 	/*
 	*/
-	public static function validateRegCod($oAppRegistrationSet){
+	public static function validateRegCod($iId, $sRegistrationCode){
 		try {
 	      $oConnection = connection::getInstance();
 	      $oConnection->connect();
-
-	      $iId = (!empty($oAppRegistrationSet->id)) ? $oAppRegistrationSet->id : null;
-	      $sRegistrationCode = (!empty($oAppRegistrationSet->registration_code)) ? $oAppRegistrationSet->registration_code : '';
 
 	      $oAppRegistration = appRegistration::getInstance($oConnection);
 	      $oAppRegistration->iId = $iId;

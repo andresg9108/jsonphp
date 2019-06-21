@@ -22,14 +22,8 @@ class userController extends controller {
       // BEGIN APP VALIDATION
       $iId = (!empty($post->id)) ? $post->id : null;
       $sRegistrationCode = (!empty($post->registration_code)) ? $post->registration_code : '';
-      $aAppRegistration = [];
-      $aAppRegistration['id'] = $iId;
-      $aAppRegistration['registration_code'] = $sRegistrationCode;
-      $oAppRegistration = (object)$aAppRegistration;
-      $oResponse = appRegistrationProxy::validateRegCod($oAppRegistration);
-      if($oResponse->status != 1){
-        return $oResponse;
-      }
+      $oResponse = appRegistrationProxy::validateRegCod($iId, $sRegistrationCode);
+      if($oResponse->status != 1){ return $oResponse; }
       // END APP VALIDATION
 
       // BEGIN CAPTCHA VALIDATION
@@ -64,14 +58,8 @@ class userController extends controller {
       // BEGIN APP VALIDATION
       $iId = (!empty($post->id)) ? $post->id : null;
       $sRegistrationCode = (!empty($post->registration_code)) ? $post->registration_code : '';
-      $aAppRegistration = [];
-      $aAppRegistration['id'] = $iId;
-      $aAppRegistration['registration_code'] = $sRegistrationCode;
-      $oAppRegistration = (object)$aAppRegistration;
-      $oResponse = appRegistrationProxy::validateRegCod($oAppRegistration);
-      if($oResponse->status != 1){
-        return $oResponse;
-      }
+      $oResponse = appRegistrationProxy::validateRegCod($iId, $sRegistrationCode);
+      if($oResponse->status != 1){ return $oResponse; }
       // END APP VALIDATION
 
       $iIdEUser = (!empty($post->ideuser)) ? $post->ideuser : null;
@@ -94,14 +82,8 @@ class userController extends controller {
       // BEGIN APP VALIDATION
       $iId = (!empty($post->id)) ? $post->id : null;
       $sRegistrationCode = (!empty($post->registration_code)) ? $post->registration_code : '';
-      $aAppRegistration = [];
-      $aAppRegistration['id'] = $iId;
-      $aAppRegistration['registration_code'] = $sRegistrationCode;
-      $oAppRegistration = (object)$aAppRegistration;
-      $oResponse = appRegistrationProxy::validateRegCod($oAppRegistration);
-      if($oResponse->status != 1){
-        return $oResponse;
-      }
+      $oResponse = appRegistrationProxy::validateRegCod($iId, $sRegistrationCode);
+      if($oResponse->status != 1){ return $oResponse; }
       // END APP VALIDATION
 
       // BEGIN CAPTCHA VALIDATION
@@ -133,14 +115,8 @@ class userController extends controller {
       // BEGIN APP VALIDATION
       $iId = (!empty($post->id)) ? $post->id : null;
       $sRegistrationCode = (!empty($post->registration_code)) ? $post->registration_code : '';
-      $aAppRegistration = [];
-      $aAppRegistration['id'] = $iId;
-      $aAppRegistration['registration_code'] = $sRegistrationCode;
-      $oAppRegistration = (object)$aAppRegistration;
-      $oResponse = appRegistrationProxy::validateRegCod($oAppRegistration);
-      if($oResponse->status != 1){
-        return $oResponse;
-      }
+      $oResponse = appRegistrationProxy::validateRegCod($iId, $sRegistrationCode);
+      if($oResponse->status != 1){ return $oResponse; }
       // END APP VALIDATION
 
       $iIdUser = (!empty($post->id_user)) ? $post->id_user : null;
@@ -163,14 +139,8 @@ class userController extends controller {
       // BEGIN APP VALIDATION
       $iId = (!empty($post->id)) ? $post->id : null;
       $sRegistrationCode = (!empty($post->registration_code)) ? $post->registration_code : '';
-      $aAppRegistration = [];
-      $aAppRegistration['id'] = $iId;
-      $aAppRegistration['registration_code'] = $sRegistrationCode;
-      $oAppRegistration = (object)$aAppRegistration;
-      $oResponse = appRegistrationProxy::validateRegCod($oAppRegistration);
-      if($oResponse->status != 1){
-        return $oResponse;
-      }
+      $oResponse = appRegistrationProxy::validateRegCod($iId, $sRegistrationCode);
+      if($oResponse->status != 1){ return $oResponse; }
       // END APP VALIDATION
 
       $sCode = (!empty($post->code)) ? $post->code : '';
@@ -197,14 +167,8 @@ class userController extends controller {
       // BEGIN APP VALIDATION
       $iId = (!empty($post->id)) ? $post->id : null;
       $sRegistrationCode = (!empty($post->registration_code)) ? $post->registration_code : '';
-      $aAppRegistration = [];
-      $aAppRegistration['id'] = $iId;
-      $aAppRegistration['registration_code'] = $sRegistrationCode;
-      $oAppRegistration = (object)$aAppRegistration;
-      $oResponse = appRegistrationProxy::validateRegCod($oAppRegistration);
-      if($oResponse->status != 1){
-        return $oResponse;
-      }
+      $oResponse = appRegistrationProxy::validateRegCod($iId, $sRegistrationCode);
+      if($oResponse->status != 1){ return $oResponse; }
       // END APP VALIDATION
 
       $sEmail = (!empty($post->email)) ? $post->email : '';
@@ -227,14 +191,8 @@ class userController extends controller {
       // BEGIN APP VALIDATION
       $iId = (!empty($post->id)) ? $post->id : null;
       $sRegistrationCode = (!empty($post->registration_code)) ? $post->registration_code : '';
-      $aAppRegistration = [];
-      $aAppRegistration['id'] = $iId;
-      $aAppRegistration['registration_code'] = $sRegistrationCode;
-      $oAppRegistration = (object)$aAppRegistration;
-      $oResponse = appRegistrationProxy::validateRegCod($oAppRegistration);
-      if($oResponse->status != 1){
-        return $oResponse;
-      }
+      $oResponse = appRegistrationProxy::validateRegCod($iId, $sRegistrationCode);
+      if($oResponse->status != 1){ return $oResponse; }
       // END APP VALIDATION
 
       // BEGIN CAPTCHA VALIDATION
@@ -273,14 +231,8 @@ class userController extends controller {
       // BEGIN APP VALIDATION
       $iId = (!empty($post->id)) ? $post->id : null;
       $sRegistrationCode = (!empty($post->registration_code)) ? $post->registration_code : '';
-      $aAppRegistration = [];
-      $aAppRegistration['id'] = $iId;
-      $aAppRegistration['registration_code'] = $sRegistrationCode;
-      $oAppRegistration = (object)$aAppRegistration;
-      $oResponse = appRegistrationProxy::validateRegCod($oAppRegistration);
-      if($oResponse->status != 1){
-        return $oResponse;
-      }
+      $oResponse = appRegistrationProxy::validateRegCod($iId, $sRegistrationCode);
+      if($oResponse->status != 1){ return $oResponse; }
       // END APP VALIDATION
 
       // BEGIN CAPTCHA VALIDATION
@@ -327,7 +279,7 @@ class userController extends controller {
       $aPerson['users'] = [$oUser];
       $oPerson = (object)$aPerson;
 
-      return personProxy::save($oPerson);
+      return personProxy::checkIn($oPerson);
     } catch (systemException $e) {
       return Useful::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessage());
     } catch (Exception $e){

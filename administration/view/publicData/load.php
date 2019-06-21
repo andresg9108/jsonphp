@@ -19,6 +19,9 @@ switch ($sAction) {
 	case 'appRegistration':
 		$aResponse = $oPublicDataController->getRegCodeAction((object)$_GET, (object)$_POST);
 		break;
+	case 'getmessagebyid':
+		$aResponse = $oPublicDataController->getMessegeByMessegeIdAction((object)$_GET, (object)$_POST);
+		break;
 }
 
 echo json_encode($aResponse);

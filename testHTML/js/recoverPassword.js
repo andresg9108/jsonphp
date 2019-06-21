@@ -9,7 +9,7 @@ $(function(){
 function setView(){
 	validateSession(false);
     
-    let sMessage = getErrorMessage();
+    let sMessage = getMessage();
     $("#messageerr").html(sMessage);
 }
 
@@ -23,48 +23,50 @@ function recoverPasswordAction(){
             sResponse = $("#g-recaptcha-response").val();
         }
 
-		let oDatos = {};
-	    let sUrl = 'administration/publicData/appRegistration';
-	    $.when($.post(g_sBackEnd+sUrl, oDatos))
-	    .then(function(oResponse){
+        let oAjax = {
+	        url: g_sBackEnd+'administration/publicData/appRegistration',
+	        type: 'post',
+	        data: {}
+	    }
+	    $.ajax(oAjax).done(function(oResponse){
 	        if(oResponse.status == 1){
-	        	let aResponse = oResponse.response;
-		        let iId = aResponse.id;
-		        let sRegCod = aResponse.registration_code;
-		        sRegCod = getDecodeRegCod(sRegCod);
+	            let aResponse = oResponse.response;
+	            let iId = aResponse.id;
+	            let sRegCod = aResponse.registration_code;
+	            sRegCod = getDecodeRegCod(sRegCod);
 
-		        let oDatos2 = {
-		            'id': iId,
-		            'registration_code': sRegCod,
-		            'response': sResponse,
-		            'email': sEmail
-		        };
-		        let sUrl2 = 'administration/user/recoverPassword';
-		        $.when($.post(g_sBackEnd+sUrl2, oDatos2))
-		        .then(function(oResponse){
-		        	if(oResponse.status == 1){
+	            oAjax = {
+			        url: g_sBackEnd+'administration/user/recoverPassword',
+			        type: 'post',
+			        data: {
+			            'id': iId,
+			            'registration_code': sRegCod,
+			            'response': sResponse,
+			            'email': sEmail
+			        }
+			    }
+			    $.ajax(oAjax).done(function(oResponse){
+			    	if(oResponse.status == 1){
 		        		let sResponse = oResponse.text.client;
 	                    oResponse = oResponse.response;
 	                    let aEmail = oResponse.email;
 
 	                    $.when(sendEmail(aEmail))
 	                    .then(function(oResponse){
-	                        setErrorMessage(sResponse);
+	                        setMessage(sResponse);
 	                        updatePage();
 	                    })
 	                    .fail(function(){});
 		        	}else{
-		        		setErrorMessage(oResponse.text.client);
+		        		setMessage(oResponse.text.client);
 	                    updatePage();
 		        	}
-		        })
-		        .fail(function(){});
+			    }).fail(function(){});
 	        }else{
-	        	setErrorMessage(oResponse.text.client);
+	        	setMessage(oResponse.text.client);
             	goTo('', '');
 	        }
-	    })
-	    .fail(function(){});
+	    }).fail(function(){});
 	}
 
     return false;
@@ -78,12 +80,12 @@ function validateRecoverPassword(){
     let sText = '';
 
     sFieldName = 'email';
-    sText = 'You must add an email.';
+    sText = g_oMGlobal.YOU_MUST_ADD_AN_EMAIL[g_iIdLanguage];
     if(!validateTexto(sFieldName, sText)){return false;}
-    sText = 'Add a valid email.';
+    sText = g_oMGlobal.YOU_MUST_ADD_A_VALID_EMAIL[g_iIdLanguage];
     if(!validateEmail(sFieldName, sText)){return false;}
 
-    sText = 'You must complete the Captcha for security.';
+    sText = g_oMGlobal.YOU_MUST_COMPLETE_CAPTCHA[g_iIdLanguage];
     if(!validateReCaptcha(sText)){return false;}
 
 	return true;

@@ -21,6 +21,8 @@ class constantUser extends constant{
 	const VAL_EXISTING_USERNAME = "You must send a different user, someone has already been registered with: <1?>";
 	const EMAIL_SUBJECT_RECOVER_PASSWORD = "Recover password";
 	const EMAIL_RECOVER_PASSWORD_URL = "http://localhost/jsonphp/testHTML/recoverPassword/change/?id=<1?>&code=<2?>";
+	const ERROR_REGISTERED_USER_BY_EMAIL = "There is already a registered user with this email.";
+	const ERROR_REGISTERED_USER_BY_USERNAME = "Choose another username.";
 
 	// Spanish
 	const SPAN_VAL_EMPTY_EMAIL_RECOVER_PASSWORD = "Debes enviar un email.";
@@ -37,5 +39,7 @@ class constantUser extends constant{
 	const SPAN_VAL_VAL_USERNAME = "Debes enviar un usuario valido e incluir al menos 5 caracteres. Caracteres permitidos: a, b, c... 0, 1, 2, 3... guion (-), guion bajo (_) y punto (.). No incluyas acentos del español (Ej: á), la letra ñ, ni espacios.";
 	const SPAN_VAL_EXISTING_USERNAME = "Debes enviar un usuario diferente, ya se a registrado alguien con: <1?>";
 	const SPAN_EMAIL_SUBJECT_RECOVER_PASSWORD = "Recuperar contraseña.";
+	const SPAN_ERROR_REGISTERED_USER_BY_EMAIL = "Ya hay un usuario registrado con este correo electrónico.";
+	const SPAN_ERROR_REGISTERED_USER_BY_USERNAME = "Elija otro nombre de usuario.";
 
 }

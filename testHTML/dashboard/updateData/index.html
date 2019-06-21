@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+    	<meta name="viewport" content="width=device-width, initial-scale=1.0 ,user-scalable=no">
+    	
+    	<title>Test HTML</title>
+
+    	<script src='https://www.google.com/recaptcha/api.js'></script>
+    	<script src="../../lib/jquery/jquery.min.js"></script>
+    	<script src="../../lib/md5/md5.min.js"></script>
+    	<script src="../../json/mGlobal.js"></script>
+    	<script src="../../js/validations.js"></script>
+    	<script src="../../js/main.js"></script>
+    	<script src="../../js/dashboardUpdateData.js"></script>
+	</head>
+	<body>
+		<input type="hidden" id="dirmain" name="dirmain" value="../../" />
+		
+		<br />
+		<a href="#" onclick="goTo('dashboard', '')">Go back</a>
+		<br />
+
+		<h1>Update Data</h1><br />
+
+		<form method="post" onsubmit="return updateDataAction()">
+			<div id="messageerr"></div><br />
+
+			<input type="text" id="name" name="name" placeholder="Name" /><br />
+			<span id="errname"></span><br />
+
+			<input type="text" id="last_name" name="last_name" placeholder="Last name" /><br />
+			<span id="errlast_name"></span><br />
+
+			<div class="g-recaptcha" data-sitekey="6Ld7vmoUAAAAAAGfEZ_EFvqz-rgCVjhHJXa_MOn2"></div><br />
+			<span id="errrobot" class="error"></span>
+			<br /><br />
+
+			<input type="submit" value="Submit" />
+		</form>
+	</body>
+</html>

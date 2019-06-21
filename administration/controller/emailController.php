@@ -6,8 +6,9 @@ use \Exception;
 use \Firebase\JWT\{JWT, ExpiredException};
 use lib\MVC\controller;
 use lib\Useful\{Useful, constantGlobal};
-use model\systemException;
+use model\{connection, systemException};
 use model\sendEmail\sendEmailProxy;
+use model\setings\setings;
 
 class emailController extends controller {
 
@@ -61,7 +62,9 @@ class emailController extends controller {
     $sSubject = (!empty($oDatos->subject)) ? $oDatos->subject : '';
     $sMessage = (!empty($oDatos->message)) ? $oDatos->message : '';
 
-    $oMailD = Useful::getMailArray();
+    $oConnection = connection::getInstance();
+    $oConnection->connect();
+    $oMailD = Useful::getMailArrayDB($oConnection);
     $sServerName = (!empty($oMailD->name)) ? $oMailD->name : "";
     $sServerHost = (!empty($oMailD->host)) ? $oMailD->host : "";
     $sSmtpSecure = (!empty($oMailD->smtp_secure)) ? $oMailD->smtp_secure : "";

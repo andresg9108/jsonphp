@@ -103,6 +103,11 @@ class person extends model {
   */
   public function update(){
     $this->validateUpdate();
+
+    $aParameters = [$this->iId, $this->sName, $this->sLastName];
+    $sQuery = queryPerson::getQuery('UPDATE', $aParameters);
+
+    $this->oConnection->run($sQuery);
   }
 
   /*

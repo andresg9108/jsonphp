@@ -14,7 +14,7 @@ use model\sendEmail\sendEmail;
 
 class personProxy extends proxy {
 
-	public static function save($oPersonSet){
+	public static function checkIn($oPersonSet){
 		try {
 	      $oConnection = connection::getInstance();
 	      $oConnection->connect();

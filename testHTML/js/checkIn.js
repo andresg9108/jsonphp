@@ -9,18 +9,13 @@ $(function(){
 function setView(){
     validateSession(false);
     
-    let sMessage = getErrorMessage();
+    let sMessage = getMessage();
     $("#messageerr").html(sMessage);
 }
 
 /*
 */
 function checkInAction(){
-    let sFieldNameEmail = 'email';
-    let sTextEmail = 'There is already a registered user with this email.';
-    let sFieldNameUser = 'user';
-    let sTextUser = 'Choose another username.';
-    
     if(validateCheckInAction()){
         let sName = $("#name").val();
         let sLastName = $("#last_name").val();
@@ -31,84 +26,108 @@ function checkInAction(){
         if(g_bReCaptcha){
             sResponse = $("#g-recaptcha-response").val();
         }
+        
+        let oAjax = {
+            url: g_sBackEnd+'administration/publicData/appRegistration',
+            type: 'post',
+            data: {}
+        }
+        $.ajax(oAjax).done(function(oResponse){
+            if(oResponse.status == 1){
+                oResponse = oResponse.response;
+                let iId = oResponse.id;
+                let sRegCod = oResponse.registration_code;
+                sRegCod = getDecodeRegCod(sRegCod);
 
-        let oDatos = {};
-        let sUrl = 'administration/publicData/appRegistration';
-        $.when($.post(g_sBackEnd+sUrl, oDatos), $.post(g_sBackEnd+sUrl, oDatos))
-        .then(function(oResponse1, oResponse2){
-            if(oResponse1[0].status == 1 && oResponse2[0].status == 1){
-                oResponse1 = oResponse1[0].response;
-                oResponse2 = oResponse2[0].response;
+                oAjax = {
+                    url: g_sBackEnd+'administration/user/validateEmailAndUser',
+                    type: 'post',
+                    data: {
+                        'id': iId,
+                        'registration_code': sRegCod,
+                        'email': sEmail,
+                        'user': sUser
+                    }
+                }
+                $.ajax(oAjax).done(function(oResponse){
+                    $("#erremail").html("");
+                    $("#erruser").html("");
 
-                let iId1 = oResponse1.id;
-                let sRegCod1 = oResponse1.registration_code;
-                sRegCod1 = getDecodeRegCod(sRegCod1);
-
-                let oDatos1 = {
-                    'id': iId1,
-                    'registration_code': sRegCod1,
-                    'email': sEmail,
-                    'user': sUser
-                };
-                let sUrl1 = 'administration/user/validateEmailAndUser';
-                $.when($.post(g_sBackEnd+sUrl1, oDatos1))
-                .then(function(oResponse){
                     oResponse = oResponse.response;
                     let bEmail = oResponse.email;
                     let bUser = oResponse.user;
 
-                    if(!bEmail && !bUser){
-                        let iId2 = oResponse2.id;
-                        let sRegCod2 = oResponse2.registration_code;
-                        sRegCod2 = getDecodeRegCod(sRegCod2);
+if(bEmail || bUser){
 
-                        let oDatos2 = {
-                            'id': iId2,
-                            'registration_code': sRegCod2,
-                            'response': sResponse,
-                            'name': sName,
-                            'last_name': sLastName,
-                            'email': sEmail,
-                            'user': sUser,
-                            'password': sPassword
-                        };
-                        let sUrl2 = 'administration/user/checkIn';
-                        $.when($.post(g_sBackEnd+sUrl2, oDatos2))
-                        .then(function(oResponse){
-                            if(oResponse.status == 1){
-                                let sResponse = oResponse.text.client;
-                                oResponse = oResponse.response;
-                                let aEmail = oResponse.email;
+    if(bEmail){
+        $("#erremail").html(oResponse.erremail);
+        let oObjectE = document.getElementById("email");
+        oObjectE.focus();
+    }
+    if(bUser){
+        $("#erruser").html(oResponse.erruser);
+        let oObjectU = document.getElementById("user");
+        oObjectU.focus();
+    }
 
-                                sendEmail(aEmail);
-                                setErrorMessage(sResponse);
-                                updatePage();
-                            }else{
-                                setErrorMessage(oResponse.text.client);
-                                updatePage();
-                            }
-                        })
-                        .fail(function(){});
-                    }else{
-                        if(bEmail){
-                            $("#err"+sFieldNameEmail).html(sTextEmail);
-                            let oObjectE = document.getElementById(sFieldNameEmail);
-                            oObjectE.focus();
-                        }
-                        if(bUser){
-                            $("#err"+sFieldNameUser).html(sTextUser);
-                            let oObjectU = document.getElementById(sFieldNameUser);
-                            oObjectU.focus();
-                        }
-                    }
-                })
-                .fail(function(){});
+}else{
+
+    // START OF USER REGISTRATION
+    oAjax = {
+        url: g_sBackEnd+'administration/publicData/appRegistration',
+        type: 'post',
+        data: {}
+    }
+    $.ajax(oAjax).done(function(oResponse){
+
+        if(oResponse.status == 1){
+            oResponse = oResponse.response;
+            iId = oResponse.id;
+            sRegCod = oResponse.registration_code;
+            sRegCod = getDecodeRegCod(sRegCod);
+
+            oAjax = {
+                url: g_sBackEnd+'administration/user/checkIn',
+                type: 'post',
+                data: {
+                    'id': iId,
+                    'registration_code': sRegCod,
+                    'response': sResponse,
+                    'name': sName,
+                    'last_name': sLastName,
+                    'email': sEmail,
+                    'user': sUser,
+                    'password': sPassword
+                }
+            }
+            $.ajax(oAjax).done(function(oResponse){
+                if(oResponse.status == 1){
+                    let sResponse = oResponse.text.client;
+                    oResponse = oResponse.response;
+                    let aEmail = oResponse.email;
+
+                    sendEmail(aEmail);
+                    setMessage(sResponse);
+                    updatePage();
+                }else{
+                    setMessage(oResponse.text.client);
+                    updatePage();
+                }
+            }).fail(function(){});
+        }else{
+            setMessage(oResponse.text.client);
+            goTo('', '');
+        }
+    }).fail(function(){});
+    // END OF THE USER REGISTRATION
+}
+
+                }).fail(function(){});
             }else{
-                setErrorMessage(oResponse1[0].text.client);
+                setMessage(oResponse.text.client);
                 goTo('', '');
             }
-        })
-        .fail(function(){});
+        }).fail(function(){});
     }
 
     return false;
@@ -122,45 +141,45 @@ function validateCheckInAction(){
     let sText = '';
 
     sFieldName = 'name';
-    sText = 'You must add a name.';
+    sText = g_oMGlobal.YOU_MUST_ADD_A_NAME[g_iIdLanguage];
     if(!validateTexto(sFieldName, sText)){return false;}
-    sText = 'You must add a valid name.';
+    sText = g_oMGlobal.YOU_MUST_ADD_A_VALID_NAME[g_iIdLanguage];
     if(!validateNameOrLastName(sFieldName, sText)){return false;}
 
     sFieldName = 'last_name';
-    sText = 'You must add a surname.';
+    sText = g_oMGlobal.YOU_MUST_ADD_A_SURNAME[g_iIdLanguage];
     if(!validateTexto(sFieldName, sText)){return false;}
-    sText = 'You must add a valid surname.';
+    sText = g_oMGlobal.YOU_MUST_ADD_A_VALID_SURNAME[g_iIdLanguage];
     if(!validateNameOrLastName(sFieldName, sText)){return false;}
 
     sFieldName = 'email';
-    sText = 'You must add an email.';
+    sText = g_oMGlobal.YOU_MUST_ADD_AN_EMAIL[g_iIdLanguage];
     if(!validateTexto(sFieldName, sText)){return false;}
-    sText = 'Add a valid email.';
+    sText = g_oMGlobal.YOU_MUST_ADD_A_VALID_EMAIL[g_iIdLanguage];
     if(!validateEmail(sFieldName, sText)){return false;}
 
     sFieldName = 'user';
-    sText = 'You must add a user.';
+    sText = g_oMGlobal.YOU_MUST_ADD_A_USER[g_iIdLanguage];
     if(!validateTexto(sFieldName, sText)){return false;}
-    sText = 'You must add a valid user and include at least 5 characters. Permitted characters: a, b, c ... 0, 1, 2, 3 ... hyphen (-), underscore (_) and period (.). Do not include accents of Spanish (Ej: á), the letter ñ, or spaces.';
+    sText = g_oMGlobal.YOU_MUST_ADD_A_VALID_USER[g_iIdLanguage];
     if(!validateUsername(sFieldName, sText)){return false;}
 
     sFieldName = 'password';
-    sText = 'You must add a password.';
+    sText = g_oMGlobal.YOU_MUST_ADD_A_PASSWORD[g_iIdLanguage];
     if(!validateTexto(sFieldName, sText)){return false;}
-    sText = 'The password must have at least 5 characters.';
+    sText = g_oMGlobal.PASSWORD_LEAST_5_CHARACTERS[g_iIdLanguage];
     if(!validatePassword(sFieldName, sText)){ return false; }
 
     sFieldName = 'rpassword';
-    sText = 'You must repeat the password.';
+    sText = g_oMGlobal.YOU_MUST_REPEAT_THE_PASSWORD[g_iIdLanguage];
     if(!validateTexto(sFieldName, sText)){return false;}
 
     sFieldName = 'password';
     sFieldName2 = 'rpassword';
-    sText = 'Passwords do not match.';
+    sText = g_oMGlobal.PASSWORDS_DO_NOT_MATCH[g_iIdLanguage];
     if(!validatePasswords(sFieldName, sFieldName2, sText)){ return false; }
-
-    sText = 'You must complete the Captcha for security.';
+    
+    sText = g_oMGlobal.YOU_MUST_COMPLETE_CAPTCHA[g_iIdLanguage];
     if(!validateReCaptcha(sText)){return false;}
 
     return true;

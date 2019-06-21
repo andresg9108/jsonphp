@@ -9,7 +9,7 @@ $(function(){
 function setView(){
     validateSession(false);
     
-    let sMessage = getErrorMessage();
+    let sMessage = getMessage();
     $("#messageerr").html(sMessage);
 }
 
@@ -25,47 +25,51 @@ function logInAction(){
         sResponse = $("#g-recaptcha-response").val();
     }
 
-    let oDatos = {};
-    let sUrl = 'administration/publicData/appRegistration';
-    $.when($.post(g_sBackEnd+sUrl, oDatos))
-    .then(function(oResponse){
+    let oAjax = {
+        url: g_sBackEnd+'administration/publicData/appRegistration',
+        type: 'post',
+        data: {}
+    }
+    $.ajax(oAjax).done(function(oResponse){
         if(oResponse.status == 1){
             let aResponse = oResponse.response;
             let iId = aResponse.id;
             let sRegCod = aResponse.registration_code;
             sRegCod = getDecodeRegCod(sRegCod);
 
-            let oDatos2 = {
-                'id': iId,
-                'registration_code': sRegCod,
-                'response': sResponse,
-                'user': sUser,
-                'password': sPassword
-            };
-            let sUrl2 = 'administration/user/logIn';
-            $.when($.post(g_sBackEnd+sUrl2, oDatos2))
-            .then(function(oResponse){
+            oAjax = {
+                url: g_sBackEnd+'administration/user/logIn',
+                type: 'post',
+                data: {
+                    'id': iId,
+                    'registration_code': sRegCod,
+                    'response': sResponse,
+                    'user': sUser,
+                    'password': sPassword
+                }
+            }
+
+            $.ajax(oAjax).done(function(oResponse){
                 if(oResponse.status == 1){
                     oResponse = oResponse.response;
                     let sCode = oResponse.code;
                     let iProfile = oResponse.profile;
+
                     $.when(setSession(sCode))
                     .then(function(){
                         goTo('dashboard/', '');
                     })
                     .fail(function(){});
                 }else{
-                    setErrorMessage(oResponse.text.client);
+                    setMessage(oResponse.text.client);
                     updatePage();
                 }
-            })
-            .fail(function(){});
+            }).fail(function(){});
         }else{
-            setErrorMessage(oResponse.text.client);
+            setMessage(oResponse.text.client);
             goTo('', '');
         }
-    })
-    .fail(function(){});
+    }).fail(function(){});
 
     return false;
 }

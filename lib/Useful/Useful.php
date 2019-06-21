@@ -5,25 +5,19 @@ namespace lib\Useful;
 use \Exception;
 use \Firebase\JWT\{JWT, ExpiredException};
 use lib\Useful\constantGlobal;
-use model\systemException;
+use model\{connection, systemException};
 use model\sendEmail\sendEmail;
+use model\setings\setings;
 
 class Useful {
-  public static $aMail = [
-    "name"=>"Test",
-    "host"=>"smtp.example.com",
-    "port"=>"25",
-    //"port"=>"465",
-    "smtp_secure"=>"", //$mail->SMTPSecure = 'tls'; //ssl (obsoleto) o tls
-    "username"=>"info@example.com",
-    "password"=>"123456"
-  ];
+  public static $aMail = [];
 
   public static $aConnection = [
     'motor' => 'mysql',
     'query_prefix' => 'MSQL_',
     'constant_prefix' => '',
     //'constant_prefix' => 'SPAN_',
+    'language_id' => 1,
     'server' => 'localhost',
     'user' => 'root',
     'password' => '',
@@ -34,11 +28,23 @@ class Useful {
     'system_errors' => true,
     'recaptcha_secret_key' => '6Ld7vmoU',
     'recaptcha_secret_key_hidden' => '6LdoshR',
-    'maximum_session_time' => 86400, // (24*60*60 = 86400)
     's_private_key_only_server' => 'dasf1s5GSG52',
     's_private_key' => 'a5vbFgFFG4Fd2',
     'i_private_key' => 15628
+    //'maximum_session_time' => 86400 // (24*60*60 = 86400)
   ];
+
+  /*
+  */
+  public static function getMailArrayDB($oConnection) {
+    return static::getSettingsObjDb(2, $oConnection);
+  }
+
+  /*
+  */
+  public static function getConnectionArrayDB($oConnection) {
+    return static::getSettingsObjDb(1, $oConnection);
+  }
 
   /*
   */
@@ -80,7 +86,7 @@ class Useful {
   /*
   */
   public static function getResponseArray($status = false, $aResponse = [], $sClient = '',$sDeveloper = '') {
-    $oConnection = (object)static::$aConnection;
+    $oConnection = static::getConnectionArray();
     $bSystemErrors = (!empty($oConnection->system_errors)) ? $oConnection->system_errors :false;
     
     if($bSystemErrors){
@@ -100,7 +106,7 @@ class Useful {
   /*
   */
   public static function getRandomCode(){
-    $oConnection = (object)static::$aConnection;
+    $oConnection = static::getConnectionArray();
     $sPrivateKey = (!empty($oConnection->s_private_key_only_server)) ? $oConnection->s_private_key_only_server : '';
     $sCode = (string)rand(100000, 999999);
     $sCode .= $sPrivateKey;
@@ -111,10 +117,12 @@ class Useful {
 
   /*
   */
-  public static function getJWT($oObject){
-    $oConnection = (object)static::$aConnection;
+  public static function getJWT($oObject, $oDbConnection){
+    $oDbSetings = static::getConnectionArrayDB($oDbConnection);
+
+    $oConnection = static::getConnectionArray();
     $sPrivateKey = (!empty($oConnection->s_private_key_only_server)) ? $oConnection->s_private_key_only_server : '';
-    $iMaximumSessionTime = (!empty($oConnection->maximum_session_time)) ? $oConnection->maximum_session_time : 0;
+    $iMaximumSessionTime = (int)(!empty($oDbSetings->maximum_session_time)) ? $oDbSetings->maximum_session_time : 0;
     $iTime = time(); // Seg.
     $aToken = [
       "iat" => $iTime, // Start
@@ -127,7 +135,7 @@ class Useful {
   }
 
   public static function getDecodeJWT($sJwt){
-    $oConnection = (object)static::$aConnection;
+    $oConnection = static::getConnectionArray();
     $sPrivateKey = (!empty($oConnection->s_private_key_only_server)) ? $oConnection->s_private_key_only_server : '';
     $oDecoded = JWT::decode($sJwt, $sPrivateKey, ['HS256']);
 
@@ -137,7 +145,7 @@ class Useful {
   /*
   */
   public static function getDecodeRegCod($sRegCod){
-    $oConnection = (object)static::$aConnection;
+    $oConnection = static::getConnectionArray();
     $iPrivateKey = (!empty($oConnection->i_private_key)) ? $oConnection->i_private_key : null;
     $sPrivateKey = (!empty($oConnection->s_private_key)) ? $oConnection->s_private_key : '';
 
@@ -162,7 +170,7 @@ class Useful {
   /*
   */
   public static function getStatusReCaptcha($sResponse = ""){
-    $oConnection = (object)static::$aConnection;
+    $oConnection = static::getConnectionArray();
     if($oConnection->recaptcha){
       $sSecret = (!empty($oConnection->recaptcha_secret_key)) ? $oConnection->recaptcha_secret_key : '';
       $sURL = "https://www.google.com/recaptcha/api/siteverify";
@@ -182,7 +190,7 @@ class Useful {
   /*
   */
   public static function getStatusReCaptchaHidden($sResponse = ""){
-    $oConnection = (object)static::$aConnection;
+    $oConnection = static::getConnectionArray();
     if($oConnection->recaptcha){
       $sSecret = (!empty($oConnection->recaptcha_secret_key_hidden)) ? $oConnection->recaptcha_secret_key_hidden : '';
       $sURL = "https://www.google.com/recaptcha/api/siteverify";
@@ -278,4 +286,54 @@ class Useful {
     
     return $oEmail;
   }
+
+  /*
+  */
+  public static function getSettingsObjDb($iIdSettingsType, $oConnection){
+    $oSetings = setings::getInstance($oConnection);
+    $oSetings->iIdSettingsType = $iIdSettingsType;
+    $aSetings = $oSetings->getSetingsBySetingsType();
+
+    $aDbSetings = [];
+    foreach ($aSetings as $i => $v){
+      $aDbSetings[$v->name] = $v->value;
+    }
+
+    return (object)$aDbSetings;
+  }
+
+  /*
+  */
+  public static function getStringQueryWhereSQLOr($sAttribute, $aData){
+    $sData = '';
+
+    foreach ($aData as $i => $v){
+      if ($i != 0) {
+        $sData .= ' OR ';
+      }
+
+      $sParameter = $sAttribute . " = '" . $v . "'";
+      $sData .= $sParameter;
+    }
+
+    return $sData;
+  }
+
+  /*
+  */
+  public static function getStringQueryWhereSQLAnd($sAttribute, $aData){
+    $sData = '';
+
+    foreach ($aData as $i => $v){
+      if ($i != 0) {
+        $sData .= ' AND ';
+      }
+
+      $sParameter = $sAttribute . " = '" . $v . "'";
+      $sData .= $sParameter;
+    }
+
+    return $sData;
+  }
+
 }

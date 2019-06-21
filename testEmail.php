@@ -15,7 +15,7 @@ use lib\Useful\Useful;
 
 $oMail = new PHPMailer();
 
-$sEmail = 'info@vendapues.net';
+$sEmail = 'info@example.net';
 $sSubject = 'Test Subject';
 $sMessage = 'Test Message';
 

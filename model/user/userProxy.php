@@ -240,20 +240,30 @@ class userProxy extends proxy {
 	      $oEmailUser = emailUser::getInstance($oConnection);
 
 	      $bEmail = false;
+	      $sErrEmail = '';
 	      $oEmailUser->iId = null;
 	      $oEmailUser->sEmail = $sEmail;
 	      $oEmailUser->loadByEmail();
-	      if(!is_null($oEmailUser->iId)){ $bEmail = true; }
+	      if(!is_null($oEmailUser->iId)){
+	      	$bEmail = true;
+	      	$sErrEmail = constantUser::getConstant('ERROR_REGISTERED_USER_BY_EMAIL');
+	      }
 
 	      $bUser = false;
+	      $sErrUser = '';
 	      $oUser->iId = null;
 	      $oUser->sUser = $sUser;
 	      $oUser->loadByUser();
-	      if(!is_null($oUser->iId)){ $bUser = true; }
+	      if(!is_null($oUser->iId)){
+	      	$bUser = true;
+	      	$sErrUser = constantUser::getConstant('ERROR_REGISTERED_USER_BY_USERNAME');
+	      }
 
 	      $aResponse = [];
-	      $aResponse['user'] = $bUser;
 	      $aResponse['email'] = $bEmail;
+	      $aResponse['user'] = $bUser;
+	      $aResponse['erremail'] = $sErrEmail;
+	      $aResponse['erruser'] = $sErrUser;
 
 	      $oConnection->commit();
 	      $oConnection->close();
@@ -290,25 +300,51 @@ class userProxy extends proxy {
 
 	      $oUser = user::getInstance($oConnection);
 	      $oUser->sUser = $sUser;
-	      $oUser->loadByUser();
-	      $sPasswordBD = $oUser->sPassword;
-	      $iStatus = $oUser->iStatus;
-	      $bStatus = ($iStatus == 1) ? true : false;
+	      $oUser->aEmailUser = [$sUser];
 
-	      if(empty($sPasswordBD) || $sPassword !== $sPasswordBD){
+	      $oUser->loadByUser();
+	      $iId1 = $oUser->iId;
+	      $iIdProfile1 = $oUser->iIdProfile;
+	      $sPasswordBD1 = $oUser->sPassword;
+	      $iStatus1 = $oUser->iStatus;
+	      $bStatus1 = ($iStatus1 == 1) ? true : false;
+
+	      $oUser->loadByEmailUser();
+	      $iId2 = $oUser->iId;
+	      $iIdProfile2 = $oUser->iIdProfile;
+	      $sPasswordBD2 = $oUser->sPassword;
+	      $iStatus2 = $oUser->iStatus;
+	      $bStatus2 = ($iStatus2 == 1) ? true : false;
+
+	      if(empty($sPasswordBD1) && empty($sPasswordBD2)){
 	      	throw new systemException(constantUser::getConstant('FAIL_VALIDATE_LOGIN'));
 	      }
 
-	      if(!$bStatus){
+	      if($sPassword !== $sPasswordBD1 && $sPassword !== $sPasswordBD2){
+	      	throw new systemException(constantUser::getConstant('FAIL_VALIDATE_LOGIN'));
+	      }
+
+	      if(!$bStatus1 && !$bStatus2){
 	      	throw new systemException(constantUser::getConstant('FAIL_VALIDATE_USER'));
+	      }
+
+	      $iId = null;
+	      $iIdProfile = null;
+	      if($bStatus1){
+	      	$iId = $iId1;
+	      	$iIdProfile = $iIdProfile1;
+	      }
+	      if($bStatus2){
+	      	$iId = $iId2;
+	      	$iIdProfile = $iIdProfile2;
 	      }
 
 	      $aResponse = [];
 	      $aObject = [];
-	      $aObject['id'] = $oUser->iId;
-	      $aObject['profile'] = $oUser->iIdProfile;
+	      $aObject['id'] = $iId;
+	      $aObject['profile'] = $iIdProfile;
 	      $oObject = (object)$aObject;
-	      $sCode = Useful::getJWT($oObject);
+	      $sCode = Useful::getJWT($oObject, $oConnection);
 	      $aResponse['code'] = $sCode;
 	      $aResponse['profile'] = $oUser->iIdProfile;
 

@@ -8,7 +8,43 @@ function setView(){
 	let iIdUser = getParameterBysName('id');
 	let sCodeUser = getParameterBysName('code');
 
-	let oDatos = {};
+    let oAjax = {
+        url: g_sBackEnd+'administration/publicData/appRegistration',
+        type: 'post',
+        data: {}
+    }
+    $.ajax(oAjax).done(function(oResponse){
+        if(oResponse.status == 1){
+            let aResponse = oResponse.response;
+            let iId = aResponse.id;
+            let sRegCod = aResponse.registration_code;
+            sRegCod = getDecodeRegCod(sRegCod);
+
+            oAjax = {
+                url: g_sBackEnd+'administration/user/validateEmailByCode',
+                type: 'post',
+                data: {
+                    'id': iId,
+                    'registration_code': sRegCod,
+                    'id_user': iIdUser,
+                    'code_user': sCodeUser
+                }
+            }
+            $.ajax(oAjax).done(function(oResponse){
+                if(oResponse.status == 1){
+                    let sMessage = oResponse.text.client;
+                    $("#validationMessage").html('<h1>'+ sMessage +'</h1>');
+                }else{
+                    goTo('', '');
+                }
+            }).fail(function(){});
+        }else{
+            setMessage(oResponse.text.client);
+            goTo('', '');
+        }
+    }).fail(function(){});
+
+	/*let oDatos = {};
     let sUrl = 'administration/publicData/appRegistration';
     $.when($.post(g_sBackEnd+sUrl, oDatos))
     .then(function(oResponse){
@@ -36,9 +72,9 @@ function setView(){
             })
             .fail(function(){});
         }else{
-            setErrorMessage(oResponse.text.client);
+            setMessage(oResponse.text.client);
             goTo('', '');
         }
     })
-    .fail(function(){});
+    .fail(function(){});*/
 }

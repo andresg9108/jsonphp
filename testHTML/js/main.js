@@ -2,6 +2,7 @@
 
 var g_sBackEnd = 'http://localhost/jsonphp/';
 var g_bEncryptionRedCod = true;
+var g_iIdLanguage = 0; // English = 0, Spanish = 1
 var g_bReCaptcha = false;
 var g_sSession = 'sfavevf5fA';
 var g_iPrivateKey = 15628;
@@ -46,13 +47,13 @@ function getSession(){
 
 /*
 */
-function setErrorMessage(sMessage){
+function setMessage(sMessage){
     sessionStorage.setItem(g_sSession+'message', sMessage);
 }
 
 /*
 */
-function getErrorMessage(){
+function getMessage(){
     let sMessage = sessionStorage.getItem(g_sSession+'message');
     sessionStorage.setItem(g_sSession+'message', '');
     if(sMessage == null){
@@ -65,18 +66,22 @@ function getErrorMessage(){
 /*
 */
 function sendEmail(aEmail){
+    let oAjax = {
+        url: g_sBackEnd+'administration/email/send',
+        type: 'post',
+        data: {}
+    }
+
     $.each(aEmail, function(i, v){
         let iId = v.id;
         let sCod = v.cod;
 
-        let sUrl3 = 'administration/email/send';
-        let oDatos3 = {
+        oAjax.data = {
             'id': iId,
             'cod': sCod
         };
-        $.post(g_sBackEnd+sUrl3,oDatos3)
-        .then(function(oResponse){
-        });
+        $.ajax(oAjax).done(function(oResponse){
+        }).fail(function(){});
     });
 }
 
@@ -96,25 +101,29 @@ function goTo_w(sUrl){
 */
 function validateSession(bSession){
     let sSessionCode = getSession();
-    
-    let oDatos = {};
-    let sUrl = 'administration/publicData/appRegistration';
-    $.when($.post(g_sBackEnd+sUrl, oDatos))
-    .then(function(oResponse){
+
+    let oAjax = {
+        url: g_sBackEnd+'administration/publicData/appRegistration',
+        type: 'post',
+        data: {}
+    }
+    $.ajax(oAjax).done(function(oResponse){
         if(oResponse.status == 1){
             let aResponse = oResponse.response;
             let iId = aResponse.id;
             let sRegCod = aResponse.registration_code;
             sRegCod = getDecodeRegCod(sRegCod);
 
-            let oDatos2 = {
-                'id': iId,
-                'registration_code': sRegCod,
-                'code': sSessionCode
-            };
-            let sUrl2 = 'administration/user/validateSession';
-            $.when($.post(g_sBackEnd+sUrl2, oDatos2))
-            .then(function(oResponse){
+            oAjax = {
+                url: g_sBackEnd+'administration/user/validateSession',
+                type: 'post',
+                data: {
+                    'id': iId,
+                    'registration_code': sRegCod,
+                    'code': sSessionCode
+                }
+            }
+            $.ajax(oAjax).done(function(oResponse){
                 if(oResponse.status != 1){
                     setSession('');
                     if(bSession){
@@ -128,17 +137,15 @@ function validateSession(bSession){
                         goTo('dashboard', '');
                     }
                 }
-            })
-            .fail(function(){});
+            }).fail(function(){});
         }else{
-            setErrorMessage(oResponse.text.client);
+            setMessage(oResponse.text.client);
             setSession('');
             if(bSession){
                 goTo('', '');
             }
         }
-    })
-    .fail(function(){});
+    }).fail(function(){});
 }
 
 /*

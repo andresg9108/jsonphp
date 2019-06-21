@@ -132,6 +132,31 @@ class user extends model {
 
   /*
   */
+  public function loadByEmailUser(){
+    $sOrEmailUser = Useful::getStringQueryWhereSQLOr('eu.email', $this->aEmailUser);
+    $aParameters = [$sOrEmailUser];
+    $sQuery = queryUser::getQuery('LOAD_BY_EMAIL_USER', $aParameters);
+    $aParameters = ['id', 'registration_date', 'user', 'password', 'status', 'id_person', 'id_profile'];
+    $this->oConnection->queryRow($sQuery, $aParameters);
+    $oUser = $this->oConnection->getQuery();
+
+    $iId = (!empty($oUser->id)) ? $oUser->id : null;
+    $sUser = (!empty($oUser->user)) ? $oUser->user : '';
+    $sPassword = (!empty($oUser->password)) ? $oUser->password : '';
+    $iStatus = (!empty($oUser->status)) ? $oUser->status : 0;
+    $iIdPerson = (!empty($oUser->id_person)) ? $oUser->id_person : null;
+    $iIdProfile = (!empty($oUser->id_profile)) ? $oUser->id_profile : null;
+
+    $this->iId = $iId;
+    $this->sUser = $sUser;
+    $this->sPassword = $sPassword;
+    $this->iStatus = $iStatus;
+    $this->iIdPerson = $iIdPerson;
+    $this->iIdProfile = $iIdProfile;
+  }
+
+  /*
+  */
   public function validateInsert(){
     $this->validateData();
 

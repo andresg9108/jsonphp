@@ -31,7 +31,7 @@ class sendEmailProxy extends proxy {
 	      }
 
 	      if($oSendEmail->iStatus == 1){
-	      	throw new systemException(constantSendEmail::getConstant('EMAIL_HAS_BEEN_SEND'));
+	      	throw new systemException(constantSendEmail::getConstant('STATUS_EMAIL_SENT'));
 	      }
 
 	      $aResponse = [];

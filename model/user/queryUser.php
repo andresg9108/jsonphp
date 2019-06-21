@@ -18,6 +18,11 @@ const LOAD_BY_USER = "SELECT id, registration_date, user,
 						id_person, id_profile 
 						FROM `user` 
 						WHERE `user`='<1?>'";
+const LOAD_BY_EMAIL_USER = "SELECT * 
+							FROM `user` u 
+							INNER JOIN `email_user` eu 
+							ON u.id = eu.id_user 
+							WHERE <1?>";
 const UPDATE = "UPDATE `user` 
 				SET user='<2?>',
 				password='<3?>', 
