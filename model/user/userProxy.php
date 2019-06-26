@@ -190,8 +190,12 @@ class userProxy extends proxy {
 
 	      // SEND EMAIL
 	      $iIdEmailSettings = 2;
+
+	      $sUrlFrontend = constantGlobal::getConstant('URL_FRONTEND');
 	      $aParameters = [$oEmailUser->iId, $oEmailUser->sRegistrationCode];
 	      $sUrl = constantUser::getConstant('EMAIL_RECOVER_PASSWORD_URL', $aParameters);
+	      $sUrl = $sUrlFrontend.$sUrl;
+	      
 	      $sSubject = constantUser::getConstant('EMAIL_SUBJECT_RECOVER_PASSWORD');
 	      $aParameters = [$sUrl];
 	      $sMessage = Useful::getEmailTemplate('recoverPassword', $aParameters);

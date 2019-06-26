@@ -20,7 +20,7 @@ class constantUser extends constant{
 	const VAL_VAL_USERNAME = "You must send a valid user and include at least 5 characters. Permitted characters: a, b, c ... 0, 1, 2, 3 ... hyphen (-), underscore (_) and period (.). Do not include accents of Spanish (Ej: á), the letter ñ, or spaces.";
 	const VAL_EXISTING_USERNAME = "You must send a different user, someone has already been registered with: <1?>";
 	const EMAIL_SUBJECT_RECOVER_PASSWORD = "Recover password";
-	const EMAIL_RECOVER_PASSWORD_URL = "http://localhost/jsonphp/testHTML/recoverPassword/change/?id=<1?>&code=<2?>";
+	const EMAIL_RECOVER_PASSWORD_URL = "recoverPassword/change/?id=<1?>&code=<2?>";
 	const ERROR_REGISTERED_USER_BY_EMAIL = "There is already a registered user with this email.";
 	const ERROR_REGISTERED_USER_BY_USERNAME = "Choose another username.";
 

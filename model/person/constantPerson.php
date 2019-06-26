@@ -11,7 +11,7 @@ class constantPerson extends constant{
 	const VAL_EMPTY_LAST_NAME = "You must send a surname.";
 	const VAL_VAL_NAME = "You must send a valid name.";
 	const VAL_VAL_LAST_NAME = "You must send a valid surname.";
-	const EMAIL_CHECKIN_URL = "http://localhost/jsonphp/testHTML/validateUser/?id=<1?>&code=<2?>";
+	const EMAIL_CHECKIN_URL = "validateUser/?id=<1?>&code=<2?>";
 	const EMAIL_CHECKIN_SUBJECT = "Thank you for registering.";
 
 	// Spanish

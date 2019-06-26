@@ -44,8 +44,11 @@ class personProxy extends proxy {
 			$oEmailUser->iIdUser = $iIdUser;
 			$oEmailUser->loadMainByIdUser();
 
+			$sUrlFrontend = constantGlobal::getConstant('URL_FRONTEND');
 			$aParameters = [$iIdUser, $oEmailUser->sRegistrationCode];
 	      	$sUrl = constantPerson::getConstant('EMAIL_CHECKIN_URL', $aParameters);
+	      	$sUrl = $sUrlFrontend.$sUrl;
+	      	
 	      	$sSubject = constantPerson::getConstant('EMAIL_CHECKIN_SUBJECT');
 	      	$aParameters = [$sUrl];
 	      	$sMessage = Useful::getEmailTemplate('checkin', $aParameters);

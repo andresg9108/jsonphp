@@ -6,6 +6,7 @@ use lib\MVC\constant;
 
 class constantGlobal extends constant{
 
+    const URL_FRONTEND = "http://localhost/jsonphp/testHTML/";
     const FAIL_CONNECTION_FAILURE_DB = "Failure to connect to the database.";
     const ERROR_IN_THE_QUERY = "Error in the query.";
 	const CONTACT_SUPPORT = "We are having problems, contact technical support.";
