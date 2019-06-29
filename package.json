@@ -14,5 +14,9 @@
   "bugs": {
     "url": "https://github.com/andresg9108/jsonphp/issues"
   },
-  "homepage": "https://github.com/andresg9108/jsonphp#readme"
+  "homepage": "https://github.com/andresg9108/jsonphp#readme",
+  "dependencies": {
+    "blueimp-md5": "^2.10.0",
+    "jquery": "^3.4.1"
+  }
 }
