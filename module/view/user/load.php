@@ -1,7 +1,7 @@
 <?php
 
 use lib\Useful\{Useful, constantGlobal};
-use administration\controller\userController;
+use module\controller\userController;
 
 $oConnection = Useful::getConnectionArray();
 $bPhpErrors = (!empty($oConnection->php_errors)) ? $oConnection->php_errors : false;

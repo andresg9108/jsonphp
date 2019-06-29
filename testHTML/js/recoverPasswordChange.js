@@ -16,7 +16,7 @@ function setView(){
     let sCodeEUser = getParameterBysName('code');
 
     let oAjax = {
-        url: g_sBackEnd+'administration/publicData/appRegistration',
+        url: g_sBackEnd+'module/publicData/appRegistration',
         type: 'post',
         data: {}
     }
@@ -28,7 +28,7 @@ function setView(){
             sRegCod = getDecodeRegCod(sRegCod);
 
             oAjax = {
-                url: g_sBackEnd+'administration/user/validateRecoverPassword',
+                url: g_sBackEnd+'module/user/validateRecoverPassword',
                 type: 'post',
                 data: {
                     'id': iId,
@@ -70,7 +70,7 @@ function recoverPasswordAction(){
         }
 
         let oAjax = {
-            url: g_sBackEnd+'administration/publicData/appRegistration',
+            url: g_sBackEnd+'module/publicData/appRegistration',
             type: 'post',
             data: {}
         }
@@ -82,7 +82,7 @@ function recoverPasswordAction(){
                 sRegCod = getDecodeRegCod(sRegCod);
 
                 oAjax = {
-                    url: g_sBackEnd+'administration/user/sendRecoverPassword',
+                    url: g_sBackEnd+'module/user/sendRecoverPassword',
                     type: 'post',
                     data: {
                         'id': iId,

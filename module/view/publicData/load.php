@@ -1,7 +1,7 @@
 <?php
 
 use lib\Useful\{Useful, constantGlobal};
-use administration\controller\publicDataController;
+use module\controller\publicDataController;
 
 $oConnection = Useful::getConnectionArray();
 $bPhpErrors = (!empty($oConnection->php_errors)) ? $oConnection->php_errors : false;

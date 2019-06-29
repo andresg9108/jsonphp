@@ -1,6 +1,6 @@
 <?php
 
-namespace administration\controller;
+namespace module\controller;
 
 use \Exception;
 use \Firebase\JWT\{JWT, ExpiredException};

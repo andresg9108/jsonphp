@@ -67,7 +67,7 @@ function getMessage(){
 */
 function sendEmail(aEmail){
     let oAjax = {
-        url: g_sBackEnd+'administration/email/send',
+        url: g_sBackEnd+'module/email/send',
         type: 'post',
         data: {}
     }
@@ -103,7 +103,7 @@ function validateSession(bSession){
     let sSessionCode = getSession();
 
     let oAjax = {
-        url: g_sBackEnd+'administration/publicData/appRegistration',
+        url: g_sBackEnd+'module/publicData/appRegistration',
         type: 'post',
         data: {}
     }
@@ -115,7 +115,7 @@ function validateSession(bSession){
             sRegCod = getDecodeRegCod(sRegCod);
 
             oAjax = {
-                url: g_sBackEnd+'administration/user/validateSession',
+                url: g_sBackEnd+'module/user/validateSession',
                 type: 'post',
                 data: {
                     'id': iId,

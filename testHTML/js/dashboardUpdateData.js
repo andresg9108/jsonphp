@@ -26,7 +26,7 @@ function updateDataAction(){
         }
 
 		let oAjax = {
-            url: g_sBackEnd+'administration/publicData/appRegistration',
+            url: g_sBackEnd+'module/publicData/appRegistration',
             type: 'post',
             data: {}
         }
@@ -38,7 +38,7 @@ function updateDataAction(){
                 sRegCod = getDecodeRegCod(sRegCod);
 
                 oAjax = {
-                    url: g_sBackEnd+'administration/person/update',
+                    url: g_sBackEnd+'module/person/update',
                     type: 'post',
                     data: {
                         'id': iId,

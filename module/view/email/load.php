@@ -7,7 +7,7 @@ require __DIRMAIN__.'vendor/phpmailer/phpmailer/src/SMTP.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use lib\Useful\{Useful, constantGlobal};
-use administration\controller\emailController;
+use module\controller\emailController;
 
 $oConnection = Useful::getConnectionArray();
 $bPhpErrors = (!empty($oConnection->php_errors)) ? $oConnection->php_errors : false;

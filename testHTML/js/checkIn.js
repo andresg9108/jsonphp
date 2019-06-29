@@ -28,7 +28,7 @@ function checkInAction(){
         }
         
         let oAjax = {
-            url: g_sBackEnd+'administration/publicData/appRegistration',
+            url: g_sBackEnd+'module/publicData/appRegistration',
             type: 'post',
             data: {}
         }
@@ -40,7 +40,7 @@ function checkInAction(){
                 sRegCod = getDecodeRegCod(sRegCod);
 
                 oAjax = {
-                    url: g_sBackEnd+'administration/user/validateEmailAndUser',
+                    url: g_sBackEnd+'module/user/validateEmailAndUser',
                     type: 'post',
                     data: {
                         'id': iId,
@@ -74,7 +74,7 @@ if(bEmail || bUser){
 
     // START OF USER REGISTRATION
     oAjax = {
-        url: g_sBackEnd+'administration/publicData/appRegistration',
+        url: g_sBackEnd+'module/publicData/appRegistration',
         type: 'post',
         data: {}
     }
@@ -87,7 +87,7 @@ if(bEmail || bUser){
             sRegCod = getDecodeRegCod(sRegCod);
 
             oAjax = {
-                url: g_sBackEnd+'administration/user/checkIn',
+                url: g_sBackEnd+'module/user/checkIn',
                 type: 'post',
                 data: {
                     'id': iId,

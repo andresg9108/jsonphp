@@ -9,7 +9,7 @@ function setView(){
 	let sCodeUser = getParameterBysName('code');
 
     let oAjax = {
-        url: g_sBackEnd+'administration/publicData/appRegistration',
+        url: g_sBackEnd+'module/publicData/appRegistration',
         type: 'post',
         data: {}
     }
@@ -21,7 +21,7 @@ function setView(){
             sRegCod = getDecodeRegCod(sRegCod);
 
             oAjax = {
-                url: g_sBackEnd+'administration/user/validateEmailByCode',
+                url: g_sBackEnd+'module/user/validateEmailByCode',
                 type: 'post',
                 data: {
                     'id': iId,
@@ -45,7 +45,7 @@ function setView(){
     }).fail(function(){});
 
 	/*let oDatos = {};
-    let sUrl = 'administration/publicData/appRegistration';
+    let sUrl = 'module/publicData/appRegistration';
     $.when($.post(g_sBackEnd+sUrl, oDatos))
     .then(function(oResponse){
         if(oResponse.status == 1){
@@ -60,7 +60,7 @@ function setView(){
                 'id_user': iIdUser,
                 'code_user': sCodeUser
             };
-            let sUrl2 = 'administration/user/validateEmailByCode';
+            let sUrl2 = 'module/user/validateEmailByCode';
             $.when($.post(g_sBackEnd+sUrl2, oDatos2))
             .then(function(oResponse){
                 if(oResponse.status == 1){

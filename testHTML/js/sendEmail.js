@@ -11,7 +11,7 @@ function setView(){
     let sCode = getParameterBysName('code');
 
 	let oAjax = {
-        url: g_sBackEnd+'administration/email/send',
+        url: g_sBackEnd+'module/email/send',
         type: 'post',
         data: {
             'id': iId,

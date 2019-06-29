@@ -24,7 +24,7 @@ function recoverPasswordAction(){
         }
 
         let oAjax = {
-	        url: g_sBackEnd+'administration/publicData/appRegistration',
+	        url: g_sBackEnd+'module/publicData/appRegistration',
 	        type: 'post',
 	        data: {}
 	    }
@@ -36,7 +36,7 @@ function recoverPasswordAction(){
 	            sRegCod = getDecodeRegCod(sRegCod);
 
 	            oAjax = {
-			        url: g_sBackEnd+'administration/user/recoverPassword',
+			        url: g_sBackEnd+'module/user/recoverPassword',
 			        type: 'post',
 			        data: {
 			            'id': iId,

@@ -26,7 +26,7 @@ function logInAction(){
     }
 
     let oAjax = {
-        url: g_sBackEnd+'administration/publicData/appRegistration',
+        url: g_sBackEnd+'module/publicData/appRegistration',
         type: 'post',
         data: {}
     }
@@ -38,7 +38,7 @@ function logInAction(){
             sRegCod = getDecodeRegCod(sRegCod);
 
             oAjax = {
-                url: g_sBackEnd+'administration/user/logIn',
+                url: g_sBackEnd+'module/user/logIn',
                 type: 'post',
                 data: {
                     'id': iId,
