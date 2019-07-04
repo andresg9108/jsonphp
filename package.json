@@ -1,20 +1,14 @@
 {
   "name": "jsonphp",
   "version": "0.1.0",
-  "description": "",
-  "scripts": {
-    "start": "echo 'Hello World'"
-  },
+  "description": "Project designed for backend software development.",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/andresg9108/jsonphp.git"
+    "url": "https://github.com/andresg9108/jsonphp"
   },
   "author": "Andres Gonzalez",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/andresg9108/jsonphp/issues"
-  },
-  "homepage": "https://github.com/andresg9108/jsonphp#readme",
+  "license": "MIT",
+  "homepage": "https://github.com/andresg9108/jsonphp",
   "dependencies": {
     "blueimp-md5": "^2.10.0",
     "jquery": "^3.4.1"
