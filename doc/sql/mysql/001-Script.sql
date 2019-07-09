@@ -226,6 +226,19 @@ foreign key(id_language) references language(id)
 );
 
 /**/
+/*TABLE profdepa*/
+/**/
+create table profdepa(
+id int not null auto_increment,
+registration_date timestamp DEFAULT CURRENT_TIMESTAMP,
+id_profile int,
+id_department int,
+primary key(id),
+foreign key(id_profile) references profile(id),
+foreign key(id_department) references department(id)
+);
+
+/**/
 /*TABLE profpriv*/
 /**/
 create table profpriv(
