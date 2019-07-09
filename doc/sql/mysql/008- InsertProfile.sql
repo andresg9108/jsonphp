@@ -20,6 +20,10 @@ INSERT INTO `profpriv`(`id_profile`, `id_privileges`) VALUES
 (1, 2),
 (1, 3),
 (1, 4);
+INSERT INTO `profdepa`(`id_profile`, `id_department`) VALUES 
+(1, 1),
+(1, 2);
+
 
 /**/
 /*Client Profile*/
