@@ -1,5 +1,5 @@
-Manual to move from version v0.2.0 to v0.2.1
+Manual to move from version v0.2.1 to v0.2.2
 
-1- You just have to run "composer update" in the root of the project.
+1- Update README.md file.
 
 Ok, updated project.
