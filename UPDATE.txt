@@ -3,4 +3,6 @@ Manual to move from version v0.2.2 to v0.3.0
 1- File: composer.json
 * Update ["name": "jsonphp/jsonphp"] by ["name": "andresg9108/jsonphp"]
 
+2- Review changes in the file: composer.json
+
 Ok, updated project.
