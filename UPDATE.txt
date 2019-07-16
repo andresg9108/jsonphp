@@ -2,7 +2,17 @@ Manual to move from version v0.2.2 to v0.3.0
 
 1- File: composer.json
 * Update ["name": "jsonphp/jsonphp"] by ["name": "andresg9108/jsonphp"]
+* Add 
+"repositories": [
+    {
+        "type": "vcs",
+    	"url": "https://github.com/andresg9108/connectiondb"
+	}
+]
+___________________________
 
 2- Review changes in the file: composer.json
+
+3- "composer require andresg9108/connectiondb"
 
 Ok, updated project.
