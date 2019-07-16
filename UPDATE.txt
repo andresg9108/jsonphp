@@ -13,7 +13,7 @@ ___________________________
 
 2- Review changes in the file: composer.json
 
-3- "composer require andresg9108/connectiondb"
+3- Run "composer require andresg9108/connectiondb" at the root of the project.
 
 4- Change "model/systemException.php" to "lib/Useful/systemException.php".
 
@@ -21,5 +21,24 @@ ___________________________
 
 6- In file: "lib/Useful/systemException.php"
 * Line "namespace model;" to "namespace lib\Useful;"
+
+7- Update "test.php".
+
+8- "use model\connection;" to "use andresg9108\connectiondb\connection;" in all the files
+
+9- In file: "lib/Useful/Useful.php":
+* Add function
+/*
+*/
+public static function getConnectionDB(){
+$oConnectionArray = static::getConnectionArray();
+$oConnection = connection::getInstance($oConnectionArray);
+
+return $oConnection;
+}
+
+10- "$oConnection = connection::getInstance();" to "$oConnection = Useful::getConnectionDB();" in all the files
+
+11- Delete file: "model/connection.php".
 
 Ok, updated project.

@@ -6,19 +6,9 @@ ini_set('display_errors', '1');
 const __DIRMAIN__ = "./";
 require_once __DIRMAIN__.'autoload.php';
 
-use andresg9108\connectiondb\connection;
+use lib\Useful\Useful;
 
-$aConnection = [
-'motor' => 'mysql',
-'server' => 'localhost',
-'user' => 'root',
-'password' => '',
-'database' => 'my_database'
-];
-
-$oAConnection = (object)$aConnection;
-
-$oConnection = connection::getInstance($oAConnection);
+$oConnection = Useful::getConnectionDB();
 $oConnection->connect();
 
 $oConnection->queryArray("SELECT * FROM user;", ['field1', 'field2', 'field3', 'field4']);

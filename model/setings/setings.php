@@ -6,7 +6,7 @@ use \Exception;
 use \Firebase\JWT\{JWT, ExpiredException};
 use lib\MVC\model;
 use lib\Useful\{Useful, systemException};
-use model\connection;
+use andresg9108\connectiondb\connection;
 use model\setings\{constantSetings, querySetings};
 
 class setings extends model {

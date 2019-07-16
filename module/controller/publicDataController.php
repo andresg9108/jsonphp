@@ -6,7 +6,7 @@ use \Exception;
 use \Firebase\JWT\{JWT, ExpiredException};
 use lib\MVC\controller;
 use lib\Useful\{Useful, constantGlobal, systemException};
-use model\connection;
+use andresg9108\connectiondb\connection;
 use model\appRegistration\appRegistrationProxy;
 
 class publicDataController extends controller {

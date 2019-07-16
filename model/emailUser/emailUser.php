@@ -6,7 +6,7 @@ use \Exception;
 use \Firebase\JWT\{JWT, ExpiredException};
 use lib\MVC\model;
 use lib\Useful\{Useful, constantGlobal, systemException};
-use model\connection;
+use andresg9108\connectiondb\connection;
 use model\emailUser\{queryEmailUser, constantEmailUser};
 
 class emailUser extends model {

@@ -6,7 +6,7 @@ use \Exception;
 use \Firebase\JWT\{JWT, ExpiredException};
 use lib\Useful\{Useful, constantGlobal, systemException};
 use lib\MVC\proxy;
-use model\connection;
+use andresg9108\connectiondb\connection;
 use model\user\{user, constantUser};
 use model\emailUser\emailUser;
 use model\sendEmail\sendEmail;
@@ -17,7 +17,7 @@ class userProxy extends proxy {
 	*/
 	public static function sendRecoverPassword($iIdEUser, $sCodeEUser, $sPassword){
 		try {
-	      $oConnection = connection::getInstance();
+	      $oConnection = Useful::getConnectionDB();
 	      $oConnection->connect();
 
 	      $oUser = user::getInstance($oConnection);
@@ -64,7 +64,7 @@ class userProxy extends proxy {
 	*/
 	public static function validateRecoverPassword($iIdEUser, $sCodeEUser){
 		try {
-	      $oConnection = connection::getInstance();
+	      $oConnection = Useful::getConnectionDB();
 	      $oConnection->connect();
 
 	      $oUser = user::getInstance($oConnection);
@@ -116,7 +116,7 @@ class userProxy extends proxy {
 	*/
 	public static function validateEmailByCode($iIdUser, $sCodeEmailUser){
 		try {
-	      $oConnection = connection::getInstance();
+	      $oConnection = Useful::getConnectionDB();
 	      $oConnection->connect();
 
 	      $oUser = user::getInstance($oConnection);
@@ -165,7 +165,7 @@ class userProxy extends proxy {
 	*/
 	public static function recoverPassword($sEmail){
 		try {
-	      $oConnection = connection::getInstance();
+	      $oConnection = Useful::getConnectionDB();
 	      $oConnection->connect();
 
 	      if(empty($sEmail)){
@@ -234,7 +234,7 @@ class userProxy extends proxy {
 	*/
 	public static function validateEmailAndUser($sEmail, $sUser){
 		try {
-	      $oConnection = connection::getInstance();
+	      $oConnection = Useful::getConnectionDB();
 	      $oConnection->connect();
 
 	      $sEmail = str_replace(' ', '', $sEmail);
@@ -294,7 +294,7 @@ class userProxy extends proxy {
 	*/
 	public static function validatelogIn($oUserSet){
 		try {
-	      $oConnection = connection::getInstance();
+	      $oConnection = Useful::getConnectionDB();
 	      $oConnection->connect();
 
 	      $sUser = (!empty($oUserSet->user)) ? $oUserSet->user : '';
