@@ -41,4 +41,11 @@ return $oConnection;
 
 11- Delete file: "model/connection.php".
 
+12- In file: testEmail.php 
+Update line "$oMailD = Useful::getMailArray();"
+By
+"$oConnection = Useful::getConnectionDB();
+$oConnection->connect();
+$oMailD = Useful::getMailArrayDB($oConnection);"
+
 Ok, updated project.
