@@ -4,9 +4,9 @@ namespace model\appRegistration;
 
 use \Exception;
 use \Firebase\JWT\{JWT, ExpiredException};
-use lib\Useful\{Useful, constantGlobal};
+use lib\Useful\{Useful, constantGlobal, systemException};
 use lib\MVC\proxy;
-use model\{connection, systemException};
+use andresg9108\connectiondb\connection;
 use model\appRegistration\{appRegistration, constantAppRegistration};
 
 class appRegistrationProxy extends proxy {
@@ -15,7 +15,7 @@ class appRegistrationProxy extends proxy {
 	*/
 	public static function validateRegCod($iId, $sRegistrationCode){
 		try {
-	      $oConnection = connection::getInstance();
+	      $oConnection = Useful::getConnectionDB();
 	      $oConnection->connect();
 
 	      $oAppRegistration = appRegistration::getInstance($oConnection);
@@ -54,7 +54,7 @@ class appRegistrationProxy extends proxy {
 	*/
 	public static function save($oAppRegistrationSet){
 		try {
-	      $oConnection = connection::getInstance();
+	      $oConnection = Useful::getConnectionDB();
 	      $oConnection->connect();
 
 	      $iNumberItems = 5;

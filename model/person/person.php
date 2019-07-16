@@ -5,8 +5,8 @@ namespace model\person;
 use \Exception;
 use \Firebase\JWT\{JWT, ExpiredException};
 use lib\MVC\model;
-use lib\Useful\Useful;
-use model\{connection, systemException};
+use lib\Useful\{Useful, systemException};
+use andresg9108\connectiondb\connection;
 use model\person\{queryPerson, constantPerson};
 use model\user\user;
 

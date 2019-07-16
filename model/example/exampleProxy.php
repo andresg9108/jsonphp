@@ -4,9 +4,9 @@ namespace model\example;
 
 use \Exception;
 use \Firebase\JWT\{JWT, ExpiredException};
-use lib\Useful\{Useful, constantGlobal};
+use lib\Useful\{Useful, constantGlobal, systemException};
 use lib\MVC\proxy;
-use model\{connection, systemException};
+use andresg9108\connectiondb\connection;
 use model\example\{constantExample, queryExample};
 
 class exampleProxy extends proxy {
@@ -15,7 +15,7 @@ class exampleProxy extends proxy {
 	*/
 	public static function getExample(){
 		try {
-	      $oConnection = connection::getInstance();
+	      $oConnection = Useful::getConnectionDB();
 	      $oConnection->connect();
 
 	      $oConnection->commit();

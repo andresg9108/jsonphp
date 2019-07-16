@@ -4,8 +4,43 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d21495e994b001c86083fac7cec9f520",
+    "content-hash": "5ac6dcb68738575da6c2d444c275b7ad",
     "packages": [
+        {
+            "name": "andresg9108/connectiondb",
+            "version": "0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/andresg9108/connectiondb.git",
+                "reference": "3e00b68ad90535b55636524b994e7171d0a6b06c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/andresg9108/connectiondb/zipball/3e00b68ad90535b55636524b994e7171d0a6b06c",
+                "reference": "3e00b68ad90535b55636524b994e7171d0a6b06c",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "connection/connection.php",
+                    "connection/constantConnection.php"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Andres Gonzalez"
+                }
+            ],
+            "support": {
+                "source": "https://github.com/andresg9108/connectiondb/tree/master",
+                "issues": "https://github.com/andresg9108/connectiondb/issues"
+            },
+            "time": "2019-07-16T17:56:03+00:00"
+        },
         {
             "name": "firebase/php-jwt",
             "version": "v5.0.0",

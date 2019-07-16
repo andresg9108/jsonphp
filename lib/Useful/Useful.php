@@ -4,8 +4,8 @@ namespace lib\Useful;
 
 use \Exception;
 use \Firebase\JWT\{JWT, ExpiredException};
-use lib\Useful\constantGlobal;
-use model\{connection, systemException};
+use andresg9108\connectiondb\connection;
+use lib\Useful\{constantGlobal, systemException};
 use model\sendEmail\sendEmail;
 use model\setings\setings;
 
@@ -56,6 +56,15 @@ class Useful {
   */
   public static function getConnectionArray() {
     return (object)static::$aConnection;
+  }
+
+  /*
+  */
+  public static function getConnectionDB(){
+    $oConnectionArray = static::getConnectionArray();
+    $oConnection = connection::getInstance($oConnectionArray);
+
+    return $oConnection;
   }
 
   /*

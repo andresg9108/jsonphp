@@ -19,7 +19,10 @@ $sEmail = 'info@example.net';
 $sSubject = 'Test Subject';
 $sMessage = 'Test Message';
 
-$oMailD = Useful::getMailArray();
+$oConnection = Useful::getConnectionDB();
+$oConnection->connect();
+$oMailD = Useful::getMailArrayDB($oConnection);
+
 $sServerName = (!empty($oMailD->name)) ? $oMailD->name : "";
 $sServerHost = (!empty($oMailD->host)) ? $oMailD->host : "";
 $sSmtpSecure = (!empty($oMailD->smtp_secure)) ? $oMailD->smtp_secure : "";

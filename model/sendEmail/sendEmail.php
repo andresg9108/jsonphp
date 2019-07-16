@@ -5,7 +5,8 @@ namespace model\sendEmail;
 use \Exception;
 use \Firebase\JWT\{JWT, ExpiredException};
 use lib\MVC\model;
-use model\{connection, systemException};
+use lib\Useful\systemException;
+use andresg9108\connectiondb\connection;
 use model\sendEmail\{querySendEmail, constantSendEmail};
 
 class sendEmail extends model {

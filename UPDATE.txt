@@ -1,5 +1,51 @@
-Manual to move from version v0.2.1 to v0.2.2
+Manual to move from version v0.2.2 to v0.3.0
 
-1- Update README.md file.
+1- File: composer.json
+* Update ["name": "jsonphp/jsonphp"] by ["name": "andresg9108/jsonphp"]
+* Add 
+"repositories": [
+    {
+        "type": "vcs",
+    	"url": "https://github.com/andresg9108/connectiondb"
+	}
+]
+___________________________
+
+2- Review changes in the file: composer.json
+
+3- Run "composer require andresg9108/connectiondb" at the root of the project.
+
+4- Change "model/systemException.php" to "lib/Useful/systemException.php".
+
+5- "use model\systemException;" to "use lib\Useful\systemException;" in all the files
+
+6- In file: "lib/Useful/systemException.php"
+* Line "namespace model;" to "namespace lib\Useful;"
+
+7- Update "test.php".
+
+8- "use model\connection;" to "use andresg9108\connectiondb\connection;" in all the files
+
+9- In file: "lib/Useful/Useful.php":
+* Add function
+/*
+*/
+public static function getConnectionDB(){
+$oConnectionArray = static::getConnectionArray();
+$oConnection = connection::getInstance($oConnectionArray);
+
+return $oConnection;
+}
+
+10- "$oConnection = connection::getInstance();" to "$oConnection = Useful::getConnectionDB();" in all the files
+
+11- Delete file: "model/connection.php".
+
+12- In file: testEmail.php 
+Update line "$oMailD = Useful::getMailArray();"
+By
+"$oConnection = Useful::getConnectionDB();
+$oConnection->connect();
+$oMailD = Useful::getMailArrayDB($oConnection);"
 
 Ok, updated project.

@@ -4,9 +4,9 @@ namespace model\person;
 
 use \Exception;
 use \Firebase\JWT\{JWT, ExpiredException};
-use lib\Useful\{Useful, constantGlobal};
+use lib\Useful\{Useful, constantGlobal, systemException};
 use lib\MVC\proxy;
-use model\{connection, systemException};
+use andresg9108\connectiondb\connection;
 use model\person\{person, constantPerson};
 use model\user\user;
 use model\emailUser\emailUser;
@@ -16,7 +16,7 @@ class personProxy extends proxy {
 
 	public static function checkIn($oPersonSet){
 		try {
-	      $oConnection = connection::getInstance();
+	      $oConnection = Useful::getConnectionDB();
 	      $oConnection->connect();
 
 	      $sName = (!empty($oPersonSet->name)) ? $oPersonSet->name : '';

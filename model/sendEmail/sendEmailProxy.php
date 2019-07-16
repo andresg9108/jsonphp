@@ -4,9 +4,9 @@ namespace model\sendEmail;
 
 use \Exception;
 use \Firebase\JWT\{JWT, ExpiredException};
-use lib\Useful\{Useful, constantGlobal};
+use lib\Useful\{Useful, constantGlobal, systemException};
 use lib\MVC\proxy;
-use model\{connection, systemException};
+use andresg9108\connectiondb\connection;
 use model\sendEmail\{sendEmail, constantSendEmail};
 
 class sendEmailProxy extends proxy {
@@ -15,7 +15,7 @@ class sendEmailProxy extends proxy {
 	*/
 	public static function validateEmailSending($oSendEmailSet){
 		try {
-	      $oConnection = connection::getInstance();
+	      $oConnection = Useful::getConnectionDB();
 	      $oConnection->connect();
 
 	      $iId = (!empty($oSendEmailSet->id)) ? $oSendEmailSet->id : null;
@@ -64,7 +64,7 @@ class sendEmailProxy extends proxy {
 	*/
 	public static function registerEmailSent($oSendEmailSet){
 		try {
-	      $oConnection = connection::getInstance();
+	      $oConnection = Useful::getConnectionDB();
 	      $oConnection->connect();
 
 	      $iId = (!empty($oSendEmailSet->id)) ? $oSendEmailSet->id : null;
