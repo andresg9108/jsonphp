@@ -5,8 +5,8 @@ namespace module\controller;
 use \Exception;
 use \Firebase\JWT\{JWT, ExpiredException};
 use lib\MVC\controller;
-use lib\Useful\{Useful, constantGlobal};
-use model\{connection, systemException};
+use lib\Useful\{Useful, constantGlobal, systemException};
+use model\connection;
 use model\sendEmail\sendEmailProxy;
 use model\setings\setings;
 

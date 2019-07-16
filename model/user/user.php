@@ -5,8 +5,8 @@ namespace model\user;
 use \Exception;
 use \Firebase\JWT\{JWT, ExpiredException};
 use lib\MVC\model;
-use lib\Useful\Useful;
-use model\{connection, systemException};
+use lib\Useful\{Useful, systemException};
+use model\connection;
 use model\user\{queryUser, constantUser};
 use model\emailUser\emailUser;
 

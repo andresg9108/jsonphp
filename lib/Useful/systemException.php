@@ -1,6 +1,6 @@
 <?php
 
-namespace model;
+namespace lib\Useful;
 
 use \Exception;
 

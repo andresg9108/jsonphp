@@ -4,9 +4,9 @@ namespace model\appRegistration;
 
 use \Exception;
 use \Firebase\JWT\{JWT, ExpiredException};
-use lib\Useful\{Useful, constantGlobal};
+use lib\Useful\{Useful, constantGlobal, systemException};
 use lib\MVC\proxy;
-use model\{connection, systemException};
+use model\connection;
 use model\appRegistration\{appRegistration, constantAppRegistration};
 
 class appRegistrationProxy extends proxy {

@@ -4,9 +4,9 @@ namespace model\user;
 
 use \Exception;
 use \Firebase\JWT\{JWT, ExpiredException};
-use lib\Useful\{Useful, constantGlobal};
+use lib\Useful\{Useful, constantGlobal, systemException};
 use lib\MVC\proxy;
-use model\{connection, systemException};
+use model\connection;
 use model\user\{user, constantUser};
 use model\emailUser\emailUser;
 use model\sendEmail\sendEmail;

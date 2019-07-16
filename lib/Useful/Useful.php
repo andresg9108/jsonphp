@@ -4,8 +4,8 @@ namespace lib\Useful;
 
 use \Exception;
 use \Firebase\JWT\{JWT, ExpiredException};
-use lib\Useful\constantGlobal;
-use model\{connection, systemException};
+use lib\Useful\{constantGlobal, systemException};
+use model\connection;
 use model\sendEmail\sendEmail;
 use model\setings\setings;
 

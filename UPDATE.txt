@@ -15,4 +15,11 @@ ___________________________
 
 3- "composer require andresg9108/connectiondb"
 
+4- Change "model/systemException.php" to "lib/Useful/systemException.php".
+
+5- "use model\systemException;" to "use lib\Useful\systemException;" in all the files
+
+6- In file: "lib/Useful/systemException.php"
+* Line "namespace model;" to "namespace lib\Useful;"
+
 Ok, updated project.
