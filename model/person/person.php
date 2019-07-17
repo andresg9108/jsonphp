@@ -78,7 +78,7 @@ class person extends model {
     $sQuery = queryPerson::getQuery('INSERT', $aParameters);
 
     $this->oConnection->run($sQuery);
-    $this->iId = $this->oConnection->getIDInsert();
+    $this->iId = (int)$this->oConnection->getIDInsert();
 
     $oUser = user::getInstance($this->oConnection);
     foreach ($this->aUser as $i => $v) {

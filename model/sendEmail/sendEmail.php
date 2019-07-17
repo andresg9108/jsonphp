@@ -65,7 +65,7 @@ class sendEmail extends model {
     $sQuery = querySendEmail::getQuery('INSERT', $aParameters);
 
     $this->oConnection->run($sQuery);
-    $this->iId = $this->oConnection->getIDInsert();
+    $this->iId = (int)$this->oConnection->getIDInsert();
   }
 
   /*
@@ -93,8 +93,7 @@ class sendEmail extends model {
   public function load(){
     $aParameters = [$this->iId];
     $sQuery = querySendEmail::getQuery('LOAD', $aParameters);
-    $aParameters = ["id", "registration_date", "email", "code", "subject", "message", "status", "id_email_settings"];
-    $this->oConnection->queryRow($sQuery, $aParameters);
+    $this->oConnection->queryRow($sQuery);
     $oSendEmail = $this->oConnection->getQuery();
 
     $iId = (!empty($oSendEmail->id)) ? $oSendEmail->id : null;
