@@ -7,4 +7,12 @@ Manual to move from version v0.3.0 to v0.3.1
 
 3- Execute "composer install".
 
+4- File: /lib/Useful/Useful.php
+* Update line "'motor' => 'mysql'," by "'motor' => 'mysqlpdo',"
+
+5- In the "model" folder:
+* Function: "oConnection->queryArray" You do not need the second parameter ($aParameters).
+* Function: "oConnection->queryRow" You do not need the second parameter ($aParameters).
+* oConnection->getIDInsert() to (int)oConnection->getIDInsert()
+
 Ok, updated project.
