@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6a97a28b5897a894e1a49af33f5efed4",
+    "content-hash": "47879fa252788f2d82a0f106a275d8b4",
     "packages": [
         {
             "name": "andresg9108/connectiondb",
-            "version": "0.2.0",
+            "version": "0.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/andresg9108/connectiondb.git",
-                "reference": "63ffdaaaeee2e322b8e9059111e6403cf106edf4"
+                "reference": "ca16765dce211225b30879bfafad8e8c79ad8f3a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/andresg9108/connectiondb/zipball/63ffdaaaeee2e322b8e9059111e6403cf106edf4",
-                "reference": "63ffdaaaeee2e322b8e9059111e6403cf106edf4",
+                "url": "https://api.github.com/repos/andresg9108/connectiondb/zipball/ca16765dce211225b30879bfafad8e8c79ad8f3a",
+                "reference": "ca16765dce211225b30879bfafad8e8c79ad8f3a",
                 "shasum": ""
             },
             "type": "library",
@@ -36,10 +36,10 @@
                 }
             ],
             "support": {
-                "source": "https://github.com/andresg9108/connectiondb/tree/v0.2.0",
+                "source": "https://github.com/andresg9108/connectiondb/tree/v0.2.1",
                 "issues": "https://github.com/andresg9108/connectiondb/issues"
             },
-            "time": "2019-07-17T17:16:04+00:00"
+            "time": "2019-07-18T00:08:10+00:00"
         },
         {
             "name": "firebase/php-jwt",

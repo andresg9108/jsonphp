@@ -87,7 +87,8 @@ class user extends model {
   public function load(){
     $aParameters = [$this->iId];
     $sQuery = queryUser::getQuery('LOAD', $aParameters);
-    $this->oConnection->queryRow($sQuery);
+    $aParameters = ['id', 'registration_date', 'user', 'password', 'status', 'id_person', 'id_profile'];
+    $this->oConnection->queryRow($sQuery, $aParameters);
     $oUser = $this->oConnection->getQuery();
 
     $iId = (!empty($oUser->id)) ? $oUser->id : null;
@@ -110,7 +111,8 @@ class user extends model {
   public function loadByUser(){
     $aParameters = [$this->sUser];
     $sQuery = queryUser::getQuery('LOAD_BY_USER', $aParameters);
-    $this->oConnection->queryRow($sQuery);
+    $aParameters = ['id', 'registration_date', 'user', 'password', 'status', 'id_person', 'id_profile'];
+    $this->oConnection->queryRow($sQuery, $aParameters);
     $oUser = $this->oConnection->getQuery();
 
     $iId = (!empty($oUser->id)) ? $oUser->id : null;
@@ -134,7 +136,8 @@ class user extends model {
     $sOrEmailUser = Useful::getStringQueryWhereSQLOr('eu.email', $this->aEmailUser);
     $aParameters = [$sOrEmailUser];
     $sQuery = queryUser::getQuery('LOAD_BY_EMAIL_USER', $aParameters);
-    $this->oConnection->queryRow($sQuery);
+    $aParameters = ['id', 'registration_date', 'user', 'password', 'status', 'id_person', 'id_profile'];
+    $this->oConnection->queryRow($sQuery, $aParameters);
     $oUser = $this->oConnection->getQuery();
 
     $iId = (!empty($oUser->id)) ? $oUser->id : null;
@@ -191,7 +194,8 @@ class user extends model {
   public function getUsersByIdPerson(){
     $aParameters = [$this->iIdPerson];
     $sQuery = queryUser::getQuery('SELECT_BY_ID_PERSON', $aParameters);
-    $this->oConnection->queryArray($sQuery);
+    $aParameters = ['id', 'registration_date', 'user', 'password', 'status', 'id_person', 'id_profile'];
+    $this->oConnection->queryArray($sQuery, $aParameters);
     $aUser = $this->oConnection->getQuery();
 
     return $aUser;

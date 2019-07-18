@@ -79,7 +79,8 @@ class setings extends model {
   public function getSetingsBySetingsType(){
     $aParameters = [$this->iIdSettingsType];
     $sQuery = querySetings::getQuery('GET_SETINGS_BY_SETINGS_TYPE', $aParameters);
-    $this->oConnection->queryArray($sQuery);
+    $aParameters = ['id', 'registration_date', 'name', 'description', 'value', 'id_settings_type'];
+    $this->oConnection->queryArray($sQuery, $aParameters);
     $aSetings = $this->oConnection->getQuery();
 
     return $aSetings;

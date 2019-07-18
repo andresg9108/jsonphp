@@ -18,7 +18,10 @@ const LOAD_BY_USER = "SELECT id, registration_date, user,
 						id_person, id_profile 
 						FROM `user` 
 						WHERE `user`='<1?>'";
-const LOAD_BY_EMAIL_USER = "SELECT * 
+const LOAD_BY_EMAIL_USER = "SELECT u.id, u.registration_date, 
+							u.user, u.password, 
+							u.status, u.id_person, 
+							u.id_profile 
 							FROM `user` u 
 							INNER JOIN `email_user` eu 
 							ON u.id = eu.id_user 

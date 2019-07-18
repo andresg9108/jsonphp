@@ -13,7 +13,7 @@ class Useful {
   public static $aMail = [];
 
   public static $aConnection = [
-    'motor' => 'mysqlpdo',
+    'motor' => 'mysql',
     'query_prefix' => 'MSQL_',
     'constant_prefix' => '',
     //'constant_prefix' => 'SPAN_',

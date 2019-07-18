@@ -1,18 +1,17 @@
-Manual to move from version v0.3.0 to v0.3.1
+Manual to move from version v0.3.1 to v0.3.2
 
 1- File: composer.json
-* Update "andresg9108/connectiondb" version to "0.2.0" 
+* Update "andresg9108/connectiondb" version to "0.2.1" 
 
 2- Delete "composer.lock" file.
 
 3- Execute "composer install".
 
 4- File: /lib/Useful/Useful.php
-* Update line "'motor' => 'mysql'," by "'motor' => 'mysqlpdo',"
+* Update line "'motor' => 'mysqlpdo'," by "'motor' => 'mysql'," 
 
 5- In the "model" folder:
-* Function: "oConnection->queryArray" You do not need the second parameter ($aParameters).
-* Function: "oConnection->queryRow" You do not need the second parameter ($aParameters).
-* oConnection->getIDInsert() to (int)oConnection->getIDInsert()
+* Function: "oConnection->queryArray" It requires the parameters that were discarded before ($aParameters).
+* Function: "oConnection->queryRow" It requires the parameters that were discarded before ($aParameters).
 
 Ok, updated project.

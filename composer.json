@@ -11,7 +11,7 @@
 		"phpoffice/phpspreadsheet": "^1.4",
 		"firebase/php-jwt": "^5.0",
 		"mpdf/mpdf": "^7.1",
-		"andresg9108/connectiondb": "^0.2.0"
+		"andresg9108/connectiondb": "^0.2.1"
 	},
 	"repositories": [
 	    {
