@@ -1,17 +1,13 @@
-Manual to move from version v0.3.1 to v0.3.2
+Manual to move from version v0.3.2 to v0.3.3
 
 1- File: composer.json
-* Update "andresg9108/connectiondb" version to "0.2.1" 
+* Update "andresg9108/connectiondb" version to "0.2.2" 
 
 2- Delete "composer.lock" file.
 
 3- Execute "composer install".
 
-4- File: /lib/Useful/Useful.php
-* Update line "'motor' => 'mysqlpdo'," by "'motor' => 'mysql'," 
-
-5- In the "model" folder:
-* Function: "oConnection->queryArray" It requires the parameters that were discarded before ($aParameters).
-* Function: "oConnection->queryRow" It requires the parameters that were discarded before ($aParameters).
+4- In file lib/Useful/Useful.php
+* In "public static $aConnection" array, add the next item "'charset' => 'utf8',".
 
 Ok, updated project.
