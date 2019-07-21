@@ -1,3 +1,15 @@
 Manual to move from version v0.3.3 to v0.3.4
 
+1- Execute in the root of the project:
+* npm i grunt --save-dev
+* npm i processpy --save-dev
+* npm i grunt-contrib-processpy --save-dev
+
+2- Add new file: Gruntfile.js
+
+3- Add new item in "package.json" file.
+"scripts": {
+	"sql": "grunt process-sql"
+},
+
 Ok, updated project.
