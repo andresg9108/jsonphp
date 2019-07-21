@@ -1,13 +1,3 @@
-Manual to move from version v0.3.2 to v0.3.3
-
-1- File: composer.json
-* Update "andresg9108/connectiondb" version to "0.2.2" 
-
-2- Delete "composer.lock" file.
-
-3- Execute "composer install".
-
-4- In file lib/Useful/Useful.php
-* In "public static $aConnection" array, add the next item "'charset' => 'utf8',".
+Manual to move from version v0.3.3 to v0.3.4
 
 Ok, updated project.
