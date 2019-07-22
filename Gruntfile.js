@@ -7,6 +7,9 @@ module.exports = function(grunt) {
             sql: [{
                 file: './doc/sql/mysql.sql', 
                 folder: './doc/sql/mysql'
+            },{
+                file: './doc/sql/sqlite.sql', 
+                folder: './doc/sql/sqlite'
             }]
         }
     });

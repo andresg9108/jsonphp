@@ -25,4 +25,13 @@ Manual to move from version v0.3.3 to v0.3.4
 
 8- Add new file: "createDB.php".
 
+9- New folder "doc/sql/sqlite".
+
+10- In "lib/Useful/Useful.php" file.
+* Line "'motor' => 'mysqlpdo'," to "'motor' => 'sqlitepdo',"
+* Execute "npm run sql"
+
+11- In "lib/Useful/Useful.php" file:
+* In "public static $aConnection" array, add the next item "'sqlitepath' => 'E:/sql/db.sqlite',".
+
 Ok, updated project.
