@@ -108,8 +108,7 @@ class emailUser extends model {
   public function load(){
     $aParameters = [$this->iId];
     $sQuery = queryEmailUser::getQuery('LOAD', $aParameters);
-    $aParameters = ['id', 'email', 'registration_code', 'main', 'status', 'id_user'];
-    $this->oConnection->queryRow($sQuery, $aParameters);
+    $this->oConnection->queryRow($sQuery);
     $oEmailUser = $this->oConnection->getQuery();
 
     $iId = (!empty($oEmailUser->id)) ? $oEmailUser->id : null;
@@ -132,8 +131,7 @@ class emailUser extends model {
   public function loadByEmail(){
     $aParameters = [$this->sEmail];
     $sQuery = queryEmailUser::getQuery('LOAD_BY_EMAIL', $aParameters);
-    $aParameters = ['id', 'email', 'registration_code', 'main', 'status', 'id_user'];
-    $this->oConnection->queryRow($sQuery, $aParameters);
+    $this->oConnection->queryRow($sQuery);
     $oEmailUser = $this->oConnection->getQuery();
 
     $iId = (!empty($oEmailUser->id)) ? $oEmailUser->id : null;
@@ -156,8 +154,7 @@ class emailUser extends model {
   public function loadMainByIdUser(){
     $aParameters = [$this->iIdUser];
     $sQuery = queryEmailUser::getQuery('LOAD_MAIN_BY_ID_USER', $aParameters);
-    $aParameters = ['id', 'email', 'registration_code', 'main', 'status', 'id_user'];
-    $this->oConnection->queryRow($sQuery, $aParameters);
+    $this->oConnection->queryRow($sQuery);
     $oEmailUser = $this->oConnection->getQuery();
 
     $iId = (!empty($oEmailUser->id)) ? $oEmailUser->id : null;

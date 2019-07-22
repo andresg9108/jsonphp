@@ -34,4 +34,7 @@ Manual to move from version v0.3.3 to v0.3.4
 11- In "lib/Useful/Useful.php" file:
 * In "public static $aConnection" array, add the next item "'sqlitepath' => 'E:/sql/db.sqlite',".
 
+12- In "model" folder:
+* "$this->oConnection->queryRow" and "$this->oConnection->queryArray" It does not receive the second parameter ($aParameters).
+
 Ok, updated project.
