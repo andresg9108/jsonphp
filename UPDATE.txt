@@ -12,4 +12,12 @@ Manual to move from version v0.3.3 to v0.3.4
 	"sql": "grunt process-sql"
 },
 
+4- Update "README.md" file.
+
+5- Add new folder: "module/view/example".
+
+6- Add new file: "module/controller/exampleController.php".
+
+7- Add new file: "createDB.php".
+
 Ok, updated project.

@@ -4,6 +4,7 @@
 
 <ol>
 	<li>Node.js (https://nodejs.org).</li>
+	<li>Python (https://www.python.org)</li>
 	<li>XAMPP (https://www.apachefriends.org/es/index.html)</li>
 	<li>Clone this repository in the folder used by Apache (included in XAMPP). This folder is located in ".../xampp/htdocs" or in the path that I installed XAMPP.</li>
 	<li>Execute "composer install", in the root of the project.</li>
