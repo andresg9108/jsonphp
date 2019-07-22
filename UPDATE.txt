@@ -1,13 +1,40 @@
-Manual to move from version v0.3.2 to v0.3.3
+Manual to move from version v0.3.3 to v0.3.4
 
-1- File: composer.json
-* Update "andresg9108/connectiondb" version to "0.2.2" 
+1- Execute in the root of the project:
+* npm i grunt --save-dev
+* npm i processpy --save-dev
+* npm i grunt-contrib-processpy --save-dev
 
-2- Delete "composer.lock" file.
+2- File: composer.json
+* Update "andresg9108/connectiondb" version to "0.3.0"
+* Delete "composer.lock" file.
+* execute "composer install".
 
-3- Execute "composer install".
+3- Add new file: Gruntfile.js
 
-4- In file lib/Useful/Useful.php
-* In "public static $aConnection" array, add the next item "'charset' => 'utf8',".
+4- Add new item in "package.json" file.
+"scripts": {
+	"sql": "grunt process-sql"
+},
+
+5- Update "README.md" file.
+
+6- Add new folder: "module/view/example".
+
+7- Add new file: "module/controller/exampleController.php".
+
+8- Add new file: "createDB.php".
+
+9- New folder "doc/sql/sqlite".
+
+10- In "lib/Useful/Useful.php" file.
+* Line "'motor' => 'mysqlpdo'," to "'motor' => 'sqlitepdo',"
+* Execute "npm run sql"
+
+11- In "lib/Useful/Useful.php" file:
+* In "public static $aConnection" array, add the next item "'sqlitepath' => 'E:/sql/db.sqlite',".
+
+12- In "model" folder:
+* "$this->oConnection->queryRow" and "$this->oConnection->queryArray" It does not receive the second parameter ($aParameters).
 
 Ok, updated project.

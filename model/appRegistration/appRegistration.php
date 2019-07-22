@@ -56,8 +56,7 @@ class appRegistration extends model {
   public function load(){
     $aParameters = [$this->iId];
     $sQuery = queryAppRegistration::getQuery('LOAD', $aParameters);
-    $aParameters = ['id', 'registration_date', 'registration_code'];
-    $this->oConnection->queryRow($sQuery, $aParameters);
+    $this->oConnection->queryRow($sQuery);
     $oAppRegistration = $this->oConnection->getQuery();
 
     $iId = (!empty($oAppRegistration->id)) ? $oAppRegistration->id : null;

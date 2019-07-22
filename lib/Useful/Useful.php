@@ -13,12 +13,13 @@ class Useful {
   public static $aMail = [];
 
   public static $aConnection = [
-    'motor' => 'mysql',
+    'motor' => 'sqlitepdo',
     'server' => 'localhost',
     'charset' => 'utf8',
     'user' => 'root',
     'password' => '',
     'database' => 'my_database',
+    'sqlitepath' => 'E:/sql/db.sqlite',
     'query_prefix' => 'MSQL_',
     'constant_prefix' => '',
     //'constant_prefix' => 'SPAN_',

@@ -1,7 +1,10 @@
 {
   "name": "jsonphp",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "Project designed for backend software development.",
+  "scripts": {
+    "sql": "grunt process-sql"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/andresg9108/jsonphp"
@@ -12,5 +15,10 @@
   "dependencies": {
     "blueimp-md5": "^2.10.0",
     "jquery": "^3.4.1"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.4",
+    "grunt-contrib-processpy": "^0.2.0",
+    "processpy": "^0.2.1"
   }
 }
