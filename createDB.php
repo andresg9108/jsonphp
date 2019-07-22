@@ -26,7 +26,7 @@ try {
 	if(!empty($sPath)){
 		$sFile = getFileContents($sPath);
 		
-		$oConnection->run($sFile);
+		$oConnection->multiRun($sFile);
 	}else{
 		throw new Exception("The path of the .sql file is not set.");
 	}

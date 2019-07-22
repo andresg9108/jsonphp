@@ -5,19 +5,24 @@ Manual to move from version v0.3.3 to v0.3.4
 * npm i processpy --save-dev
 * npm i grunt-contrib-processpy --save-dev
 
-2- Add new file: Gruntfile.js
+2- File: composer.json
+* Update "andresg9108/connectiondb" version to "0.3.0"
+* Delete "composer.lock" file.
+* execute "composer install".
 
-3- Add new item in "package.json" file.
+3- Add new file: Gruntfile.js
+
+4- Add new item in "package.json" file.
 "scripts": {
 	"sql": "grunt process-sql"
 },
 
-4- Update "README.md" file.
+5- Update "README.md" file.
 
-5- Add new folder: "module/view/example".
+6- Add new folder: "module/view/example".
 
-6- Add new file: "module/controller/exampleController.php".
+7- Add new file: "module/controller/exampleController.php".
 
-7- Add new file: "createDB.php".
+8- Add new file: "createDB.php".
 
 Ok, updated project.
