@@ -125,9 +125,10 @@ function validateSession(bSession){
             }
             $.ajax(oAjax).done(function(oResponse){
                 if(oResponse.status != 1){
-                    setSession('');
                     if(bSession){
                         goTo('', '');
+                    }else{
+                        setSession('');
                     }
                 }else{
                     oResponse = oResponse.response;
@@ -138,12 +139,6 @@ function validateSession(bSession){
                     }
                 }
             }).fail(function(){});
-        }else{
-            setMessage(oResponse.text.client);
-            setSession('');
-            if(bSession){
-                goTo('', '');
-            }
         }
     }).fail(function(){});
 }
