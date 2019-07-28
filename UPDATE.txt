@@ -1,6 +1,0 @@
-Manual to move from version v0.4.0 to v0.4.1
-
-1- Update "testHTML" folder in the project.
-* Note: In the "testHTML / js / main.js" file, changes were made to the "validateSession (bSession)" function.
-
-Ok, updated project.
