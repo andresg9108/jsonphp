@@ -1,6 +1,7 @@
 <?php
 
-use lib\Useful\{Useful, constantGlobal};
+use \Firebase\JWT\{JWT, ExpiredException};
+use lib\Useful\{Useful, constantGlobal, systemException};
 use module\controller\exampleController;
 
 $oConnection = Useful::getConnectionArray();
@@ -11,14 +12,23 @@ if($bPhpErrors){
 	ini_set('display_errors', '1');
 }
 
-$oExampleController = exampleController::getInstance();
 $aResponse = Useful::getResponseArray(2, (object)[]
 	,'', constantGlobal::ERROR_404);
 
-switch ($sAction) {
-	case 'example':
-		$aResponse = $oExampleController->exampleAction((object)$_GET, (object)$_POST);
-		break;
+try {
+	$oExampleController = exampleController::getInstance();
+	
+	switch ($sAction) {
+		case 'example':
+			$aResponse = $oExampleController->exampleAction((object)$_GET, (object)$_POST);
+			break;
+	}
+} catch (systemException $e) {
+  $aResponse = Useful::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessage());
+} catch (Exception $e){
+  $aResponse = Useful::getResponseArray(3, (object)[], constantGlobal::getConstant('CONTACT_SUPPORT'), $e->getMessage());
+} catch (ExpiredException $e) {
+  $aResponse = Useful::getResponseArray(4, (object)[], constantGlobal::getConstant('ERROR_SESSION'), constantGlobal::getConstant('ERROR_SESSION'));
 }
 
 echo json_encode($aResponse);

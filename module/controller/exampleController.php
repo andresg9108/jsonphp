@@ -16,17 +16,9 @@ class exampleController extends controller {
   /*
   */
   public function exampleAction($get, $post){
-    try {
-      // throw new systemException("System exception.", 1);
-      
-      return ['Hello World'];
-    } catch (systemException $e) {
-      return Useful::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessage());
-    } catch (Exception $e){
-      return Useful::getResponseArray(3, (object)[], constantGlobal::getConstant('CONTACT_SUPPORT'), $e->getMessage());
-    } catch (ExpiredException $e) {
-      return Useful::getResponseArray(4, (object)[], constantGlobal::getConstant('ERROR_SESSION'), constantGlobal::getConstant('ERROR_SESSION'));
-    }
+    // throw new systemException("System exception.", 1);
+    
+    return ['Hello World'];
   }
 
   /*

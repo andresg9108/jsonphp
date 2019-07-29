@@ -16,15 +16,11 @@ class publicDataController extends controller {
   /*
   */
   public function getRegCodeAction($get, $post){
-    try {
-      return appRegistrationProxy::save((object)[]);
-    } catch (systemException $e) {
-      return Useful::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessage());
-    } catch (Exception $e){
-      return Useful::getResponseArray(3, (object)[], constantGlobal::getConstant('CONTACT_SUPPORT'), $e->getMessage());
-    } catch (ExpiredException $e) {
-      return Useful::getResponseArray(4, (object)[], constantGlobal::getConstant('ERROR_SESSION'), constantGlobal::getConstant('ERROR_SESSION'));
-    }
+    $oResponse = appRegistrationProxy::save((object)[]);
+
+    return Useful::getResponseArray(1, $oResponse,
+      constantGlobal::getConstant('SUCCESSFUL_REQUEST'), 
+      constantGlobal::getConstant('SUCCESSFUL_REQUEST'));
   }
 
   /*

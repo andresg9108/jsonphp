@@ -13,7 +13,7 @@ class Useful {
   public static $aMail = [];
 
   public static $aConnection = [
-    'motor' => 'sqlitepdo',
+    'motor' => 'mysqlpdo',
     'server' => 'localhost',
     'charset' => 'utf8',
     'user' => 'root',
