@@ -14,12 +14,22 @@ class exampleProxy extends proxy {
 	/*
 	*/
 	public static function getExample(){
-		$oConnection = Useful::getConnectionDB();
-		$oConnection->connect();
+		try {
+			$oConnection = Useful::getConnectionDB();
+			$oConnection->connect();
 
-		$oConnection->commit();
-		$oConnection->close();
+			$oConnection->commit();
+			$oConnection->close();
 
-		return (object)[];
+			return (object)[];	
+		}catch(systemException $e){
+			$oConnection->rollback();
+			$oConnection->close();
+			throw new systemException($e->getMessage());
+		}catch(Exception $e){
+			$oConnection->rollback();
+			$oConnection->close();
+			throw new Exception($e->getMessage(), $e->getCode());
+		}
 	}
 }
