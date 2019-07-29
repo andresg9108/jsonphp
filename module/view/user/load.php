@@ -11,7 +11,7 @@ if($bPhpErrors){
 	ini_set('display_errors', '1');
 }
 
-$aResponse = Useful::getResponseArray(2, (object)[]
+$oResponse = Useful::getResponseArray(2, (object)[]
 	,'', constantGlobal::ERROR_404);
 
 try {
@@ -19,36 +19,36 @@ try {
 
 	switch ($sAction) {
 		case 'sendRecoverPassword':
-			$aResponse = $oUserController->sendRecoverPasswordAction((object)$_GET, (object)$_POST);
+			$oResponse = $oUserController->sendRecoverPasswordAction((object)$_GET, (object)$_POST);
 			break;
 		case 'validateRecoverPassword':
-			$aResponse = $oUserController->validateRecoverPasswordAction((object)$_GET, (object)$_POST);
+			$oResponse = $oUserController->validateRecoverPasswordAction((object)$_GET, (object)$_POST);
 			break;
 		case 'recoverPassword':
-			$aResponse = $oUserController->recoverPasswordAction((object)$_GET, (object)$_POST);
+			$oResponse = $oUserController->recoverPasswordAction((object)$_GET, (object)$_POST);
 			break;
 		case 'validateEmailByCode':
-			$aResponse = $oUserController->validateEmailByCodeAction((object)$_GET, (object)$_POST);
+			$oResponse = $oUserController->validateEmailByCodeAction((object)$_GET, (object)$_POST);
 			break;
 		case 'validateSession':
-			$aResponse = $oUserController->validateSessionAction((object)$_GET, (object)$_POST);
+			$oResponse = $oUserController->validateSessionAction((object)$_GET, (object)$_POST);
 			break;
 		case 'validateEmailAndUser':
-			$aResponse = $oUserController->validateEmailAndUserAction((object)$_GET, (object)$_POST);
+			$oResponse = $oUserController->validateEmailAndUserAction((object)$_GET, (object)$_POST);
 			break;
 		case 'checkIn':
-			$aResponse = $oUserController->checkInAction((object)$_GET, (object)$_POST);
+			$oResponse = $oUserController->checkInAction((object)$_GET, (object)$_POST);
 			break;
 		case 'logIn':
-			$aResponse = $oUserController->logInAction((object)$_GET, (object)$_POST);
+			$oResponse = $oUserController->logInAction((object)$_GET, (object)$_POST);
 			break;
 	}
 } catch (systemException $e) {
-  $aResponse = Useful::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessage());
+  $oResponse = Useful::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessage());
 } catch (Exception $e){
-  $aResponse = Useful::getResponseArray(3, (object)[], constantGlobal::getConstant('CONTACT_SUPPORT'), $e->getMessage());
+  $oResponse = Useful::getResponseArray(3, (object)[], constantGlobal::getConstant('CONTACT_SUPPORT'), $e->getMessage());
 } catch (ExpiredException $e) {
-  $aResponse = Useful::getResponseArray(4, (object)[], constantGlobal::getConstant('ERROR_SESSION'), constantGlobal::getConstant('ERROR_SESSION'));
+  $oResponse = Useful::getResponseArray(4, (object)[], constantGlobal::getConstant('ERROR_SESSION'), constantGlobal::getConstant('ERROR_SESSION'));
 }
 
-echo json_encode($aResponse);
+echo json_encode($oResponse);

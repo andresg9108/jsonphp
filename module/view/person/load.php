@@ -11,7 +11,7 @@ if($bPhpErrors){
 	ini_set('display_errors', '1');
 }
 
-$aResponse = Useful::getResponseArray(2, (object)[]
+$oResponse = Useful::getResponseArray(2, (object)[]
 	,'', constantGlobal::ERROR_404);
 
 try {
@@ -19,15 +19,15 @@ try {
 
 	switch ($sAction) {
 		case 'update':
-			$aResponse = $oPersonController->updateAction((object)$_GET, (object)$_POST);
+			$oResponse = $oPersonController->updateAction((object)$_GET, (object)$_POST);
 			break;
 	}
 } catch (systemException $e) {
-  $aResponse = Useful::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessage());
+  $oResponse = Useful::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessage());
 } catch (Exception $e){
-  $aResponse = Useful::getResponseArray(3, (object)[], constantGlobal::getConstant('CONTACT_SUPPORT'), $e->getMessage());
+  $oResponse = Useful::getResponseArray(3, (object)[], constantGlobal::getConstant('CONTACT_SUPPORT'), $e->getMessage());
 } catch (ExpiredException $e) {
-  $aResponse = Useful::getResponseArray(4, (object)[], constantGlobal::getConstant('ERROR_SESSION'), constantGlobal::getConstant('ERROR_SESSION'));
+  $oResponse = Useful::getResponseArray(4, (object)[], constantGlobal::getConstant('ERROR_SESSION'), constantGlobal::getConstant('ERROR_SESSION'));
 }
 
-echo json_encode($aResponse);
+echo json_encode($oResponse);

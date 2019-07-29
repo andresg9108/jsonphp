@@ -35,10 +35,7 @@ class emailController extends controller {
     $aDatos['subject'] = (!empty($oResponse->subject)) ? $oResponse->subject : '';
     $aDatos['message'] = (!empty($oResponse->message)) ? $oResponse->message : '';
     $oDatos = (object)$aDatos;
-    $oResponse = $this->sendEmail($oDatos);
-    if($oResponse->status != 1){
-      return $oResponse;
-    }
+    $this->sendEmail($oDatos);
 
     $oResponse = sendEmailProxy::registerEmailSent($oSendEmail);
 
@@ -84,12 +81,8 @@ class emailController extends controller {
 
     if (!$this->oMail->send()) {
       $sMailError = $this->oMail->ErrorInfo;
-      return Useful::getResponseArray(2, (object)[], 
-        '', $sMailError);
+      throw new systemException($sMailError);
     }
-
-    return Useful::getResponseArray(1, (object)[], '', 
-      constantGlobal::getConstant('SUCCESSFUL_REQUEST'));
   }
 
   /*
