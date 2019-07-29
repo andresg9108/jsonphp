@@ -15,38 +15,32 @@ class appRegistrationProxy extends proxy {
 	*/
 	public static function validateRegCod($iId, $sRegistrationCode){
 		try {
-	      $oConnection = Useful::getConnectionDB();
-	      $oConnection->connect();
+			$oConnection = Useful::getConnectionDB();
+			$oConnection->connect();
 
-	      $oAppRegistration = appRegistration::getInstance($oConnection);
-	      $oAppRegistration->iId = $iId;
-	      $oAppRegistration->load();
-	      $sRegistrationCodeBD =  $oAppRegistration->sRegistrationCode;
-	      $sRegistrationCodeBD = Useful::getDecodeRegCod($sRegistrationCodeBD);
+			$oAppRegistration = appRegistration::getInstance($oConnection);
+			$oAppRegistration->iId = $iId;
+			$oAppRegistration->load();
+			$sRegistrationCodeBD =  $oAppRegistration->sRegistrationCode;
+			$sRegistrationCodeBD = Useful::getDecodeRegCod($sRegistrationCodeBD);
 
-	      if(empty($sRegistrationCodeBD) || $sRegistrationCode !== $sRegistrationCodeBD){
-	      	throw new systemException(constantGlobal::getConstant('CONTACT_SUPPORT'));
-	      }
-	      $oAppRegistration->delete();
+			if(empty($sRegistrationCodeBD) || $sRegistrationCode !== $sRegistrationCodeBD){
+			throw new systemException(constantGlobal::getConstant('CONTACT_SUPPORT'));
+			}
+			$oAppRegistration->delete();
 
-	      $oConnection->commit();
-	      $oConnection->close();
-	      
-	      return Useful::getResponseArray(1, (object)[],
-	      	"", 
-	      	constantGlobal::getConstant('SUCCESSFUL_REQUEST'));
-	    } catch (systemException $e) {
-	    	$oConnection->rollback();
-	    	$oConnection->close();
-	    	return Useful::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessage());
-	    } catch (Exception $e) {
-	    	$oConnection->rollback();
-	    	$oConnection->close();
-	    	return Useful::getResponseArray(3, (object)[], constantGlobal::getConstant('CONTACT_SUPPORT'), $e->getMessage());
-	    } catch (ExpiredException $e) {
-	    	$oConnection->rollback();
-	    	$oConnection->close();
-	    	return Useful::getResponseArray(4, (object)[], constantGlobal::getConstant('ERROR_SESSION'), constantGlobal::getConstant('ERROR_SESSION'));
+			$oConnection->commit();
+			$oConnection->close();
+
+			return (object)[];
+		}catch(systemException $e){
+			$oConnection->rollback();
+			$oConnection->close();
+			throw new systemException($e->getMessage());
+		}catch(Exception $e){
+			$oConnection->rollback();
+			$oConnection->close();
+			throw new Exception($e->getMessage(), $e->getCode());
 		}
 	}
 
@@ -54,45 +48,39 @@ class appRegistrationProxy extends proxy {
 	*/
 	public static function save($oAppRegistrationSet){
 		try {
-	      $oConnection = Useful::getConnectionDB();
-	      $oConnection->connect();
+			$oConnection = Useful::getConnectionDB();
+			$oConnection->connect();
 
-	      $iNumberItems = 5;
-	      $sRegistrationCode = '';
-	      for ($i=0; $i < $iNumberItems; $i++) {
-	      	$sCodeItem = (string)rand(10000, 99999);
-	      	if($i == 0)
-	      		$sRegistrationCode .= $sCodeItem;
-	      	else
-	      		$sRegistrationCode .= '.'.$sCodeItem;
-	      }
+			$iNumberItems = 5;
+			$sRegistrationCode = '';
+			for ($i=0; $i < $iNumberItems; $i++) {
+				$sCodeItem = (string)rand(10000, 99999);
+				if($i == 0)
+					$sRegistrationCode .= $sCodeItem;
+				else
+					$sRegistrationCode .= '.'.$sCodeItem;
+			}
 
-	      $oAppRegistration = appRegistration::getInstance($oConnection);
-	      $oAppRegistration->sRegistrationCode = $sRegistrationCode;
-	      $oAppRegistration->save();
+			$oAppRegistration = appRegistration::getInstance($oConnection);
+			$oAppRegistration->sRegistrationCode = $sRegistrationCode;
+			$oAppRegistration->save();
 
-	      $oResponse = [];
-	      $oResponse['id'] = $oAppRegistration->iId;
-	      $oResponse['registration_code'] = $oAppRegistration->sRegistrationCode;
+			$oResponse = [];
+			$oResponse['id'] = $oAppRegistration->iId;
+			$oResponse['registration_code'] = $oAppRegistration->sRegistrationCode;
 
-	      $oConnection->commit();
-	      $oConnection->close();
-	      
-	      return Useful::getResponseArray(1, (object)$oResponse,
-	      	"", 
-	      	constantGlobal::getConstant('SUCCESSFUL_REQUEST'));
-	    } catch (systemException $e) {
-	    	$oConnection->rollback();
-	    	$oConnection->close();
-	    	return Useful::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessage());
-	    } catch (Exception $e) {
-	    	$oConnection->rollback();
-	    	$oConnection->close();
-	    	return Useful::getResponseArray(3, (object)[], constantGlobal::getConstant('CONTACT_SUPPORT'), $e->getMessage());
-	    } catch (ExpiredException $e) {
-	    	$oConnection->rollback();
-	    	$oConnection->close();
-	    	return Useful::getResponseArray(4, (object)[], constantGlobal::getConstant('ERROR_SESSION'), constantGlobal::getConstant('ERROR_SESSION'));
+			$oConnection->commit();
+			$oConnection->close();
+
+			return (object)$oResponse;	
+		}catch(systemException $e){
+			$oConnection->rollback();
+			$oConnection->close();
+			throw new systemException($e->getMessage());
+		}catch(Exception $e){
+			$oConnection->rollback();
+			$oConnection->close();
+			throw new Exception($e->getMessage(), $e->getCode());
 		}
 	}
 }

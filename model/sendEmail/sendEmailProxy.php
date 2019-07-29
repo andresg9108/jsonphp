@@ -15,48 +15,42 @@ class sendEmailProxy extends proxy {
 	*/
 	public static function validateEmailSending($oSendEmailSet){
 		try {
-	      $oConnection = Useful::getConnectionDB();
-	      $oConnection->connect();
+			$oConnection = Useful::getConnectionDB();
+			$oConnection->connect();
 
-	      $iId = (!empty($oSendEmailSet->id)) ? $oSendEmailSet->id : null;
-	      $sCod = (!empty($oSendEmailSet->cod)) ? $oSendEmailSet->cod : '';
+			$iId = (!empty($oSendEmailSet->id)) ? $oSendEmailSet->id : null;
+			$sCod = (!empty($oSendEmailSet->cod)) ? $oSendEmailSet->cod : '';
 
-	      $oSendEmail = sendEmail::getInstance($oConnection);
-	      $oSendEmail->iId = $iId;
-	      $oSendEmail->load();
-	      $sCodBD = $oSendEmail->sCode;
+			$oSendEmail = sendEmail::getInstance($oConnection);
+			$oSendEmail->iId = $iId;
+			$oSendEmail->load();
+			$sCodBD = $oSendEmail->sCode;
 
-	      if(empty($sCodBD) || $sCod !== $sCodBD){
-	      	throw new systemException(constantSendEmail::getConstant('FAIL_EMAIL_SEND'));
-	      }
+			if(empty($sCodBD) || $sCod !== $sCodBD){
+			throw new systemException(constantSendEmail::getConstant('FAIL_EMAIL_SEND'));
+			}
 
-	      if($oSendEmail->iStatus == 1){
-	      	throw new systemException(constantSendEmail::getConstant('STATUS_EMAIL_SENT'));
-	      }
+			if($oSendEmail->iStatus == 1){
+			throw new systemException(constantSendEmail::getConstant('STATUS_EMAIL_SENT'));
+			}
 
-	      $aResponse = [];
-	      $aResponse['email'] = $oSendEmail->sEmail;
-	      $aResponse['subject'] = $oSendEmail->sSubject;
-	      $aResponse['message'] = $oSendEmail->sMessage;
+			$aResponse = [];
+			$aResponse['email'] = $oSendEmail->sEmail;
+			$aResponse['subject'] = $oSendEmail->sSubject;
+			$aResponse['message'] = $oSendEmail->sMessage;
 
-	      $oConnection->commit();
-	      $oConnection->close();
-	      
-	      return Useful::getResponseArray(1, (object)$aResponse,
-	      	"", 
-	      	constantGlobal::getConstant('SUCCESSFUL_REQUEST'));
-	    } catch (systemException $e) {
-	    	$oConnection->rollback();
-	    	$oConnection->close();
-	    	return Useful::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessage());
-	    } catch (Exception $e) {
-	    	$oConnection->rollback();
-	    	$oConnection->close();
-	    	return Useful::getResponseArray(3, (object)[], constantGlobal::getConstant('CONTACT_SUPPORT'), $e->getMessage());
-	    } catch (ExpiredException $e) {
-	    	$oConnection->rollback();
-	    	$oConnection->close();
-	    	return Useful::getResponseArray(4, (object)[], constantGlobal::getConstant('ERROR_SESSION'), constantGlobal::getConstant('ERROR_SESSION'));
+			$oConnection->commit();
+			$oConnection->close();
+
+			return (object)$aResponse;
+		}catch(systemException $e){
+			$oConnection->rollback();
+			$oConnection->close();
+			throw new systemException($e->getMessage());
+		}catch(Exception $e){
+			$oConnection->rollback();
+			$oConnection->close();
+			throw new Exception($e->getMessage(), $e->getCode());
 		}
 	}
 
@@ -64,42 +58,36 @@ class sendEmailProxy extends proxy {
 	*/
 	public static function registerEmailSent($oSendEmailSet){
 		try {
-	      $oConnection = Useful::getConnectionDB();
-	      $oConnection->connect();
+			$oConnection = Useful::getConnectionDB();
+			$oConnection->connect();
 
-	      $iId = (!empty($oSendEmailSet->id)) ? $oSendEmailSet->id : null;
-	      $sCod = (!empty($oSendEmailSet->cod)) ? $oSendEmailSet->cod : '';
+			$iId = (!empty($oSendEmailSet->id)) ? $oSendEmailSet->id : null;
+			$sCod = (!empty($oSendEmailSet->cod)) ? $oSendEmailSet->cod : '';
 
-	      $oSendEmail = sendEmail::getInstance($oConnection);
-	      $oSendEmail->iId = $iId;
-	      $oSendEmail->load();
-	      $sCodBD = $oSendEmail->sCode;
+			$oSendEmail = sendEmail::getInstance($oConnection);
+			$oSendEmail->iId = $iId;
+			$oSendEmail->load();
+			$sCodBD = $oSendEmail->sCode;
 
-	      if(empty($sCodBD) || $sCod !== $sCodBD){
-	      	throw new systemException(constantSendEmail::getConstant('FAIL_EMAIL_SEND'));
-	      }
+			if(empty($sCodBD) || $sCod !== $sCodBD){
+			throw new systemException(constantSendEmail::getConstant('FAIL_EMAIL_SEND'));
+			}
 
-	      $oSendEmail->iStatus = 1;
-	      $oSendEmail->save();
+			$oSendEmail->iStatus = 1;
+			$oSendEmail->save();
 
-	      $oConnection->commit();
-	      $oConnection->close();
-	      
-	      return Useful::getResponseArray(1, (object)[],
-	      	constantSendEmail::getConstant('EMAIL_HAS_BEEN_SEND'), 
-	      	constantGlobal::getConstant('SUCCESSFUL_REQUEST'));
-	    } catch (systemException $e) {
-	    	$oConnection->rollback();
-	    	$oConnection->close();
-	    	return Useful::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessage());
-	    } catch (Exception $e) {
-	    	$oConnection->rollback();
-	    	$oConnection->close();
-	    	return Useful::getResponseArray(3, (object)[], constantGlobal::getConstant('CONTACT_SUPPORT'), $e->getMessage());
-	    } catch (ExpiredException $e) {
-	    	$oConnection->rollback();
-	    	$oConnection->close();
-	    	return Useful::getResponseArray(4, (object)[], constantGlobal::getConstant('ERROR_SESSION'), constantGlobal::getConstant('ERROR_SESSION'));
+			$oConnection->commit();
+			$oConnection->close();
+
+			return (object)[];
+		}catch(systemException $e){
+			$oConnection->rollback();
+			$oConnection->close();
+			throw new systemException($e->getMessage());
+		}catch(Exception $e){
+			$oConnection->rollback();
+			$oConnection->close();
+			throw new Exception($e->getMessage(), $e->getCode());
 		}
 	}
 }

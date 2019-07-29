@@ -16,70 +16,64 @@ class personProxy extends proxy {
 
 	public static function checkIn($oPersonSet){
 		try {
-	      $oConnection = Useful::getConnectionDB();
-	      $oConnection->connect();
+			$oConnection = Useful::getConnectionDB();
+			$oConnection->connect();
 
-	      $sName = (!empty($oPersonSet->name)) ? $oPersonSet->name : '';
-	      $sLastName = (!empty($oPersonSet->last_name)) ? $oPersonSet->last_name : '';
-	      $aUsersSet = (!empty($oPersonSet->users)) ? $oPersonSet->users : (object)[];
+			$sName = (!empty($oPersonSet->name)) ? $oPersonSet->name : '';
+			$sLastName = (!empty($oPersonSet->last_name)) ? $oPersonSet->last_name : '';
+			$aUsersSet = (!empty($oPersonSet->users)) ? $oPersonSet->users : (object)[];
 
-	      $oPerson = person::getInstance($oConnection);
-	      $oSendEmail = sendEmail::getInstance($oConnection);
-	      $oUser = user::getInstance($oConnection);
-	      $oEmailUser = emailUser::getInstance($oConnection);
+			$oPerson = person::getInstance($oConnection);
+			$oSendEmail = sendEmail::getInstance($oConnection);
+			$oUser = user::getInstance($oConnection);
+			$oEmailUser = emailUser::getInstance($oConnection);
 
-	      $oPerson->sName = $sName;
-	      $oPerson->sLastName = $sLastName;
-	      $oPerson->aUser = $aUsersSet;
-	      $oPerson->save();
+			$oPerson->sName = $sName;
+			$oPerson->sLastName = $sLastName;
+			$oPerson->aUser = $aUsersSet;
+			$oPerson->save();
 
-	      // SEND EMAIL
-	      $oUser->iIdPerson = $oPerson->iId;
-	      $aUser = $oUser->getUsersByIdPerson();
+			// SEND EMAIL
+			$oUser->iIdPerson = $oPerson->iId;
+			$aUser = $oUser->getUsersByIdPerson();
 
-	      $aEmail = [];
-	      foreach ($aUser as $i => $v){
-	      	$iIdEmailSettings = 1;
+			$aEmail = [];
+			foreach ($aUser as $i => $v){
+			$iIdEmailSettings = 1;
 			$iIdUser = (!empty($v->id)) ? $v->id : null;
 			$oEmailUser->iIdUser = $iIdUser;
 			$oEmailUser->loadMainByIdUser();
 
 			$sUrlFrontend = constantGlobal::getConstant('URL_FRONTEND');
 			$aParameters = [$iIdUser, $oEmailUser->sRegistrationCode];
-	      	$sUrl = constantPerson::getConstant('EMAIL_CHECKIN_URL', $aParameters);
-	      	$sUrl = $sUrlFrontend.$sUrl;
-	      	
-	      	$sSubject = constantPerson::getConstant('EMAIL_CHECKIN_SUBJECT');
-	      	$aParameters = [$sUrl];
-	      	$sMessage = Useful::getEmailTemplate('checkin', $aParameters);
+			$sUrl = constantPerson::getConstant('EMAIL_CHECKIN_URL', $aParameters);
+			$sUrl = $sUrlFrontend.$sUrl;
 
-	      	$oEmail = Useful::saveEmail($oEmailUser->sEmail, $iIdEmailSettings, 
-	      		$sSubject, $sMessage, $oConnection);
-	      	$aEmail[] = $oEmail;
-		  }
-	      // END EMAIL
+			$sSubject = constantPerson::getConstant('EMAIL_CHECKIN_SUBJECT');
+			$aParameters = [$sUrl];
+			$sMessage = Useful::getEmailTemplate('checkin', $aParameters);
 
-	      $aResponse = [];
-	      $aResponse['email'] = $aEmail;
+			$oEmail = Useful::saveEmail($oEmailUser->sEmail, $iIdEmailSettings, 
+				$sSubject, $sMessage, $oConnection);
+			$aEmail[] = $oEmail;
+			}
+			// END EMAIL
 
-	      $oConnection->commit();
-	      $oConnection->close();
-	      
-	      return Useful::getResponseArray(1, (object)$aResponse,
-	      	constantPerson::getConstant('SUCCESSFUL_REGISTRATION'), 
-	      	constantGlobal::getConstant('SUCCESSFUL_REQUEST'));
-	    } catch (systemException $e) {
-	    	$oConnection->rollback();
-	    	$oConnection->close();
-	    	return Useful::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessage());
-	    } catch (Exception $e) {
-	    	$oConnection->rollback();
-	    	$oConnection->close();
-	    	return Useful::getResponseArray(3, (object)[], constantGlobal::getConstant('CONTACT_SUPPORT'), $e->getMessage());
-	    } catch (ExpiredException $e) {
-	    	$oConnection->rollback();
-	    	$oConnection->close();
-	    	return Useful::getResponseArray(4, (object)[], constantGlobal::getConstant('ERROR_SESSION'), constantGlobal::getConstant('ERROR_SESSION'));
+			$aResponse = [];
+			$aResponse['email'] = $aEmail;
+
+			$oConnection->commit();
+			$oConnection->close();
+
+			return (object)$aResponse;
+		}catch(systemException $e){
+			$oConnection->rollback();
+			$oConnection->close();
+			throw new systemException($e->getMessage());
+		}catch(Exception $e){
+			$oConnection->rollback();
+			$oConnection->close();
+			throw new Exception($e->getMessage(), $e->getCode());
 		}
 	}
 }

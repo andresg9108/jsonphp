@@ -22,37 +22,26 @@ class emailController extends controller {
   /*
   */
   public function sendAction($get, $post){
-    try {
-      $iId = (!empty($post->id)) ? $post->id : null;
-      $sCod = (!empty($post->cod)) ? $post->cod : '';
-      $aSendEmail = [];
-      $aSendEmail['id'] = $iId;
-      $aSendEmail['cod'] = $sCod;
-      $oSendEmail = (object)$aSendEmail;
-      $oResponse = sendEmailProxy::validateEmailSending($oSendEmail);
-      if($oResponse->status != 1){
-        return $oResponse;
-      }
+    $iId = (!empty($post->id)) ? $post->id : null;
+    $sCod = (!empty($post->cod)) ? $post->cod : '';
+    $aSendEmail = [];
+    $aSendEmail['id'] = $iId;
+    $aSendEmail['cod'] = $sCod;
+    $oSendEmail = (object)$aSendEmail;
+    $oResponse = sendEmailProxy::validateEmailSending($oSendEmail);
 
-      $oResponse = $oResponse->response;
-      $aDatos = [];
-      $aDatos['email'] = (!empty($oResponse->email)) ? $oResponse->email : '';
-      $aDatos['subject'] = (!empty($oResponse->subject)) ? $oResponse->subject : '';
-      $aDatos['message'] = (!empty($oResponse->message)) ? $oResponse->message : '';
-      $oDatos = (object)$aDatos;
-      $oResponse = $this->sendEmail($oDatos);
-      if($oResponse->status != 1){
-        return $oResponse;
-      }
+    $aDatos = [];
+    $aDatos['email'] = (!empty($oResponse->email)) ? $oResponse->email : '';
+    $aDatos['subject'] = (!empty($oResponse->subject)) ? $oResponse->subject : '';
+    $aDatos['message'] = (!empty($oResponse->message)) ? $oResponse->message : '';
+    $oDatos = (object)$aDatos;
+    $this->sendEmail($oDatos);
 
-      return sendEmailProxy::registerEmailSent($oSendEmail);
-    } catch (systemException $e) {
-      return Useful::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessage());
-    } catch (Exception $e){
-      return Useful::getResponseArray(3, (object)[], constantGlobal::getConstant('CONTACT_SUPPORT'), $e->getMessage());
-    } catch (ExpiredException $e) {
-      return Useful::getResponseArray(4, (object)[], constantGlobal::getConstant('ERROR_SESSION'), constantGlobal::getConstant('ERROR_SESSION'));
-    }
+    $oResponse = sendEmailProxy::registerEmailSent($oSendEmail);
+
+    return Useful::getResponseArray(1, $oResponse,
+      constantGlobal::getConstant('SUCCESSFUL_REQUEST'), 
+      constantGlobal::getConstant('SUCCESSFUL_REQUEST'));
   }
 
   /*
@@ -92,12 +81,8 @@ class emailController extends controller {
 
     if (!$this->oMail->send()) {
       $sMailError = $this->oMail->ErrorInfo;
-      return Useful::getResponseArray(2, (object)[], 
-        '', $sMailError);
+      throw new systemException($sMailError);
     }
-
-    return Useful::getResponseArray(1, (object)[], '', 
-      constantGlobal::getConstant('SUCCESSFUL_REQUEST'));
   }
 
   /*

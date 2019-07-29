@@ -15,27 +15,21 @@ class exampleProxy extends proxy {
 	*/
 	public static function getExample(){
 		try {
-	      $oConnection = Useful::getConnectionDB();
-	      $oConnection->connect();
+			$oConnection = Useful::getConnectionDB();
+			$oConnection->connect();
 
-	      $oConnection->commit();
-	      $oConnection->close();
-	      
-	      return Useful::getResponseArray(1, (object)[],
-	      	constantExample::getConstant('MY_CONSTANT'), 
-	      	constantGlobal::getConstant('SUCCESSFUL_REQUEST'));
-	    } catch (systemException $e) {
-	    	$oConnection->rollback();
-	    	$oConnection->close();
-	    	return Useful::getResponseArray(2, (object)[], $e->getMessage(), $e->getMessage());
-	    } catch (Exception $e) {
-	    	$oConnection->rollback();
-	    	$oConnection->close();
-	    	return Useful::getResponseArray(3, (object)[], constantGlobal::getConstant('CONTACT_SUPPORT'), $e->getMessage());
-	    } catch (ExpiredException $e) {
-	    	$oConnection->rollback();
-	    	$oConnection->close();
-	    	return Useful::getResponseArray(4, (object)[], constantGlobal::getConstant('ERROR_SESSION'), constantGlobal::getConstant('ERROR_SESSION'));
+			$oConnection->commit();
+			$oConnection->close();
+
+			return (object)[];	
+		}catch(systemException $e){
+			$oConnection->rollback();
+			$oConnection->close();
+			throw new systemException($e->getMessage());
+		}catch(Exception $e){
+			$oConnection->rollback();
+			$oConnection->close();
+			throw new Exception($e->getMessage(), $e->getCode());
 		}
 	}
 }

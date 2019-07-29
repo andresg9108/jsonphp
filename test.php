@@ -6,13 +6,10 @@ ini_set('display_errors', '1');
 const __DIRMAIN__ = "./";
 require_once __DIRMAIN__.'autoload.php';
 
-use lib\Useful\Useful;
+// use \Exception;
+use \Firebase\JWT\{JWT, ExpiredException};
+use lib\Useful\{Useful, constantGlobal, systemException};
+use model\appRegistration\appRegistrationProxy;
 
-$oConnection = Useful::getConnectionDB();
-$oConnection->connect();
-
-$oConnection->queryArray("SELECT * FROM user;", ['field1', 'field2', 'field3', 'field4']);
-$aResponse = $oConnection->getQuery();
-
-echo json_encode($aResponse);
+echo "Hello World.";
 
