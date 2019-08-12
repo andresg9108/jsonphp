@@ -13,7 +13,7 @@ class Useful {
   public static $aMail = [];
 
   public static $aConnection = [
-    'motor' => 'mysqlpdo',
+    'motor' => 'sqlitepdo',
     'server' => 'localhost',
     'charset' => 'utf8',
     'user' => 'root',
@@ -67,6 +67,15 @@ class Useful {
     $oConnection = connection::getInstance($oConnectionArray);
 
     return $oConnection;
+  }
+
+  /*
+  */
+  public static function getBooleanPhpErrors(){
+    $oConnection = static::getConnectionArray();
+    $bPhpErrors = (!empty($oConnection->php_errors)) ? $oConnection->php_errors : false;
+
+    return $bPhpErrors;
   }
 
   /*

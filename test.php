@@ -11,5 +11,4 @@ use \Firebase\JWT\{JWT, ExpiredException};
 use lib\Useful\{Useful, constantGlobal, systemException};
 use model\appRegistration\appRegistrationProxy;
 
-echo "Hello World.";
-
+echo "Hello World";
