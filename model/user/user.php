@@ -53,7 +53,14 @@ class user extends model {
     $this->oConnection->run($sQuery);
     $this->iId = (int)$this->oConnection->getIDInsert();
 
+    $this->insertEmailUser();
+  }
+
+  /*
+  */
+  private function insertEmailUser(){
     $oEmailUser = emailUser::getInstance($this->oConnection);
+
     foreach ($this->aEmailUser as $i => $v) {
       $sEmail = (!empty($v->email)) ? $v->email : '';
       $sRegistrationCode = (!empty($v->registration_code)) ? $v->registration_code : '';
