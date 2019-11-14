@@ -80,7 +80,14 @@ class person extends model {
     $this->oConnection->run($sQuery);
     $this->iId = (int)$this->oConnection->getIDInsert();
 
+    $this->insertUser();
+  }
+
+  /*
+  */
+  private function insertUser(){
     $oUser = user::getInstance($this->oConnection);
+
     foreach ($this->aUser as $i => $v) {
       $sUser = (!empty($v->user)) ? $v->user : '';
       $sPassword = (!empty($v->password)) ? $v->password : '';
