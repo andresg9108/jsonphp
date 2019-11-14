@@ -1,4 +1,4 @@
-Manual to move from version v0.5.1 to v0.6.0
+Manual to move from version v0.5.1 to v0.5.2
 
 1- Review the optimization to the "model/user/user.php" file.
 2- Review the optimization to the "model/person/person.php" file.

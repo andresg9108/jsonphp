@@ -1,6 +1,6 @@
 {
   "name": "jsonphp",
-  "version": "0.6.0",
+  "version": "0.5.2",
   "description": "Project designed for backend software development.",
   "scripts": {
     "sql": "grunt process-sql"
