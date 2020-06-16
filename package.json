@@ -1,6 +1,6 @@
 {
   "name": "jsonphp",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "Project designed for backend software development.",
   "scripts": {
     "sql": "grunt process-sql"
@@ -18,7 +18,7 @@
   },
   "devDependencies": {
     "grunt": "^1.0.4",
-    "grunt-contrib-processpy": "^0.2.0",
-    "processpy": "^0.2.1"
+    "grunt-contrib-processpy": "^0.2.1",
+    "processpy": "^0.2.2"
   }
 }
