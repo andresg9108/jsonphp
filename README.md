@@ -11,13 +11,6 @@
 	<li>Execute "npm install", in the root of the project.</li>
 </ol>
 
-### Starting:
-
-<ol>
-	<li>Start Apache in the XAMPP control panel.</li>
-	<li>Go to "http://localhost/jsonphp" in the browser.</li>
-</ol>
-
 ### Types of web services states
 
 <ol>
