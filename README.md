@@ -1,28 +1,45 @@
-# Json PHP
+**Warnings: This documentation is incomplete.**
 
-### Dependencies:
+**Excuses:** ___I apologize for the English used, my language is Spanish.___
 
-<ol>
-	<li>Node.js (https://nodejs.org).</li>
-	<li>Python (https://www.python.org)</li>
-	<li>XAMPP (https://www.apachefriends.org/es/index.html)</li>
-	<li>Clone this repository in the folder used by Apache (included in XAMPP). This folder is located in ".../xampp/htdocs" or in the path that I installed XAMPP.</li>
-	<li>Execute "composer install", in the root of the project.</li>
-	<li>Execute "npm install", in the root of the project.</li>
-</ol>
+# Json PHP #
 
-### Starting:
+## Content ##
 
-<ol>
-	<li>Start Apache in the XAMPP control panel.</li>
-	<li>Go to "http://localhost/jsonphp" in the browser.</li>
-</ol>
+1. [Introduction.](#Introduction "Introduction")
+2. [Dependencies.](#Dependencies "Dependencies")
+3. [Starting.](#Starting "Starting")
 
-### Types of web services states
+<span id="Introduction"></span>
+## Introduction ##
 
-<ol>
-	<li>Successful request.</li>
-	<li>Controlled exception of the system.</li>
-	<li>Uncontrolled exception.</li>
-	<li>The session could not be validated.</li>>
-</ol>
+This project arises as an alternative to the creation of web services.
+
+<span id="Dependencies"></span>
+## Dependencies ##
+
+- Node.js (https://nodejs.org).
+- Python (https://www.python.org).
+- XAMPP (https://www.apachefriends.org/es/index.html).
+- Execute "npm i grunt -g" on the console of your operating system.
+- Execute "npm i install-here -g" on the console of your operating system.
+
+<span id="Starting"></span>
+## Starting ##
+
+In principle, don't forget to open the "XAMPP Control Panel" and start the "Apache" and "MySQL" services. Now we will create a folder called "mybackend" in the path of the "XAMPP" file, which would be with the following path "../xampp/htdocs/mybackend". With the folder ready, we can now access it using the console of your operating system and execute the following command, which brings all the files from the "jsonphp" project.
+
+***install-here jsonphp***
+
+Now we will execute the following commands that bring all the dependencies of the "jsonphp" project.
+
+***npm i***
+***composer install***
+
+### Types of web services states ###
+
+- Successful request.
+- Controlled exception of the system.
+- Uncontrolled exception.
+- The session could not be validated.
+

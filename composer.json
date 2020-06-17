@@ -7,16 +7,10 @@
         }
     ],
 	"require": {
-		"phpmailer/phpmailer": "~6.0",
-		"phpoffice/phpspreadsheet": "^1.4",
-		"firebase/php-jwt": "^5.0",
-		"mpdf/mpdf": "^7.1",
-		"andresg9108/connectiondb": "^0.3.0"
-	},
-	"repositories": [
-	    {
-	        "type": "vcs",
-	    	"url": "https://github.com/andresg9108/connectiondb"
-		}
-	]
+		"phpmailer/phpmailer": "^6.1",
+		"phpoffice/phpspreadsheet": "^1.13",
+		"firebase/php-jwt": "^5.2",
+		"mpdf/mpdf": "^8.0",
+		"andresg9108/connectiondb": "^0.3.2"
+	}
 }
