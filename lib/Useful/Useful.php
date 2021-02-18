@@ -19,7 +19,7 @@ class Useful {
     'user' => 'root',
     'password' => '',
     'database' => 'my_database',
-    'sqlitepath' => 'E:/sql/db.sqlite',
+    'sqlitepath' => 'D:/sql/db.sqlite',
     'query_prefix' => 'MSQL_',
     'constant_prefix' => '',
     //'constant_prefix' => 'SPAN_',

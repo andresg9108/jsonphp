@@ -1,6 +1,11 @@
-Manual to move from version v0.5.2 to v0.5.3
+Manual to move from version v0.5.3 to v1.0.0
 
-1. Updating composer.json
-2. Updating README.md
+1. Run "npm update".
+2. Run "composer update".
+3. Delete testHTML folder.
+4. Changes in the initial documentation ("doc" folder).
+5. Changes in email folder.
+6. Changes in module folder.
+7. Changes in test.php file.
 
 Ok, updated project.
