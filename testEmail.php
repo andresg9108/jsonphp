@@ -15,20 +15,18 @@ use lib\Useful\Useful;
 
 $oMail = new PHPMailer();
 
-$sEmail = 'info@example.net';
+$sEmail = 'example@gmail.com';
 $sSubject = 'Test Subject';
-$sMessage = 'Test Message';
+$sMessage = Useful::getEmailTemplate('example', ['¡Hello World!']);
 
-$oConnection = Useful::getConnectionDB();
-$oConnection->connect();
-$oMailD = Useful::getMailArrayDB($oConnection);
+$oMailA = Useful::getMailArray();
 
-$sServerName = (!empty($oMailD->name)) ? $oMailD->name : "";
-$sServerHost = (!empty($oMailD->host)) ? $oMailD->host : "";
-$sSmtpSecure = (!empty($oMailD->smtp_secure)) ? $oMailD->smtp_secure : "";
-$sServerPort = (!empty($oMailD->port)) ? $oMailD->port : "";
-$sServerUsername = (!empty($oMailD->username)) ? $oMailD->username : "";
-$sServerPassword = (!empty($oMailD->password)) ? $oMailD->password : "";
+$sServerName = (!empty($oMailA->name)) ? $oMailA->name : "";
+$sServerHost = (!empty($oMailA->host)) ? $oMailA->host : "";
+$sSmtpSecure = (!empty($oMailA->smtp_secure)) ? $oMailA->smtp_secure : "";
+$sServerPort = (!empty($oMailA->port)) ? $oMailA->port : "";
+$sServerUsername = (!empty($oMailA->username)) ? $oMailA->username : "";
+$sServerPassword = (!empty($oMailA->password)) ? $oMailA->password : "";
 
 $oMail->isSMTP();//Protocolo
 $oMail->CharSet = 'UTF-8';
