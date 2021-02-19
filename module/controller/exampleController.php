@@ -7,7 +7,7 @@ use \Firebase\JWT\{JWT, ExpiredException};
 use lib\MVC\controller;
 use lib\Useful\{Useful, constantGlobal, systemException};
 use andresg9108\connectiondb\connection;
-use model\appRegistration\appRegistrationProxy;
+use module\constant\constantExample;
 
 class exampleController extends controller {
 
@@ -16,9 +16,16 @@ class exampleController extends controller {
   /*
   */
   public function exampleAction($get, $post){
-    // throw new systemException("System exception.", 1);
-    
-    return ['Hello World'];
+    // throw new systemException(constantGlobal::getConstant('CONTACT_SUPPORT'));
+
+    $sDate = date('Y-m-d H:i:s');
+
+    $aResponse = [];
+    $aResponse['test'] = constantExample::getConstant('EXAMPLE', [$sDate]);
+
+    return Useful::getResponseArray(1, (object)$aResponse,
+        constantGlobal::getConstant('SUCCESSFUL_REQUEST'), 
+        constantGlobal::getConstant('SUCCESSFUL_REQUEST'));
   }
 
   /*

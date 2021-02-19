@@ -10,7 +10,14 @@ use model\sendEmail\sendEmail;
 use model\setings\setings;
 
 class Useful {
-  public static $aMail = [];
+  public static $aMail = [
+    'name' => 'Email Server',
+    'host' => 'smtp.gmail.com',
+    'smtp_secure' => 'ssl',
+    'port' => '465',
+    'username' => 'example@gmail.com',
+    'password' => 'asFfv123'
+  ];
 
   public static $aConnection = [
     'motor' => 'sqlitepdo',
@@ -19,7 +26,7 @@ class Useful {
     'user' => 'root',
     'password' => '',
     'database' => 'my_database',
-    'sqlitepath' => 'E:/sql/db.sqlite',
+    'sqlitepath' => 'D:/sql/db.sqlite',
     'query_prefix' => 'MSQL_',
     'constant_prefix' => '',
     //'constant_prefix' => 'SPAN_',
@@ -27,26 +34,15 @@ class Useful {
     'encryption_red_cod' => 30,
     'recaptcha' => false,
     'php_errors' => true,
+    'php_timezone' => 'America/Lima', // URL: https://www.php.net/manual/es/timezones.php
     'system_errors' => true,
     'recaptcha_secret_key' => '6Ld7vmoU',
     'recaptcha_secret_key_hidden' => '6LdoshR',
     's_private_key_only_server' => 'dasf1s5GSG52',
     's_private_key' => 'a5vbFgFFG4Fd2',
-    'i_private_key' => 15628
-    //'maximum_session_time' => 86400 // (24*60*60 = 86400)
+    'i_private_key' => 15628,
+    'maximum_session_time' => 86400 // (24*60*60 = 86400)
   ];
-
-  /*
-  */
-  public static function getMailArrayDB($oConnection) {
-    return static::getSettingsObjDb(2, $oConnection);
-  }
-
-  /*
-  */
-  public static function getConnectionArrayDB($oConnection) {
-    return static::getSettingsObjDb(1, $oConnection);
-  }
 
   /*
   */
@@ -76,6 +72,15 @@ class Useful {
     $bPhpErrors = (!empty($oConnection->php_errors)) ? $oConnection->php_errors : false;
 
     return $bPhpErrors;
+  }
+
+  /*
+  */
+  public static function getStringPhpTimezone(){
+    $oConnection = static::getConnectionArray();
+    $sPhpTimezone = (!empty($oConnection->php_timezone)) ? $oConnection->php_timezone : '';
+
+    return $sPhpTimezone;
   }
 
   /*
@@ -138,11 +143,9 @@ class Useful {
   /*
   */
   public static function getJWT($oObject, $oDbConnection){
-    $oDbSetings = static::getConnectionArrayDB($oDbConnection);
-
     $oConnection = static::getConnectionArray();
     $sPrivateKey = (!empty($oConnection->s_private_key_only_server)) ? $oConnection->s_private_key_only_server : '';
-    $iMaximumSessionTime = (int)(!empty($oDbSetings->maximum_session_time)) ? $oDbSetings->maximum_session_time : 0;
+    $iMaximumSessionTime = (int)(!empty($oConnection->maximum_session_time)) ? $oConnection->maximum_session_time : 0;
     $iTime = time(); // Seg.
     $aToken = [
       "iat" => $iTime, // Start
@@ -160,31 +163,6 @@ class Useful {
     $oDecoded = JWT::decode($sJwt, $sPrivateKey, ['HS256']);
 
     return $oDecoded->code;
-  }
-
-  /*
-  */
-  public static function getDecodeRegCod($sRegCod){
-    $oConnection = static::getConnectionArray();
-    $iPrivateKey = (!empty($oConnection->i_private_key)) ? $oConnection->i_private_key : null;
-    $sPrivateKey = (!empty($oConnection->s_private_key)) ? $oConnection->s_private_key : '';
-
-    if($oConnection->encryption_red_cod == 30){
-      $aRegCod = explode('.', $sRegCod);
-      $iRegCod = 0;
-
-      foreach ($aRegCod as $i => $v) {
-        $iDato = (int)$v;
-        $iDato2 = $iDato+$iPrivateKey;
-        $iRegCod += $iDato2;
-      }
-
-      $sRegCod = (string)$iRegCod;
-      $sRegCod .= $sPrivateKey;
-      $sRegCod = md5($sRegCod);
-    }
-
-    return $sRegCod;
   }
 
   /*
@@ -282,78 +260,6 @@ class Useful {
 
     $sHtml = str_replace("'", '"', $sHtml);
     return $sHtml;
-  }
-
-  /*
-  */
-  public static function saveEmail($sEmail, $iIdEmailSettings, $sSubject, $sMessage, $oConnection){
-    $oSendEmail = sendEmail::getInstance($oConnection);
-    $sCode = static::getRandomCode();
-
-    $oSendEmail->iId = null;
-    $oSendEmail->sEmail = $sEmail;
-    $oSendEmail->sCode = $sCode;
-    $oSendEmail->iIdEmailSettings = $iIdEmailSettings;
-    $oSendEmail->sSubject = $sSubject;
-    $oSendEmail->sMessage = $sMessage;
-    $oSendEmail->iStatus = 0;
-    $oSendEmail->save();
-
-    $aEmail = [];
-    $aEmail['id'] = $oSendEmail->iId;
-    $aEmail['cod'] = $oSendEmail->sCode;
-    $oEmail = (object)$aEmail;
-    
-    return $oEmail;
-  }
-
-  /*
-  */
-  public static function getSettingsObjDb($iIdSettingsType, $oConnection){
-    $oSetings = setings::getInstance($oConnection);
-    $oSetings->iIdSettingsType = $iIdSettingsType;
-    $aSetings = $oSetings->getSetingsBySetingsType();
-
-    $aDbSetings = [];
-    foreach ($aSetings as $i => $v){
-      $aDbSetings[$v->name] = $v->value;
-    }
-
-    return (object)$aDbSetings;
-  }
-
-  /*
-  */
-  public static function getStringQueryWhereSQLOr($sAttribute, $aData){
-    $sData = '';
-
-    foreach ($aData as $i => $v){
-      if ($i != 0) {
-        $sData .= ' OR ';
-      }
-
-      $sParameter = $sAttribute . " = '" . $v . "'";
-      $sData .= $sParameter;
-    }
-
-    return $sData;
-  }
-
-  /*
-  */
-  public static function getStringQueryWhereSQLAnd($sAttribute, $aData){
-    $sData = '';
-
-    foreach ($aData as $i => $v){
-      if ($i != 0) {
-        $sData .= ' AND ';
-      }
-
-      $sParameter = $sAttribute . " = '" . $v . "'";
-      $sData .= $sParameter;
-    }
-
-    return $sData;
   }
 
 }
