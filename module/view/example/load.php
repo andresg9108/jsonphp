@@ -4,9 +4,6 @@ use \Firebase\JWT\{JWT, ExpiredException};
 use lib\Useful\{Useful, constantGlobal, systemException};
 use module\controller\exampleController;
 
-$oResponse = Useful::getResponseArray(2, (object)[]
-	,'', constantGlobal::ERROR_404);
-
 try {
 	$oExampleController = exampleController::getInstance();
 	

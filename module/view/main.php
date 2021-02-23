@@ -20,6 +20,9 @@ if(Useful::getBooleanPhpErrors()){
 date_default_timezone_set(Useful::getStringPhpTimezone());
 
 if(is_dir($sView)){
+  $oResponse = Useful::getResponseArray(2, (object)[]
+  ,'', constantGlobal::ERROR_404);
+
   require_once $sView."/load.php";
 }else{
 	$aResponse = (object)[

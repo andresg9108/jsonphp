@@ -1,7 +1,8 @@
 <?php
 
-const __DIRMAIN__ = "../../";
+const __DIRMAIN__ = "../../../";
 require_once __DIRMAIN__.'autoload.php';
+require_once __DIRMAIN__.'pdf/functions.php';
 
 //$mpdf = new \Mpdf\Mpdf();
 //$mpdf = new \Mpdf\Mpdf(['format' => 'Legal']);
@@ -20,6 +21,6 @@ $mpdf = new \Mpdf\Mpdf([
 
 $mpdf->SetHTMLHeader('Header');
 $mpdf->SetHTMLFooter('Footer');
-$mpdf->WriteHTML('Hello world!');
+$mpdf->WriteHTML('¡Hello world!');
 
 $mpdf->Output();
