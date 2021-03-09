@@ -1,6 +1,6 @@
 {
   "name": "jsonphp",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "This project arises as an alternative to the creation of web services.",
   "scripts": {
     "sql": "grunt process-sql"
@@ -12,13 +12,8 @@
   "author": "Andres Gonzalez",
   "license": "MIT",
   "homepage": "https://github.com/andresg9108/jsonphp",
-  "dependencies": {
-    "blueimp-md5": "^2.10.0",
-    "jquery": "^3.4.1"
-  },
   "devDependencies": {
     "grunt": "^1.3.0",
-    "grunt-contrib-processpy": "^0.2.1",
-    "processpy": "^0.2.2"
+    "grunt-contrib-processpy": "^0.3.1"
   }
 }

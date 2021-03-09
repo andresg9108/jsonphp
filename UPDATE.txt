@@ -1,9 +1,7 @@
-Manual to move from version v1.0.0 to v1.0.1
+Manual to move from version v1.0.1 to v1.0.2
 
 1. Run "npm update".
 2. Run "composer update".
-3. Changes in module folder.
-4. Changes in pdf folder.
-5. Changes in excel folder.
+3. Changes in package.json file.
 
 Ok, updated project.
