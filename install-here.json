@@ -1,0 +1,5 @@
+{
+  "ignoreOverwrite": "LICENSE.txt;README.md;README_ES.md",
+  "ignorePath": "doc;email;excel;lib;model;module;pdf",
+  "checkVersion": true
+}
