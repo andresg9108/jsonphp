@@ -36,3 +36,11 @@ Usando la consola de nuestro sistema operativo accederemos al directorio que que
 ~~~
 jsonphp-cli install
 ~~~
+
+Para actualizar "jsonphp" en nuestro proyecto y sus dependencias podemos usar el siguiente comando.
+
+~~~
+jsonphp-cli update
+~~~
+
+**Documentación incompleta.**
