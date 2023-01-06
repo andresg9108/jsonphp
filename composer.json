@@ -7,10 +7,10 @@
         }
     ],
 	"require": {
-		"phpmailer/phpmailer": "^6.1",
-		"phpoffice/phpspreadsheet": "^1.13",
-		"firebase/php-jwt": "^5.2",
+		"andresg9108/connectiondb": "^0.3.2",
 		"mpdf/mpdf": "^8.0",
-		"andresg9108/connectiondb": "^0.3.2"
+		"firebase/php-jwt": "^6.3",
+		"phpmailer/phpmailer": "^6.7",
+		"phpoffice/phpspreadsheet": "^1.26"
 	}
 }

@@ -1,7 +1,6 @@
-Manual to move from version v1.0.1 to v1.0.2
+Update to version 2.0.0
 
-1. Run "npm update".
-2. Run "composer update".
-3. Changes in package.json file.
+jsonphp-cli install
+jsonphp-cli update
 
 Ok, updated project.
