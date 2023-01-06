@@ -24,6 +24,8 @@ Este proyecto surge como una alternativa a la creación de servicios web.
   - Ejecute "python --version" en la consola de su sistema operativo para ver si ya está instalado.
 * Entorno basado en Apache, MySQL y PHP.
   - AMPPS, XAMPP, WAMP, LAMP o MAMP.
+* Composer (https://getcomposer.org).
+  - Ejecute "composer --version" en la consola de su sistema operativo para ver si ya está instalado.
 * JsonPHP CLI.
   - Ejecute "npm i jsonphp-cli -g".
   - En los sistemas operativos basados en Linux incluya "--unsafe-perm". El comando se vería así "npm i jsonphp-cli -g --unsafe-perm".
@@ -41,6 +43,12 @@ Para actualizar "jsonphp" en nuestro proyecto y sus dependencias podemos usar el
 
 ~~~
 jsonphp-cli update
+~~~
+
+Para actualizar consultas SQL.
+
+~~~
+jsonphp-cli sql
 ~~~
 
 **Documentación incompleta.**
